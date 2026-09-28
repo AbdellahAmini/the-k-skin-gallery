@@ -2,7 +2,14 @@
     "services": {
         "frontend": {
             "root": ".",
-            "framework": "vite"
+            "framework": "vite",
+            "outputDirectory": "dist/client",
+            "rewrites": [
+                {
+                    "source": "/(.*)",
+                    "destination": "/index.html"
+                }
+            ]
         },
         "backend": {
             "root": "backend",
