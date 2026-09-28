@@ -1,0 +1,134 @@
+{
+  "_ProductCard-B8rfMj7f.js": {
+    "file": "assets/ProductCard-B8rfMj7f.js",
+    "name": "ProductCard",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "index.html": {
+    "file": "assets/index-DvkF3nC9.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/pages/Home.jsx",
+      "src/pages/CatalogPages.jsx",
+      "src/pages/ProductDetail.jsx",
+      "src/pages/GuidedPages.jsx",
+      "src/pages/CartPage.jsx",
+      "src/pages/Checkout.jsx",
+      "src/pages/Receipt.jsx",
+      "src/pages/Account.jsx",
+      "src/pages/Info.jsx",
+      "src/pages/Advice.jsx",
+      "src/pages/Admin.jsx"
+    ],
+    "css": [
+      "assets/index-x2AAbSIw.css"
+    ]
+  },
+  "src/pages/Account.jsx": {
+    "file": "assets/Account-rxYnke1Q.js",
+    "name": "Account",
+    "src": "src/pages/Account.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/Admin.jsx": {
+    "file": "assets/Admin-CL4cqWAn.js",
+    "name": "Admin",
+    "src": "src/pages/Admin.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/Advice.jsx": {
+    "file": "assets/Advice-j-f8K7Z8.js",
+    "name": "Advice",
+    "src": "src/pages/Advice.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/CartPage.jsx": {
+    "file": "assets/CartPage-ya55IVTV.js",
+    "name": "CartPage",
+    "src": "src/pages/CartPage.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/CatalogPages.jsx": {
+    "file": "assets/CatalogPages-vVqv7mg_.js",
+    "name": "CatalogPages",
+    "src": "src/pages/CatalogPages.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_ProductCard-B8rfMj7f.js"
+    ]
+  },
+  "src/pages/Checkout.jsx": {
+    "file": "assets/Checkout-DKlYJF-T.js",
+    "name": "Checkout",
+    "src": "src/pages/Checkout.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/GuidedPages.jsx": {
+    "file": "assets/GuidedPages-DE0Qdv0P.js",
+    "name": "GuidedPages",
+    "src": "src/pages/GuidedPages.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_ProductCard-B8rfMj7f.js"
+    ]
+  },
+  "src/pages/Home.jsx": {
+    "file": "assets/Home-Ey8OMzCt.js",
+    "name": "Home",
+    "src": "src/pages/Home.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_ProductCard-B8rfMj7f.js"
+    ]
+  },
+  "src/pages/Info.jsx": {
+    "file": "assets/Info-DxRVVU39.js",
+    "name": "Info",
+    "src": "src/pages/Info.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/ProductDetail.jsx": {
+    "file": "assets/ProductDetail-5UYMeHv0.js",
+    "name": "ProductDetail",
+    "src": "src/pages/ProductDetail.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_ProductCard-B8rfMj7f.js"
+    ]
+  },
+  "src/pages/Receipt.jsx": {
+    "file": "assets/Receipt-Bd-h2zkj.js",
+    "name": "Receipt",
+    "src": "src/pages/Receipt.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  }
+}

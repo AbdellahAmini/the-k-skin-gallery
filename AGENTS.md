@@ -1,0 +1,23 @@
+# Prototype Instructions
+
+Run the local server yourself and open the preview in the browser available to this environment. Do not give the user server-start instructions when you can run it.
+
+Before making substantial visual changes, use the Product Design plugin's `get-context` skill when the visual source is unclear or no longer matches the current goal. When the user gives durable prototype-specific design feedback, preferences, or decisions, record them in `AGENTS.md`.
+
+When implementing from a selected generated mock, treat that image as the source of truth for layout, component anatomy, density, spacing, color, typography, visible content, and hierarchy.
+
+Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.
+
+## Durable rebuild decisions
+
+- Keep the existing Gallery logo, warm ivory and blush palette, editorial serif headings, and calm cart drawer as the visual foundation.
+- Checkout is a dedicated `/checkout` route on desktop and mobile. The cart drawer's “Continuer ma commande” action navigates there; do not restore modal checkout as the primary flow.
+- Meaningful navigation leads to URL-based pages and product data comes from the backend/catalog, with persisted orders.
+- Pre-render customer-facing routes from the public API at build time, then hydrate React Router for in-app navigation; local production preview resolves route HTML and proxies `/api`.
+- The surrounding PDF catalogue generator is a separate locked project. Ecommerce changes belong inside `the-k-skin-gallery`.
+- Use design galleries to research individual commerce patterns and flows; preserve the Gallery logo, blush/ivory visual identity, and editorial type rather than copying a reference template.
+- The primary navigation is Nouveautés, Marques, Soins, Peau, Routines & Packs, Promotions. Discovery and collection filters use the URL and the FastAPI query service. Type de peau and besoin are separate taxonomies; only verified product associations should appear there.
+- Packs are sellable entities with component stock accounting. Routines are editorial step pages with deliberately selected products. Merchant content is edited through typed sections; keep structural layout in code.
+- PostgreSQL is required in production. Apply Alembic migrations before starting FastAPI. SQLite remains available for the local preview and isolated tests.
+- Keep the commerce header compact: desktop has a 64px logo/search/actions row, a 38px six-link navigation row, then a 30px blush trust marquee touching the hero. Mobile has a 54px hamburger/logo/search/cart row and a 28px ticker. The full header is sticky in the page flow, including the continuously looping blush trust bar, so it moves naturally at the top and stays visible while scrolling. Center the desktop search field and six-link navigation on the same axis. Keep the logo small with visible space above and below, and preserve the Gallery colors.
+- Primary navigation has six routes. Marques, Soins, Peau, and Routines & Packs have small chevrons and content-specific compact dropdowns; Nouveautés and Promotions navigate directly. The label remains a clickable route, while the chevron is a keyboard-accessible menu control. Desktop dropdowns use short hover intent and a reusable shell; sibling menus switch promptly. Dropdown headings have no numbers. The Marques dropdown shows at most nine active brands in restrained outlined boxes, prioritized by configured homepage featured brands and then product count, sorted alphabetically for display. It has no body heading or popular-brands section; “Toutes les marques” stays in the top-right header and opens the full directory. Mobile shows the same nine-brand preview in its drawer accordion.

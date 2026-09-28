@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: gallery
+      POSTGRES_USER: gallery
+      POSTGRES_PASSWORD: gallery_local_only
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - gallery_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gallery -d gallery"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  gallery_pg_data:

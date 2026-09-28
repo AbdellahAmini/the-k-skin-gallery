@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual QA — reference / implementation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 10px;
+      background: #eee9e5;
+      color: #282526;
+      font: 12px Arial, sans-serif;
+    }
+
+    header {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    figure {
+      min-width: 0;
+      margin: 0;
+      background: white;
+    }
+
+    figcaption {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      padding-inline: 7px;
+      background: white;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .implementation-frame {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1487 / 1058;
+      overflow: hidden;
+      background: #f7f6f3;
+    }
+
+    iframe {
+      display: block;
+      width: 1440px;
+      height: 1024px;
+      border: 0;
+      transform: scale(.347222);
+      transform-origin: top left;
+    }
+
+    @media (max-width: 700px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header><span>Design QA · normalized to the same desktop composition</span><span>27 Sep 2026</span></header>
+  <main>
+    <figure>
+      <figcaption>Selected source · 1487 × 1058 px</figcaption><img src="/docs/selected-reference.png"
+        alt="Selected K-Skin Gallery design reference" />
+    </figure>
+    <figure>
+      <figcaption>Implementation · 1440 × 1024 CSS px</figcaption>
+      <div class="implementation-frame"><iframe src="/" title="K-Skin Gallery implementation"></iframe></div>
+    </figure>
+  </main>
+</body>
+
+</html>
