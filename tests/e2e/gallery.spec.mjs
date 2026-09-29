@@ -35,7 +35,8 @@ test('mobile menu and filters remain usable at common widths', async ({ page }) 
   for (const width of [375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/soins');
-    await expect(page.getByRole('heading', { level: 1, name: 'Tous les soins' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Les soins' })).toBeVisible();
+    await page.goto('/boutique');
     await expect(page.locator('.product-card').first()).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     expect(overflow, `horizontal overflow at ${width}px`).toBeLessThanOrEqual(2);

@@ -31,7 +31,7 @@ const pages = [
   { path: '/nouveautes', title: 'Nouveautés | K-Skin Gallery', description: 'Les dernières nouveautés de notre sélection de skincare coréenne.', products: allProducts.filter((product) => product.new_arrival) },
   { path: '/promotions', title: 'Promotions | K-Skin Gallery', description: 'Retrouvez les soins coréens actuellement en promotion.', products: allProducts.filter((product) => product.compare_at_dh > product.price_dh) },
   { path: '/marques', title: 'Nos marques | K-Skin Gallery', description: 'Parcourez les marques officielles de skincare coréenne.', products: [] },
-  { path: '/soins', title: 'Nos soins | K-Skin Gallery', description: 'Parcourez les catégories de soins coréens.', products: allProducts },
+  { path: '/soins', title: 'Les soins | K-Skin Gallery', description: 'Nettoyer, préparer, traiter, hydrater et protéger : parcourez les catégories de soins coréens.', products: [] },
   { path: '/peau', title: 'Votre peau | K-Skin Gallery', description: 'Choisissez votre type de peau ou le besoin qui vous concerne.', products: [] },
   { path: '/type-de-peau', title: 'Choisir selon votre type de peau | K-Skin Gallery', description: 'Explorez la sélection selon votre type de peau.', products: [] },
   { path: '/besoins', title: 'Vos besoins | K-Skin Gallery', description: 'Explorez la sélection selon vos besoins.', products: [] },

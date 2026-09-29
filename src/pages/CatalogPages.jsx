@@ -21,8 +21,35 @@ function Crumbs({ nodes }) {
 
 export function DirectoryPage({ kind }) {
   const { brands, categories, skinTypes, concerns, routines, bundles } = useStore();
+  
+  const careCategoryMap = [
+    ['Nettoyer', ['huiles-baumes', 'nettoyants', 'exfoliants']],
+    ['Préparer & Traiter', ['toners-essences', 'serums-ampoules', 'masques', 'contour-des-yeux']],
+    ['Hydrater & Protéger', ['cremes', 'protection-solaire']],
+  ];
+
+  const careGroups = careCategoryMap.map(([heading, slugs]) => [
+    heading,
+    slugs.map((slug) => {
+      const cat = categories.find((c) => c.slug === slug);
+      if (cat) return { ...cat, path: `/soins/${cat.slug}` };
+      const fallbackNames = {
+        'huiles-baumes': 'Huiles & Baumes',
+        'nettoyants': 'Nettoyants',
+        'exfoliants': 'Exfoliants',
+        'toners-essences': 'Toners & Essences',
+        'serums-ampoules': 'Sérums & Ampoules',
+        'masques': 'Masques',
+        'contour-des-yeux': 'Contour des yeux',
+        'cremes': 'Crèmes',
+        'protection-solaire': 'Protection solaire'
+      };
+      return { name: fallbackNames[slug] || slug, slug, path: `/soins/${slug}`, count: 0 };
+    })
+  ]);
+
   const groups = kind === 'marques' ? [['Nos marques', brands.map((item) => ({ ...item, path: `/marques/${item.slug}` }))]]
-    : kind === 'soins' ? [['Choisir un soin', categories.map((item) => ({ ...item, path: `/soins/${item.slug}` }))]]
+    : kind === 'soins' ? careGroups
       : kind === 'routines' ? [['Routines', routines.map((item) => ({ ...item, path: `/routines/${item.slug}` }))],
         ['Packs', bundles.map((item) => ({ ...item, path: `/packs/${item.slug}` }))]]
         : kind === 'packs' ? [['Nos packs', bundles.map((item) => ({ ...item, path: `/packs/${item.slug}` }))]]
@@ -30,17 +57,23 @@ export function DirectoryPage({ kind }) {
             : kind === 'type-de-peau' ? [['Type de peau', skinTypes.map((item) => ({ ...item, path: `/type-de-peau/${item.slug}` }))]]
               : [['Type de peau', skinTypes.map((item) => ({ ...item, path: `/type-de-peau/${item.slug}` }))],
                 ['Besoins', concerns.map((item) => ({ ...item, path: `/besoins/${item.slug}` }))]];
-  const title = { marques: 'Nos marques', soins: 'Tous les soins', peau: 'Votre peau, votre point de départ',
+
+  const title = { marques: 'Nos marques', soins: 'Les soins', peau: 'Votre peau, votre point de départ',
     'type-de-peau': 'Choisir selon votre type de peau', besoins: 'Choisir selon vos besoins',
     routines: 'Routines & Packs', packs: 'Nos packs' }[kind];
   const intro = kind === 'peau' || kind === 'type-de-peau' || kind === 'besoins'
     ? 'Choisissez votre type de peau ou ce que vous souhaitez cibler.'
     : kind === 'routines' ? 'Des gestes simples et des sélections prêtes à découvrir.'
-      : 'Explorez notre sélection à votre rythme.';
+      : kind === 'soins' ? 'Nettoyer, préparer, traiter, hydrater et protéger : commencez par le type de soin souhaité.'
+        : 'Explorez notre sélection à votre rythme.';
+
   return <main className="inner-page"><Crumbs nodes={[[title]]} /><div className="page-heading"><p className="eyebrow">La Gallery</p><h1>{title}</h1><p>{intro}</p></div>
     {groups.map(([heading, entries]) => <section className="directory-section" key={heading}><h2>{heading}</h2>
-      {entries.length ? <div className="directory-grid">{entries.map((item) => <Link key={item.path} to={item.path} className="directory-card"><span>{item.name}</span>{typeof item.count === 'number' && <small>{item.count} produit{item.count > 1 ? 's' : ''} sélectionné{item.count > 1 ? 's' : ''}</small>}<ArrowRight size={18} /></Link>)}</div>
+      {entries.length ? <div className="directory-grid">{entries.map((item) => <Link key={item.path} to={item.path} className="directory-card"><span>{item.name}</span>{typeof item.count === 'number' && item.count > 0 && <small>{item.count} produit{item.count > 1 ? 's' : ''} sélectionné{item.count > 1 ? 's' : ''}</small>}<ArrowRight size={18} /></Link>)}</div>
         : <p className="quiet-note">Une sélection arrive bientôt.</p>}</section>)}
+    {kind === 'soins' && <div className="directory-all-cta" style={{ marginTop: '36px', textAlign: 'center' }}>
+      <Link to="/boutique" className="button-primary">Voir tous les produits <ArrowRight size={16} /></Link>
+    </div>}
   </main>;
 }
 

@@ -1,0 +1,53 @@
+export const DEFAULT_HERO_SLIDES = [
+  {
+    id: 'selection',
+    imageDesktop: '/assets/wallpapers/gallery-hero2.png',
+    imageMobile: '/assets/wallpapers/gallery-hero2.png',
+    alt: 'Sélection complète de soins coréens authentiques pour révéler l’éclat de la peau',
+    eyebrow: 'BEAUTÉ CORÉENNE · SÉLECTION EXCLUSIVE',
+    title: 'Vos essentiels\nK-Beauty, réunis\nau Maroc.',
+    description: 'Une sélection haut de gamme de soins coréens authentiques pour révéler l’éclat naturel de votre peau.',
+    primaryLabel: 'Explorer la boutique',
+    primaryHref: '/boutique',
+    secondaryLabel: 'Voir les nouveautés',
+    secondaryHref: '/nouveautes',
+    focalPointDesktop: '68% 50%',
+    focalPointMobile: '72% 45%',
+    desktopTextPosition: 'left',
+    mobileTextPosition: 'bottom-left'
+  },
+  {
+    id: 'routines',
+    imageDesktop: '/assets/wallpapers/melange.png',
+    imageMobile: '/assets/wallpapers/melange.png',
+    alt: 'Sélection de routines et packs de soins visage coréens complémentaires',
+    eyebrow: 'ROUTINES & PACKS',
+    title: 'Une routine simple,\npensée étape\npar étape.',
+    description: 'Des soins complémentaires soigneusement associés pour réparer, apaiser et hydrater durablement votre peau.',
+    primaryLabel: 'Explorer la boutique',
+    primaryHref: '/boutique',
+    secondaryLabel: 'Découvrir les routines',
+    secondaryHref: '/routines',
+    focalPointDesktop: '65% 50%',
+    focalPointMobile: '70% 45%',
+    desktopTextPosition: 'left',
+    mobileTextPosition: 'bottom-left'
+  },
+  {
+    id: 'brands',
+    imageDesktop: '/assets/wallpapers/anua-wallpaper.png',
+    imageMobile: '/assets/wallpapers/anua-wallpaper.png',
+    alt: 'Grandes marques officielles de skincare coréenne sélectionnées par The K-Skin Gallery',
+    eyebrow: 'LES MARQUES DE LA GALLERY',
+    title: 'Les références\nK-Beauty que vous\nrecherchez.',
+    description: 'ANUA, COSRX, SKIN1004, Beauty of Joseon et Medicube : les marques cultes réunies dans notre catalogue officiel.',
+    primaryLabel: 'Explorer la boutique',
+    primaryHref: '/boutique',
+    secondaryLabel: 'Découvrir les marques',
+    secondaryHref: '/marques',
+    focalPointDesktop: '65% 50%',
+    focalPointMobile: '70% 45%',
+    desktopTextPosition: 'left',
+    mobileTextPosition: 'bottom-left'
+  }
+];

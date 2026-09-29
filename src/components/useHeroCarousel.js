@@ -1,121 +1,232 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-export function useHeroCarousel(slidesCount = 3, dwellTime = 5000, resumeDelay = 3500) {
+export function useHeroCarousel(
+  slidesCount = 3,
+  dwellTime = 4000,
+  transitionDuration = 800
+) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(slidesCount - 1);
-  const [direction, setDirection] = useState('next'); // 'next' | 'prev'
+  const [direction, setDirection] = useState('next');
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  const pauseTimerRef = useRef(null);
   const touchStartRef = useRef({ x: 0, y: 0 });
+  const touchTrackingRef = useRef(false);
 
-  // Refs for stable timer callback without constantly restarting the interval
   const activeIndexRef = useRef(activeIndex);
   activeIndexRef.current = activeIndex;
 
   const isAnimatingRef = useRef(isAnimating);
   isAnimatingRef.current = isAnimating;
 
-  const isPausedRef = useRef(isPaused);
-  isPausedRef.current = isPaused;
-
   const slidesCountRef = useRef(slidesCount);
   slidesCountRef.current = slidesCount;
 
-  // Detect reduced motion preference
+  const isMobileRef = useRef(isMobile);
+  isMobileRef.current = isMobile;
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const checkMobile = () => {
+      const mobile =
+        window.innerWidth <= 768 ||
+        window.matchMedia('(pointer: coarse)').matches;
+
+      setIsMobile(mobile);
+    };
+
+    checkMobile();
+
+    window.addEventListener('resize', checkMobile, { passive: true });
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const mediaQuery = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    );
+
     setPrefersReducedMotion(mediaQuery.matches);
 
-    const handleChange = (e) => setPrefersReducedMotion(e.matches);
+    const handleChange = (e) => {
+      setPrefersReducedMotion(e.matches);
+    };
+
     mediaQuery.addEventListener?.('change', handleChange);
-    return () => mediaQuery.removeEventListener?.('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener?.('change', handleChange);
+    };
   }, []);
 
-  const goTo = useCallback((nextIdx, dir = 'next') => {
-    if (isAnimatingRef.current || slidesCountRef.current <= 1) return;
-    const currentIdx = activeIndexRef.current;
-    if (nextIdx === currentIdx) return;
+  const goTo = useCallback(
+    (nextIdx, dir = 'next') => {
+      if (
+        isAnimatingRef.current ||
+        slidesCountRef.current <= 1
+      ) {
+        return;
+      }
 
-    setPrevIndex(currentIdx);
-    setDirection(dir);
-    setActiveIndex(nextIdx);
-    setIsAnimating(true);
+      const currentIdx = activeIndexRef.current;
 
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 820);
-  }, []);
+      if (nextIdx === currentIdx) {
+        return;
+      }
+
+      setPrevIndex(currentIdx);
+      setDirection(dir);
+      setActiveIndex(nextIdx);
+      setIsAnimating(true);
+
+      window.setTimeout(() => {
+        setIsAnimating(false);
+      }, transitionDuration);
+    },
+    [transitionDuration]
+  );
 
   const next = useCallback(() => {
     const total = slidesCountRef.current;
+
     if (total <= 1) return;
-    const targetIndex = (activeIndexRef.current + 1) % total;
+
+    const targetIndex =
+      (activeIndexRef.current + 1) % total;
+
     goTo(targetIndex, 'next');
   }, [goTo]);
 
   const prev = useCallback(() => {
     const total = slidesCountRef.current;
+
     if (total <= 1) return;
-    const targetIndex = (activeIndexRef.current - 1 + total) % total;
+
+    const targetIndex =
+      (activeIndexRef.current - 1 + total) % total;
+
     goTo(targetIndex, 'prev');
   }, [goTo]);
 
-  // Handle user interaction pause & resume
-  const triggerPause = useCallback(() => {
-    setIsPaused(true);
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-    pauseTimerRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, resumeDelay);
-  }, [resumeDelay]);
+  const getDirection = useCallback((from, to) => {
+    const total = slidesCountRef.current;
 
-  // Robust Autoplay Interval using stable refs
+    if (total <= 1 || from === to) {
+      return 'next';
+    }
+
+    const forwardDistance =
+      (to - from + total) % total;
+
+    const backwardDistance =
+      (from - to + total) % total;
+
+    return forwardDistance <= backwardDistance
+      ? 'next'
+      : 'prev';
+  }, []);
+
+  const goToIndex = useCallback(
+    (nextIdx) => {
+      const currentIdx = activeIndexRef.current;
+
+      if (
+        nextIdx === currentIdx ||
+        isAnimatingRef.current
+      ) {
+        return;
+      }
+
+      const dir =
+        getDirection(currentIdx, nextIdx);
+
+      goTo(nextIdx, dir);
+    },
+    [getDirection, goTo]
+  );
+
+  /*
+   * AUTOPLAY
+   *
+   * Important behavior:
+   *
+   * Every time activeIndex changes,
+   * this timeout is recreated.
+   *
+   * Therefore:
+   *
+   * manual slide change
+   * → timer resets
+   * → selected slide remains visible for dwellTime
+   * → automatic sliding continues afterward
+   */
   useEffect(() => {
-    if (prefersReducedMotion || slidesCount <= 1) return;
+    if (
+      prefersReducedMotion ||
+      slidesCount <= 1 ||
+      isMobile
+    ) {
+      return;
+    }
 
-    const timer = setInterval(() => {
-      if (!isPausedRef.current && !isAnimatingRef.current) {
-        const total = slidesCountRef.current;
-        if (total > 1) {
-          const targetIndex = (activeIndexRef.current + 1) % total;
-          goTo(targetIndex, 'next');
-        }
+    const timeout = window.setTimeout(() => {
+      if (
+        !isAnimatingRef.current &&
+        !document.hidden &&
+        !isMobileRef.current
+      ) {
+        next();
       }
     }, dwellTime);
 
-    return () => clearInterval(timer);
-  }, [prefersReducedMotion, slidesCount, dwellTime, goTo]);
-
-  // Page visibility listener
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (document.hidden) {
-        setIsPaused(true);
-      } else {
-        triggerPause();
-      }
+    return () => {
+      window.clearTimeout(timeout);
     };
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [triggerPause]);
+  }, [
+    activeIndex,
+    prefersReducedMotion,
+    slidesCount,
+    dwellTime,
+    isMobile,
+    next,
+  ]);
 
-  // Touch handlers for mobile swipe
   const handleTouchStart = (e) => {
     const touch = e.touches[0];
-    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-    triggerPause();
+
+    touchStartRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+    };
+
+    touchTrackingRef.current = true;
   };
 
   const handleTouchEnd = (e) => {
-    const touch = e.changedTouches[0];
-    const deltaX = touch.clientX - touchStartRef.current.x;
-    const deltaY = touch.clientY - touchStartRef.current.y;
+    if (!touchTrackingRef.current) return;
 
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) >= 45) {
+    touchTrackingRef.current = false;
+
+    const touch = e.changedTouches[0];
+
+    const deltaX =
+      touch.clientX - touchStartRef.current.x;
+
+    const deltaY =
+      touch.clientY - touchStartRef.current.y;
+
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+
+    if (absX >= 45 && absX > absY * 1.5) {
       if (deltaX < 0) {
         next();
       } else {
@@ -124,15 +235,14 @@ export function useHeroCarousel(slidesCount = 3, dwellTime = 5000, resumeDelay =
     }
   };
 
-  // Keyboard navigation handler
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowRight') {
       e.preventDefault();
-      triggerPause();
       next();
-    } else if (e.key === 'ArrowLeft') {
+    }
+
+    if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      triggerPause();
       prev();
     }
   };
@@ -142,13 +252,19 @@ export function useHeroCarousel(slidesCount = 3, dwellTime = 5000, resumeDelay =
     prevIndex,
     direction,
     isAnimating,
-    isPaused,
+
+    isPaused:
+      isMobile ||
+      prefersReducedMotion,
+
     prefersReducedMotion,
+    isMobile,
+
     goTo,
+    goToIndex,
     next,
     prev,
-    triggerPause,
-    setIsPaused,
+
     handleTouchStart,
     handleTouchEnd,
     handleKeyDown,

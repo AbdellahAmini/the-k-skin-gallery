@@ -59,7 +59,7 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/boutique" element={<CollectionPage />} /><Route path="/nouveautes" element={<CollectionPage mode="new" />} /><Route path="/incontournables" element={<CollectionPage mode="featured" />} />
       <Route path="/marques" element={<DirectoryPage kind="marques" />} /><Route path="/marques/:slug" element={<CollectionPage mode="brand" />} />
-      <Route path="/soins" element={<CollectionPage mode="care" />} /><Route path="/soins/serums" element={<Navigate to="/soins/serums-ampoules" replace />} /><Route path="/soins/:slug" element={<CollectionPage mode="category" />} />
+      <Route path="/soins" element={<DirectoryPage kind="soins" />} /><Route path="/soins/serums" element={<Navigate to="/soins/serums-ampoules" replace />} /><Route path="/soins/:slug" element={<CollectionPage mode="category" />} />
       <Route path="/peau" element={<DirectoryPage kind="peau" />} /><Route path="/besoins" element={<DirectoryPage kind="besoins" />} /><Route path="/besoins/hydratation" element={<Navigate to="/besoins/deshydratation" replace />} /><Route path="/besoins/:slug" element={<CollectionPage mode="concern" />} />
       <Route path="/type-de-peau" element={<DirectoryPage kind="type-de-peau" />} /><Route path="/type-de-peau/:slug" element={<CollectionPage mode="skin" />} />
       <Route path="/routines" element={<DirectoryPage kind="routines" />} /><Route path="/routines/:slug" element={<RoutinePage />} />
