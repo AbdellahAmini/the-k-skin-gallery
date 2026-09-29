@@ -171,8 +171,7 @@ export function useHeroCarousel(
   useEffect(() => {
     if (
       prefersReducedMotion ||
-      slidesCount <= 1 ||
-      isMobile
+      slidesCount <= 1
     ) {
       return;
     }
@@ -180,8 +179,7 @@ export function useHeroCarousel(
     const timeout = window.setTimeout(() => {
       if (
         !isAnimatingRef.current &&
-        !document.hidden &&
-        !isMobileRef.current
+        !document.hidden
       ) {
         next();
       }
@@ -195,7 +193,6 @@ export function useHeroCarousel(
     prefersReducedMotion,
     slidesCount,
     dwellTime,
-    isMobile,
     next,
   ]);
 

@@ -137,14 +137,10 @@ test.describe('Hero Carousel Verification Suite', () => {
       const dotsBox = await dots.boundingBox();
       expect(dotsBox.y + dotsBox.height).toBeLessThanOrEqual(heroBox.y + heroBox.height);
 
-      // 13. Mobile autoplay must be disabled: wait 7000ms and verify slide does NOT advance
+      // 13. Verify initial state before testing swipes
       if (width === 375) {
         const title = hero.locator('#hero-title');
-        await expect(title).toContainText('Vos essentiels');
-        await page.waitForTimeout(7000);
-        await expect(title).toContainText('Vos essentiels');
-
-        // 19. Primary CTA works
+        await expect(title).toContainText('Vos essentiels');        // 19. Primary CTA works
         const primaryCta = hero.locator('.hero-cta');
         await expect(primaryCta).toHaveAttribute('href', '/boutique');
 
