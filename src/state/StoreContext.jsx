@@ -41,7 +41,7 @@ export function StoreProvider({ children, initialData = null }) {
   const refreshProducts = useCallback(async () => {
     const [featured, fresh, promotions] = await Promise.all([
       api('/products?featured=true&page_size=8'),
-      api('/products?new=true&sort=newest&page_size=8'),
+      api('/products?new=true&exclude_promotion=true&sort=newest&page_size=8'),
       api('/products?promotion=true&page_size=10'),
     ]);
     setProducts((current) => [...new Map([...current, ...featured.products, ...fresh.products, ...promotions.products].map((item) => [item.id, item])).values()]);
@@ -54,7 +54,7 @@ export function StoreProvider({ children, initialData = null }) {
 
   useEffect(() => {
     let alive = true;
-    Promise.all([api('/products?featured=true&page_size=8'), api('/products?new=true&sort=newest&page_size=8'), api('/products?promotion=true&page_size=10'), api('/navigation'), api('/routines'), api('/bundles'), api('/cities'), api('/settings'), api('/content'), api('/articles'), api('/auth/me')])
+    Promise.all([api('/products?featured=true&page_size=8'), api('/products?new=true&exclude_promotion=true&sort=newest&page_size=8'), api('/products?promotion=true&page_size=10'), api('/navigation'), api('/routines'), api('/bundles'), api('/cities'), api('/settings'), api('/content'), api('/articles'), api('/auth/me')])
       .then(async ([featured, fresh, promotions, nav, routineRows, bundleRows, city, site, sections, advice, signedIn]) => {
         if (!alive) return;
         const homeProducts = [...new Map([...featured.products, ...fresh.products, ...promotions.products].map((item) => [item.id, item])).values()];
@@ -180,6 +180,7 @@ export function StoreProvider({ children, initialData = null }) {
 
   return <StoreContext.Provider value={{ products, brands, categories, skinTypes, concerns, routines, bundles,
     initialCollectionResult: initialData?.collectionResult,
+    initialCollectionPath: initialData?.initialPath,
     cities, settings, content, articles, adviceArticles, cart, setCart, mergeProducts,
     cartLines, cartCount, subtotal, wishlist, toggleWishlist, addToCart, addBundleToCart, changeQuantity, removeFromCart, clearCart,
     user, authenticate, logout, ready, error, notice, setNotice, flash, cartOpen, setCartOpen, refreshProducts }}>

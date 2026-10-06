@@ -18,7 +18,8 @@ def list_products(db: Session = Depends(get_db), q: str = "", ids: str = "", bra
                   product_type: str = "", skin_type: str = "", concern: str = "", usage: str = "",
                   ingredient: str = "", key_ingredient: str = "",
                   availability: str = "", new: bool = False, featured: bool = False,
-                  promotion: bool = False, in_stock: bool = False, sort: str = "relevance",
+                  promotion: bool = False, exclude_promotion: bool = False,
+                  in_stock: bool = False, sort: str = "relevance",
                   min_price: int = Query(0, ge=0), max_price: int = Query(100000, ge=0),
                   page: int = Query(1, ge=1), page_size: int = Query(24, ge=1, le=200)):
     try:
@@ -30,7 +31,8 @@ def list_products(db: Session = Depends(get_db), q: str = "", ids: str = "", bra
     return query_products(db, ProductFilters(q=q, ids=selected_ids, brand=brand, category=category or product_type,
         skin_type=skin_type, concern=concern, ingredient=ingredient or key_ingredient, usage=usage,
         availability=availability or ("in_stock" if in_stock else ""),
-        new=new, featured=featured, promotion=promotion, sort=sort,
+        new=new, featured=featured, promotion=promotion,
+        exclude_promotion=exclude_promotion, sort=sort,
         min_price=min_price, max_price=max_price, page=page, page_size=page_size))
 
 

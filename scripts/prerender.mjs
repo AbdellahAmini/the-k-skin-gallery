@@ -40,7 +40,7 @@ const pages = [
   { path: '/', title: 'K-Skin Gallery — Korean Skincare au Maroc', description: 'Une sélection de soins coréens authentiques, livrés partout au Maroc. Paiement à la livraison.', products: homeProducts() },
   { path: '/boutique', title: 'Toute la boutique | K-Skin Gallery', description: 'Découvrez les soins coréens sélectionnés par la Gallery.', products: allProducts.slice(0, 24) },
   { path: '/incontournables', title: 'Nos incontournables | K-Skin Gallery', description: 'La sélection de la Gallery.', products: allProducts.filter((product) => product.featured) },
-  { path: '/nouveautes', title: 'Nouveautés | K-Skin Gallery', description: 'Les dernières nouveautés de notre sélection de skincare coréenne.', products: allProducts.filter((product) => product.new_arrival) },
+  { path: '/nouveautes', title: 'Nouveautés | K-Skin Gallery', description: 'Les dernières nouveautés de notre sélection de skincare coréenne.', products: allProducts.filter((product) => product.new_arrival && !(product.compare_at_dh > product.price_dh)) },
   { path: '/promotions', title: 'Promotions | K-Skin Gallery', description: 'Retrouvez les soins coréens actuellement en promotion.', products: allProducts.filter((product) => product.compare_at_dh > product.price_dh) },
   { path: '/marques', title: 'Nos marques | K-Skin Gallery', description: 'Parcourez les marques officielles de skincare coréenne.', products: [] },
   { path: '/soins', title: 'Les soins | K-Skin Gallery', description: 'Nettoyer, préparer, traiter, hydrater et protéger : parcourez les catégories de soins coréens.', products: [] },
@@ -76,7 +76,7 @@ const pages = [
 
 function homeProducts() {
   const promotions = allProducts.filter((product) => product.price_dh > 0 && product.compare_at_dh > product.price_dh).slice(0, 10);
-  const fresh = allProducts.filter((product) => product.new_arrival).slice(0, 5);
+  const fresh = allProducts.filter((product) => product.new_arrival && !(product.compare_at_dh > product.price_dh)).slice(0, 5);
   return [...new Map([...promotions, ...fresh].map((product) => [product.id, product])).values()];
 }
 
@@ -84,7 +84,7 @@ function initialCollection(pathname) {
   let rows;
   if (pathname === '/boutique') rows = allProducts;
   else if (pathname === '/incontournables') rows = allProducts.filter((p) => p.featured);
-  else if (pathname === '/nouveautes') rows = allProducts.filter((p) => p.new_arrival);
+  else if (pathname === '/nouveautes') rows = allProducts.filter((p) => p.new_arrival && !(p.compare_at_dh > p.price_dh));
   else if (pathname === '/promotions') rows = allProducts.filter((p) => p.compare_at_dh > p.price_dh);
   else {
     const [, group, slug] = pathname.split('/');
@@ -186,7 +186,7 @@ try {
   const { render } = await vite.ssrLoadModule('/src/entry-server.jsx');
   for (const page of pages) {
     const collectionResult = initialCollection(page.path);
-    const initialData = { ...commonData, products: collectionResult?.products || page.products,
+    const initialData = { ...commonData, initialPath: page.path, products: collectionResult?.products || page.products,
       collectionResult, adviceArticles: page.adviceArticles || [] };
     const markup = await render(page.path, initialData);
     const rootHtml = `<div id="root">${markup}</div><script id="gallery-initial-data" type="application/json">${safeJson(initialData)}</script>`;

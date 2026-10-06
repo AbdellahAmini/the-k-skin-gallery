@@ -428,11 +428,23 @@ a {
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  /* Default: Laptop / Desktop (Left to Right) */
   background: linear-gradient(90deg,
       rgba(247, 246, 243, 0.94) 0%,
       rgba(247, 246, 243, 0.18) 36%,
       rgba(247, 246, 243, 0.02) 64%,
       transparent 84%);
+}
+
+@media (max-width: 760px) {
+  .hero-gradient-overlay {
+    /* Mobile: Adjusted for smaller screens (e.g. stronger gradient or top-to-bottom) */
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(247, 246, 243, 0.2) 30%,
+        rgba(247, 246, 243, 0.85) 55%,
+        rgba(247, 246, 243, 1) 90%);
+  }
 }
 
 /* HTML Copy Overlay */
@@ -757,20 +769,16 @@ a {
   position: relative;
   width: 100%;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 6%,
-    black 94%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 6%,
-    black 94%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%);
+  mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%);
 }
 
 .home-brands__marquee-track {
@@ -850,6 +858,7 @@ a {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }

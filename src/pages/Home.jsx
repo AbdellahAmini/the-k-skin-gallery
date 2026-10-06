@@ -26,7 +26,7 @@ export default function Home() {
   const { products, brands, routines, bundles, content } = useStore();
   const home = content.homepage || {};
   const promotionProducts = products.filter((item) => item.price_dh > 0 && item.compare_at_dh > item.price_dh).slice(0, 10);
-  const newProducts = products.filter((item) => item.new_arrival).slice(0, 5);
+  const newProducts = products.filter((item) => item.new_arrival && !(item.compare_at_dh > item.price_dh)).slice(0, 5);
   const selectedBrands = (home.featured_brand_slugs || []).map((slug) => brands.find((item) => item.slug === slug)).filter(Boolean);
   const homeBrands = selectedBrands.length ? selectedBrands : brands.slice(0, 8);
   const fallbackEntries = [

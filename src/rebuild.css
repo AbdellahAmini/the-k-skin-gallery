@@ -500,10 +500,13 @@ select:focus-visible, textarea:focus-visible { outline: 2px solid var(--rose); o
   .filter-panel, .filter-panel.open { position: fixed; inset: 0; z-index: 35; margin: 0; background: #fffdfa; overflow-y: auto; }
   .filter-panel { display: none; }
   .filter-panel.open { display: block; }
-  .filter-panel .filters { min-height: 100%; display: block; padding: 20px 18px 85px; border: 0; }
+  .filter-panel .filters { min-height: 100%; display: block; padding: 20px 18px calc(96px + env(safe-area-inset-bottom)); border: 0; }
   .filter-head button { display: inline-flex; }
   .filter-section { padding: 16px 0; }
-  .filter-apply { position: fixed; right: 0; bottom: 0; left: 0; width: 100%; display: flex; justify-content: center; min-height: 62px; }
+  .filter-panel .price-filter button { display: none; }
+  .filter-apply { position: fixed; right: 18px; bottom: calc(14px + env(safe-area-inset-bottom)); left: 18px; z-index: 1; width: calc(100% - 36px); display: flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 16px; border: 0; border-radius: 4px; background: var(--rose); color: #fff; box-shadow: 0 6px 18px #76304733; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .filter-apply:hover { background: #8c4056; }
+  .filter-apply:focus-visible { outline: 2px solid #692a3d; outline-offset: 3px; }
   .routine-steps { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; margin-inline: -16px; padding: 0 16px 12px; }
   .guided-step { flex: 0 0 min(82vw, 360px); scroll-snap-align: start; }
   .routine-selection-bar { bottom: 61px; padding: 10px; }

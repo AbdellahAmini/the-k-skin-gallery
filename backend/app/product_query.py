@@ -33,6 +33,7 @@ class ProductFilters:
     new: bool = False
     featured: bool = False
     promotion: bool = False
+    exclude_promotion: bool = False
     sort: str = "relevance"
     page: int = 1
     page_size: int = 24
@@ -92,6 +93,8 @@ def _conditions(filters: ProductFilters, omit: str = ""):
     if filters.featured: conditions.append(Product.featured.is_(True))
     if filters.promotion:
         conditions.extend([Product.compare_at_dh.is_not(None), Product.compare_at_dh > Product.price_dh])
+    if filters.exclude_promotion:
+        conditions.append(or_(Product.compare_at_dh.is_(None), Product.compare_at_dh <= Product.price_dh))
     return conditions
 
 

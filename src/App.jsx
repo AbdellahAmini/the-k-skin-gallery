@@ -38,6 +38,7 @@ function NotFound() {
 
 function StorefrontApp() {
   const location = useLocation();
+  const collection = (mode = 'all') => <CollectionPage key={location.pathname} mode={mode} />;
   const { error, brands, categories, skinTypes, concerns } = useStore();
   const isAdmin = location.pathname.startsWith('/admin');
   useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
@@ -59,14 +60,14 @@ function StorefrontApp() {
     {error && <div className="api-banner" role="alert">{error}</div>}
     <Suspense fallback={<PageLoading />}><Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/boutique" element={<CollectionPage />} /><Route path="/nouveautes" element={<CollectionPage mode="new" />} /><Route path="/incontournables" element={<CollectionPage mode="featured" />} />
-      <Route path="/marques" element={<DirectoryPage kind="marques" />} /><Route path="/marques/:slug" element={<CollectionPage mode="brand" />} />
-      <Route path="/soins" element={<DirectoryPage kind="soins" />} /><Route path="/soins/serums" element={<Navigate to="/soins/serums-ampoules" replace />} /><Route path="/soins/:slug" element={<CollectionPage mode="category" />} />
-      <Route path="/peau" element={<DirectoryPage kind="peau" />} /><Route path="/besoins" element={<DirectoryPage kind="besoins" />} /><Route path="/besoins/hydratation" element={<Navigate to="/besoins/deshydratation" replace />} /><Route path="/besoins/:slug" element={<CollectionPage mode="concern" />} />
-      <Route path="/type-de-peau" element={<DirectoryPage kind="type-de-peau" />} /><Route path="/type-de-peau/:slug" element={<CollectionPage mode="skin" />} />
+      <Route path="/boutique" element={collection()} /><Route path="/nouveautes" element={collection('new')} /><Route path="/incontournables" element={collection('featured')} />
+      <Route path="/marques" element={<DirectoryPage kind="marques" />} /><Route path="/marques/:slug" element={collection('brand')} />
+      <Route path="/soins" element={<DirectoryPage kind="soins" />} /><Route path="/soins/serums" element={<Navigate to="/soins/serums-ampoules" replace />} /><Route path="/soins/:slug" element={collection('category')} />
+      <Route path="/peau" element={<DirectoryPage kind="peau" />} /><Route path="/besoins" element={<DirectoryPage kind="besoins" />} /><Route path="/besoins/hydratation" element={<Navigate to="/besoins/deshydratation" replace />} /><Route path="/besoins/:slug" element={collection('concern')} />
+      <Route path="/type-de-peau" element={<DirectoryPage kind="type-de-peau" />} /><Route path="/type-de-peau/:slug" element={collection('skin')} />
       <Route path="/routines" element={<DirectoryPage kind="routines" />} /><Route path="/routines/:slug" element={<RoutinePage />} />
       <Route path="/packs" element={<DirectoryPage kind="packs" />} /><Route path="/packs/:slug" element={<PackPage />} />
-      <Route path="/promotions" element={<CollectionPage mode="promo" />} /><Route path="/recherche" element={<CollectionPage mode="search" />} />
+      <Route path="/promotions" element={collection('promo')} /><Route path="/recherche" element={collection('search')} />
       <Route path="/favoris" element={<FavoritesPage />} /><Route path="/panier" element={<CartPage />} />
       <Route path="/produits/:slug" element={<ProductDetail />} /><Route path="/checkout" element={<Checkout />} />
       <Route path="/commande/:token/confirmation" element={<Receipt />} />

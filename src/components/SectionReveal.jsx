@@ -3,6 +3,10 @@ import { useEffect } from 'react';
 // Observe page blocks rather than individual cards so each section moves together.
 function pageBlocks(main) {
   return [...main.children].flatMap((child) => {
+    if (child.matches('.collection-layout')) {
+      // Keep the full-screen mobile filter panel outside transformed ancestors.
+      return [...child.querySelectorAll(':scope > .collection-results')];
+    }
     if (child.matches('.product-details, .info-grid')) return [...child.children];
     if (child.matches('.checkout-layout')) {
       return [...child.querySelectorAll(':scope > form > section, :scope > aside')];
