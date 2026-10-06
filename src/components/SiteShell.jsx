@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useState } from 'react';
-import { ArrowRight, Bag, Check, Heart, List as Menu, MagnifyingGlass, Minus, Package, Phone, Plus, ShieldCheck, Sparkle, Truck, User, X } from '@phosphor-icons/react';
+import { ArrowRight, Bag, Check, Heart, List as Menu, MagnifyingGlass, Minus, Package, Phone, Plus, ShieldCheck, Sparkle, Trash, Truck, User, X } from '@phosphor-icons/react';
 import { Link, NavLink, useLocation } from 'react-router';
 import SearchBox from './SearchBox';
 import ProductImage from './ProductImage';
+import FreeShippingProgress from './FreeShippingProgress';
 import { money } from '../lib/api';
 import { useStore } from '../state/StoreContext';
 import { buildNavigation, MobileNavigationDrawer, PrimaryNavigation } from './Navigation';
@@ -27,6 +28,7 @@ export function Header() {
   const { brands, categories, skinTypes, concerns, routines, bundles, content, settings, cartCount, wishlist, user, setCartOpen } = useStore();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchPanelOpen, setSearchPanelOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   useEffect(() => { setMenuOpen(false); setSearchOpen(false); }, [location.pathname]);
@@ -37,9 +39,9 @@ export function Header() {
     return () => window.removeEventListener('scroll', update);
   }, []);
   const navigation = buildNavigation({ brands, categories, skinTypes, concerns, routines, bundles, content });
-  return <><header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}><div className="header-main"><button className="icon-button mobile-menu-toggle" onClick={() => setMenuOpen(true)} aria-label="Ouvrir le menu"><Menu size={23} /></button>
+  return <><header className={`site-header ${scrolled ? 'is-scrolled' : ''} ${searchPanelOpen ? 'is-searching' : ''}`}><div className="header-main"><button className="icon-button mobile-menu-toggle" onClick={() => setMenuOpen(true)} aria-label="Ouvrir le menu"><Menu size={23} /></button>
       <Link className="logo-link" to="/" aria-label="K-Skin Gallery, accueil"><img className="brand-logo" src="/assets/gallery-logo.png" alt="K-Skin Gallery — Korean Skincare" /></Link>
-      <SearchBox /><div className="header-actions"><button className="icon-button mobile-search-toggle" onClick={() => setSearchOpen(true)} aria-label="Ouvrir la recherche"><MagnifyingGlass size={21} /></button><Link className="header-action" to={user ? '/compte' : '/connexion'} aria-label="Compte" title="Compte"><User size={20} /><span>Compte</span></Link>
+      <SearchBox onSearchStateChange={setSearchPanelOpen} /><div className="header-actions"><button className="icon-button mobile-search-toggle" onClick={() => setSearchOpen(true)} aria-label="Ouvrir la recherche"><MagnifyingGlass size={21} /></button><Link className="header-action" to={user ? '/compte' : '/connexion'} aria-label="Compte" title="Compte"><User size={20} /><span>Compte</span></Link>
         <Link className="header-action" to="/favoris" aria-label="Favoris" title="Favoris"><Heart size={20} weight={wishlist.length ? 'fill' : 'regular'} /><span>Favoris</span>{wishlist.length > 0 && <small>{wishlist.length}</small>}</Link>
         <button className="header-action" onClick={() => setCartOpen(true)} aria-label={`Panier, ${cartCount} article${cartCount > 1 ? 's' : ''}`} title="Panier"><span className="bag-wrap"><Bag size={20} /><small>{cartCount}</small></span><span>Panier</span></button></div></div>
       <SearchBox mobile open={searchOpen} onClose={() => setSearchOpen(false)} />
@@ -55,7 +57,7 @@ export function Header() {
 }
 
 export function CartDrawer() {
-  const { cartOpen, setCartOpen, cartLines, cartCount, subtotal, changeQuantity, removeFromCart, settings } = useStore();
+  const { cartOpen, setCartOpen, cartLines, cartCount, subtotal, changeQuantity, removeFromCart, clearCart, settings } = useStore();
   useEffect(() => {
     if (!cartOpen) return undefined;
     const key = (e) => e.key === 'Escape' && setCartOpen(false);
@@ -65,8 +67,8 @@ export function CartDrawer() {
   if (!cartOpen) return null;
   const threshold = Number(settings.free_shipping_threshold_dh || 0);
   return <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && setCartOpen(false)}><aside className="cart-drawer" role="dialog" aria-modal="true" aria-label="Mon panier"><div className="drawer-head"><div><span>Mon panier</span><small>{cartCount} article{cartCount > 1 ? 's' : ''}</small></div><button onClick={() => setCartOpen(false)} aria-label="Fermer le panier"><X size={22} /></button></div>
-    {cartLines.length ? <><div className="cart-lines">{cartLines.map(({ item, kind, path, quantity }) => <div className="cart-line" key={`${kind}-${item.id}`}><Link to={path} onClick={() => setCartOpen(false)}><ProductImage src={item.image_url} alt="" /></Link><div className="cart-line-copy"><strong>{kind === 'bundle' ? 'Pack' : item.brand}</strong><Link to={path} onClick={() => setCartOpen(false)}>{item.name}</Link><small>{kind === 'bundle' ? `${item.items.length} soins` : item.size}</small><div className="quantity-control"><button onClick={() => changeQuantity(item.id, -1, kind)} aria-label="Diminuer la quantité"><Minus size={13} /></button><span>{quantity}</span><button disabled={quantity >= item.stock} onClick={() => changeQuantity(item.id, 1, kind)} aria-label="Augmenter la quantité"><Plus size={13} /></button></div><button className="remove-link" onClick={() => removeFromCart(item.id, kind)}>Retirer</button></div><b>{money(item.price_dh * quantity)}</b></div>)}</div>
-      <div className="cart-summary"><p><span>Sous-total</span><strong>{money(subtotal)}</strong></p><small>Frais de livraison calculés selon votre ville.</small>{threshold > subtotal && <small>Encore {money(threshold - subtotal)} pour la livraison offerte.</small>}
+    {cartLines.length ? <><div className="cart-drawer-tools"><button type="button" className="cart-clear-button" onClick={clearCart}><Trash size={15} /> Vider le panier</button></div><div className="cart-lines">{cartLines.map(({ item, kind, path, quantity }) => <div className="cart-line" key={`${kind}-${item.id}`}><Link to={path} onClick={() => setCartOpen(false)}><ProductImage src={item.image_url} alt="" /></Link><div className="cart-line-copy"><strong>{kind === 'bundle' ? 'Pack' : item.brand}</strong><Link to={path} onClick={() => setCartOpen(false)}>{item.name}</Link><small>{kind === 'bundle' ? `${item.items.length} soins` : item.size}</small><div className="quantity-control"><button onClick={() => changeQuantity(item.id, -1, kind)} aria-label="Diminuer la quantité"><Minus size={13} /></button><span>{quantity}</span><button disabled={quantity >= item.stock} onClick={() => changeQuantity(item.id, 1, kind)} aria-label="Augmenter la quantité"><Plus size={13} /></button></div><button className="remove-link" onClick={() => removeFromCart(item.id, kind)}>Retirer</button></div><b>{money(item.price_dh * quantity)}</b></div>)}</div>
+      <div className="cart-summary"><p><span>Sous-total</span><strong>{money(subtotal)}</strong></p><FreeShippingProgress subtotal={subtotal} threshold={threshold} /><small>Frais de livraison calculés selon votre ville.</small>
         <Link className="button-primary checkout-button" to="/checkout" onClick={() => setCartOpen(false)}>Continuer ma commande <ArrowRight size={17} /></Link><span className="cod-note"><Bag size={15} /> Paiement à la livraison</span></div></>
       : <div className="cart-empty"><Package size={36} /><h3>Votre panier vous attend</h3><p>Découvrez une sélection de soins coréens choisis avec attention.</p><Link className="button-primary" to="/boutique" onClick={() => setCartOpen(false)}>Explorer la sélection</Link></div>}
   </aside></div>;

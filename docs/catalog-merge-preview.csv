@@ -1,0 +1,266 @@
+﻿research_external_id,brand,research_name,matched_product_id,matched_product_name,match_method,confidence,action
+research-anua-heartleaf-pore-control-cleansing-oil,ANUA,Heartleaf Pore Control Cleansing Oil,68,Anua Heartleaf Pore Control Cleansing Oil 200ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-anua-heartleaf-quercetinol-pore-deep-cleansing-foam,ANUA,Heartleaf Quercetinol Pore Deep Cleansing Foam,69,Anua Heartleaf Quercetinol Pore Deep Cleansing Foam 150ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-anua-8-hyaluronic-acid-hydrating-gentle-foaming-cleanser,ANUA,8 Hyaluronic Acid Hydrating Gentle Foaming Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-pdrn-hyaluronic-acid-moisturizing-cleansing-foam,ANUA,PDRN Hyaluronic Acid Moisturizing Cleansing Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-rice-enzyme-brightening-cleansing-powder,ANUA,Rice Enzyme Brightening Cleansing Powder,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-8-hyaluronic-acid-moisturizing-gentle-gel-cleanser,ANUA,8 Hyaluronic Acid Moisturizing Gentle Gel Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-heartleaf-low-ph-deep-cleansing-water,ANUA,Heartleaf Low pH Deep Cleansing Water,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-heartleaf-lha-moisture-peeling-gel,ANUA,Heartleaf LHA Moisture Peeling Gel,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-heartleaf-pore-cleansing-oil-mild,ANUA,Heartleaf Pore Cleansing Oil Mild,6,Anua Heartleaf Pore Control Cleansing Oil Mild 200ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.89,MANUAL_REVIEW
+research-anua-heartleaf-77-soothing-toner,ANUA,Heartleaf 77 Soothing Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-niacinamide-tranexamic-acid-brightening-booster-toner,ANUA,Niacinamide Tranexamic Acid Brightening Booster Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-azelaic-3-cica-skin-clarifying-toner,ANUA,Azelaic 3 Cica Skin Clarifying Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-pdrn-100-hyaluronic-acid-booster-toner,ANUA,PDRN 100 Hyaluronic Acid Booster Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-rice-70-glow-milky-toner,ANUA,Rice 70 Glow Milky Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-bha-2-gentle-exfoliating-toner,ANUA,BHA 2% Gentle Exfoliating Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-peach-77-niacin-essence-toner,ANUA,Peach 77 Niacin Essence Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-niacinamide-5-txa-brightening-pad,ANUA,Niacinamide 5 TXA Brightening Pad,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-azelaic-10-hyaluron-redness-soothing-pad,ANUA,Azelaic 10 Hyaluron Redness Soothing Pad,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-pdrn-100-hyaluronic-acid-glow-pad,ANUA,PDRN 100 Hyaluronic Acid Glow Pad,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-heartleaf-77-clear-pad,ANUA,Heartleaf 77 Clear Pad,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-pdrn-collagen-glow-facial-serum-spray,ANUA,PDRN Collagen Glow Facial Serum Spray,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-azelaic-acid-10-hyaluron-redness-soothing-serum,ANUA,Azelaic Acid 10 Hyaluron Redness Soothing Serum,72,Anua Azelaic Acid 10 Hyaluron Redness Soothing Serum 30ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-anua-niacinamide-10-txa-4-serum-for-brightening-and-dark-spots,ANUA,Niacinamide 10 TXA 4 Serum for Brightening and Dark Spots,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-pdrn-hyaluronic-acid-capsule-100-serum,ANUA,PDRN Hyaluronic Acid Capsule 100 Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-nano-retinol-0-3-niacin-renewing-serum,ANUA,Nano Retinol 0.3% + Niacin Renewing Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-rice-ceramide-7-hydrating-barrier-serum,ANUA,Rice Ceramide 7 Hydrating Barrier Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-peach-70-niacinamide-serum,ANUA,Peach 70% Niacinamide Serum,7,Anua Peach 70 Niacin Serum 30ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.89,MANUAL_REVIEW
+research-anua-heartleaf-80-moisture-soothing-ampoule,ANUA,Heartleaf 80% Moisture Soothing Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-pdrn-hyaluronic-acid-100-moisturizing-cream,ANUA,PDRN Hyaluronic Acid 100 Moisturizing Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-heartleaf-70-daily-lotion,ANUA,Heartleaf 70 Daily Lotion,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-heartleaf-70-intense-calming-cream,ANUA,Heartleaf 70% Intense Calming Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-3-ceramide-panthenol-moisture-barrier-cream,ANUA,3 Ceramide Panthenol Moisture Barrier Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-zero-cast-moisturizing-finish-sunscreen,ANUA,Zero-cast Moisturizing Finish Sunscreen,74,Anua Zero-Cast Moisturizing Finish Sunscreen SPF50+ PA++++ 50ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.90,MANUAL_REVIEW
+research-anua-invisible-glow-finish-sunstick,ANUA,Invisible Glow Finish Sunstick,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-invisible-matte-finish-sunscreen,ANUA,Invisible Matte Finish Sunscreen,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-anua-mineral-weightless-finish-sunscreen,ANUA,Mineral Weightless Finish Sunscreen,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-6-peptide-skin-booster-serum,COSRX,The 6 Peptide Skin Booster Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-ceramide-skin-barrier-moisturizer,COSRX,The Ceramide Skin Barrier Moisturizer,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-peptide-collagen-hydrogel-eye-patch,COSRX,The Peptide Collagen Hydrogel Eye Patch,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-vitamin-e-vitalizing-sunscreen-spf-50,COSRX,Vitamin E Vitalizing Sunscreen SPF 50+,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-advanced-snail-96-mucin-power-essence,COSRX,Advanced Snail 96 Mucin Power Essence,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-advanced-snail-92-all-in-one-cream,COSRX,Advanced Snail 92 All in One Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-advanced-snail-peptide-eye-cream,COSRX,Advanced Snail Peptide Eye Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-hyaluronic-acid-intensive-cream,COSRX,Hyaluronic Acid Intensive Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-advanced-snail-mucin-gel-cleanser,COSRX,Advanced Snail Mucin Gel Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-peptide-collagen-lifting-glow-hydrogel-mask,COSRX,The Peptide Collagen Lifting Glow Hydrogel Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-bha-blackhead-power-liquid,COSRX,BHA Blackhead Power Liquid,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-low-ph-good-morning-gel-cleanser,COSRX,Low pH Good Morning Gel Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-5-pdrn-b5-vital-soothing-toner,COSRX,5 PDRN B5 Vital Soothing Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-full-fit-propolis-synergy-toner,COSRX,Full Fit Propolis Synergy Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-5-pdrn-hyaluronic-acid-vital-hydrating-hydrogel-mask,COSRX,5 PDRN Hyaluronic Acid Vital Hydrating Hydrogel Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-ac-collection-calming-foam-cleanser,COSRX,AC Collection Calming Foam Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-full-fit-propolis-light-cream,COSRX,Full Fit Propolis Light Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-advanced-snail-mucin-glass-glow-hydrogel-mask,COSRX,Advanced Snail Mucin Glass Glow Hydrogel Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-advanced-snail-radiance-dual-essence,COSRX,Advanced Snail Radiance Dual Essence,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-full-fit-propolis-light-ampoule,COSRX,Full Fit Propolis Light Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-full-fit-propolis-nourishing-magnet-sheet-mask,COSRX,Full Fit Propolis Nourishing Magnet Sheet Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-acne-pimple-master-patch,COSRX,Acne Pimple Master Patch,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-advanced-snail-mucin-power-sheet-mask-10-sheets,COSRX,Advanced Snail Mucin Power Sheet Mask 10 Sheets,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-aha-bha-clarifying-treatment-toner,COSRX,AHA/BHA Clarifying Treatment Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-ultimate-nourishing-rice-overnight-spa-mask,COSRX,Ultimate Nourishing Rice Overnight Spa Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-vitamin-c-13-serum,COSRX,The Vitamin C 13 Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-retinol-0-1-cream,COSRX,The Retinol 0.1 Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-retinol-0-5-oil,COSRX,The Retinol 0.5 Oil,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-niacinamide-15-serum,COSRX,The Niacinamide 15 Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-blue-peptide-bakuchiol-plump-glow-serum,COSRX,The Blue Peptide Bakuchiol Plump Glow Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-the-blue-peptide-bakuchiol-plump-bounce-cream,COSRX,The Blue Peptide Bakuchiol Plump Bounce Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-5-pdrn-collagen-intense-vitalizing-serum,COSRX,5 PDRN Collagen Intense Vitalizing Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-cosrx-azelaic-acid-10-b5-redness-soothing-cream,COSRX,Azelaic Acid 10 B5 Redness Soothing Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-ampoule-foam,SKIN1004,Centella Ampoule Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-light-cleansing-oil,SKIN1004,Centella Light Cleansing Oil,61,SKIN1004 Madagascar Centella Light Cleansing Oil 200ml,KNOWN_LINE_PREFIX_ALIAS_REVIEW_ONLY,0.84,MANUAL_REVIEW
+research-skin1004-poremizing-deep-cleansing-foam,SKIN1004,Poremizing Deep Cleansing Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-tone-brightening-cleansing-gel-foam,SKIN1004,Tone Brightening Cleansing Gel Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-tea-trica-bha-foam,SKIN1004,Tea-Trica BHA Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-ampoule,SKIN1004,Centella Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-azelaic-acid-10-ampoule,SKIN1004,Azelaic Acid 10 Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-poremizing-fresh-ampoule,SKIN1004,Poremizing Fresh Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-teca-ampoule,SKIN1004,Centella Teca Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-tone-brightening-capsule-ampoule,SKIN1004,Tone Brightening Capsule Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-tea-trica-relief-ampoule,SKIN1004,Tea-Trica Relief Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-hyalu-teca-plumping-ampoule,SKIN1004,Hyalu-Teca Plumping Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-probio-cica-intensive-ampoule,SKIN1004,Probio-Cica Intensive Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-retinol-0-2-boosting-shot-ampoule,SKIN1004,Retinol 0.2 Boosting Shot Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-matrixyl-10-boosting-shot-ampoule,SKIN1004,Matrixyl 10 Boosting Shot Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-niacinamide-10-boosting-shot-ampoule,SKIN1004,Niacinamide 10 Boosting Shot Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-hyalu-cica-first-ampoule,SKIN1004,Hyalu-Cica First Ampoule,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-toning-toner,SKIN1004,Centella Toning Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-probio-cica-essence-toner,SKIN1004,Probio-Cica Essence Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-poremizing-clear-toner,SKIN1004,Poremizing Clear Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-hyalu-cica-brightening-toner,SKIN1004,Hyalu-Cica Brightening Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-teca-soothing-toner,SKIN1004,Centella Teca Soothing Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-hyalu-cica-cloudy-mist,SKIN1004,Hyalu-Cica Cloudy Mist,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-tone-brightening-boosting-toner,SKIN1004,Tone Brightening Boosting Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-poremizing-light-gel-cream,SKIN1004,Poremizing Light Gel Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-hyalu-cica-moisture-cream,SKIN1004,Hyalu-Cica Moisture Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-teca-cream,SKIN1004,Centella Teca Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-soothing-cream,SKIN1004,Centella Soothing Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-centella-cream,SKIN1004,Centella Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-probio-cica-enrich-cream,SKIN1004,Probio-Cica Enrich Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-hyalu-cica-sleeping-pack,SKIN1004,Hyalu-Cica Sleeping Pack,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-poremizing-quick-clay-stick-mask,SKIN1004,Poremizing Quick Clay Stick Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-probio-cica-bakuchiol-eye-cream,SKIN1004,Probio-Cica Bakuchiol Eye Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-skin1004-hyalu-cica-water-fit-sun-serum-uv,SKIN1004,Hyalu-Cica Water-Fit Sun Serum UV,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-green-plum-refreshing-cleanser,Beauty of Joseon,Green Plum Refreshing Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-ginseng-cleansing-oil,Beauty of Joseon,Ginseng Cleansing Oil,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-radiance-cleansing-balm,Beauty of Joseon,Radiance Cleansing Balm,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-apricot-blossom-peeling-gel,Beauty of Joseon,Apricot Blossom Peeling Gel,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-ginseng-essence-water,Beauty of Joseon,Ginseng Essence Water,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-green-plum-refreshing-toner-aha-bha,Beauty of Joseon,Green Plum Refreshing Toner : AHA + BHA,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-glow-replenishing-rice-milk,Beauty of Joseon,Glow Replenishing Rice Milk,79,Beauty of Joseon Glow Replenishing Rice Milk,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-beauty-of-joseon-pore-firming-serum-red-bean-pdrn-peptide,Beauty of Joseon,Pore Firming Serum : Red Bean PDRN + Peptide,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-calming-barrier-serum-green-tea-ha-panthenol,Beauty of Joseon,Calming Barrier Serum : Green Tea-HA + Panthenol,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-revive-eye-serum-ginseng-retinal,Beauty of Joseon,Revive Eye Serum : Ginseng + Retinal,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-glow-serum-propolis-niacinamide,Beauty of Joseon,Glow Serum : Propolis + Niacinamide,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-glow-deep-serum-rice-alpha-arbutin,Beauty of Joseon,Glow Deep Serum : Rice + Alpha-Arbutin,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-revive-serum-ginseng-snail-mucin,Beauty of Joseon,Revive Serum : Ginseng + Snail Mucin,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-light-on-serum-centella-vita-c,Beauty of Joseon,Light On Serum : Centella + Vita C,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-revive-firming-moisturizer-ginseng-retinol,Beauty of Joseon,Revive Firming Moisturizer : Ginseng + Retinol,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-red-bean-water-gel,Beauty of Joseon,Red Bean Water Gel,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-dynasty-cream,Beauty of Joseon,Dynasty Cream,80,Beauty of Joseon Dynasty Cream 50ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-beauty-of-joseon-calming-barrier-mask,Beauty of Joseon,Calming Barrier Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-revive-under-eye-patch-ginseng-retinal,Beauty of Joseon,Revive Under Eye Patch: Ginseng + Retinal,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-ground-rice-and-honey-glow-mask,Beauty of Joseon,Ground Rice and Honey Glow Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-red-bean-refreshing-pore-mask,Beauty of Joseon,Red Bean Refreshing Pore Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-tinted-mineral-dayscreen-spf-30,Beauty of Joseon,Tinted Mineral Dayscreen SPF 30,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-dayscreen-moisturizer-spf-30,Beauty of Joseon,Dayscreen Moisturizer SPF 30,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-beauty-of-joseon-day-dew-sunscreen-spf-50,Beauty of Joseon,Day Dew Sunscreen SPF 50,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-no-cast-just-glow-collagen-sunscreen,Medicube,No Cast Just Glow Collagen Sunscreen,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-hypochlorous-acid-power-soothing-spray,Medicube,Hypochlorous Acid Power Soothing Spray,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-collagen-capsule-cream,Medicube,PDRN Pink Collagen Capsule Cream,53,Medicube PDRN Pink Collagen Capsule Cream 55g,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-medicube-pdrn-pink-collagen-exosome-shot,Medicube,PDRN Pink Collagen Exosome Shot,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-peptide-toner,Medicube,PDRN Pink Peptide Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-one-day-serum,Medicube,PDRN Pink One Day Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-peptide-cream,Medicube,PDRN Pink Peptide Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-collagen-glow-jelly-mist-serum,Medicube,PDRN Pink Collagen Glow Jelly Mist Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-kojic-acid-turmeric-vitamin-gold-jelly-mist-serum,Medicube,Kojic Acid Turmeric Vitamin Gold Jelly Mist Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-zero-pore-pads,Medicube,Zero Pore Pads,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-zero-pore-blackhead-deep-cleansing-oil,Medicube,Zero Pore Blackhead Deep Cleansing Oil,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-zero-exosome-shot,Medicube,Zero Exosome Shot,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-collagen-niacinamide-jelly-cream,Medicube,Collagen Niacinamide Jelly Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-salmon-pdrn-pink-collagen-jelly-gel-mask,Medicube,Salmon PDRN Pink Collagen Jelly Gel Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-gel-cleanser,Medicube,PDRN Pink Gel Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-peptide-eye-cream,Medicube,PDRN Pink Peptide Eye Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-pdrn-pink-vita-coating-sheet-mask,Medicube,PDRN Pink Vita Coating Sheet Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-hyaluronic-acid-capsule-cream,Medicube,Hyaluronic Acid Capsule Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-kojic-acid-turmeric-overnight-wrapping-mask,Medicube,Kojic Acid Turmeric Overnight Wrapping Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-txa-niacinamide-serum,Medicube,TXA Niacinamide Serum,54,Medicube TXA Niacinamide 15 Serum 30ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.93,MANUAL_REVIEW
+research-medicube-txa-niacinamide-capsule-cream,Medicube,TXA Niacinamide Capsule Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-azelaic-acid-16-calming-serum,Medicube,Azelaic Acid 16 Calming Serum,5,Medicube Azelaic Acid 16 BB Calming Serum 30ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.95,MANUAL_REVIEW
+research-medicube-zero-pore-capsule-cleansing-foam,Medicube,Zero Pore Capsule Cleansing Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-zero-pore-cooling-mask,Medicube,Zero Pore Cooling Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-zero-pore-one-day-peptide-serum,Medicube,Zero Pore One-day Peptide Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-zero-pore-one-day-cream,Medicube,Zero Pore One-day Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-zero-foam-cleanser,Medicube,Zero Foam Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-deep-vita-c-capsule-cream,Medicube,Deep Vita C Capsule Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-deep-vita-c-pads,Medicube,Deep Vita C Pads,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-medicube-deep-reviving-bakuchiol-retinol-serum,Medicube,Deep Reviving Bakuchiol Retinol Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-345-relief-cream,Dr. Althea,345 Relief Cream,78,Dr. Althea 345 Relief Cream,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-dr-althea-147-barrier-cream,Dr. Althea,147 Barrier Cream,77,Dr. Althea 147 Barrier Cream,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-dr-althea-aqua-marine-watery-cream,Dr. Althea,Aqua Marine Watery Cream,17,Dr. Althea Aqua Marine Watery Cream 50ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-dr-althea-345-relief-cream-mist,Dr. Althea,345 Relief Cream Mist,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-rapid-hypochlorous-acid-rescue-mist,Dr. Althea,Rapid Hypochlorous Acid Rescue Mist,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-aqua-marine-jelly-mist,Dr. Althea,Aqua Marine Jelly Mist,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-vitamin-c-boosting-serum,Dr. Althea,Vitamin C Boosting Serum,82,Dr. Althea Vitamin C Boosting Serum 30ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-dr-althea-gentle-vitamin-c-serum,Dr. Althea,Gentle Vitamin C Serum,81,Dr. Althea Gentle Vitamin C Serum 30ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-dr-althea-345-relief-serum,Dr. Althea,345 Relief Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-aqua-marine-deep-serum,Dr. Althea,Aqua Marine Deep Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-0-1-gentle-retinol-serum,Dr. Althea,0.1 Gentle Retinol Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-15-niacinamide-purity-serum,Dr. Althea,15% Niacinamide Purity Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-abc-glow-whipped-serum,Dr. Althea,ABC Glow Whipped Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-pure-grinding-cleansing-balm,Dr. Althea,Pure Grinding Cleansing Balm,76,Dr. Althea Pure Grinding Cleansing Balm 50ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-dr-althea-pore-refresh-grinding-cleansing-balm,Dr. Althea,Pore Refresh Grinding Cleansing Balm,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-pdrn-reju-2000-cream,Dr. Althea,PDRN Reju 2000 Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-pdrn-reju-5000-cream,Dr. Althea,PDRN Reju 5000 Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-pdrn-reju-10000-cream,Dr. Althea,PDRN Reju 10000 Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-melaclear-cream,Dr. Althea,Melaclear Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-pure-retinol-0-15-cream,Dr. Althea,Pure Retinol 0.15% Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-rapid-firm-sculpting-cream,Dr. Althea,Rapid Firm Sculpting Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-green-tea-calming-sunscreen,Dr. Althea,Green Tea Calming Sunscreen,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-rapid-mild-acid-rescue-pore-pad,Dr. Althea,Rapid Mild Acid Rescue Pore Pad,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-stretchfit-calming-pad-50pcs,Dr. Althea,StretchFit Calming Pad (50pcs),,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-dr-althea-retinol-flat-iron-eye-roller,Dr. Althea,Retinol Flat Iron Eye Roller,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-kojic-yuzu-cleansing-water,AXIS-Y,Kojic Yuzu Cleansing Water,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-kojic-yuzu-pack-cleanser,AXIS-Y,Kojic Yuzu Pack Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-triple-pdrn-gel-toner,AXIS-Y,Triple PDRN Gel Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-spot-the-difference-blemish-treatment,AXIS-Y,Spot The Difference Blemish Treatment,33,AXIS-Y Spot The Difference Blemish Treatment,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-axis-y-triple-pdrn-barrier-boost-serum,AXIS-Y,Triple PDRN Barrier Boost Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-txa-2-5-intensive-brightening-cream,AXIS-Y,TXA 2.5% Intensive Brightening Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-vegan-collagen-eye-serum,AXIS-Y,Vegan Collagen Eye Serum,84,AXIS-Y Vegan Collagen Eye Serum 10ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-axis-y-dark-spot-correcting-glow-serum,AXIS-Y,Dark Spot Correcting Glow Serum,31,AXIS-Y Dark Spot Correcting Glow Serum,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-axis-y-dark-spot-correcting-glow-toner,AXIS-Y,Dark Spot Correcting Glow Toner,31,AXIS-Y Dark Spot Correcting Glow Serum,FUZZY_CANDIDATE_REVIEW_ONLY,0.90,MANUAL_REVIEW
+research-axis-y-dark-spot-correcting-glow-cream,AXIS-Y,Dark Spot Correcting Glow Cream,31,AXIS-Y Dark Spot Correcting Glow Serum,FUZZY_CANDIDATE_REVIEW_ONLY,0.90,MANUAL_REVIEW
+research-axis-y-panthenol-10-skin-smoothing-shield-cream,AXIS-Y,Panthenol 10 Skin Smoothing Shield Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-complete-no-stress-physical-sunscreen-v-3,AXIS-Y,Complete No-Stress Physical Sunscreen V.3,83,AXIS-Y Complete No-Stress Physical Sunscreen Ver.3 SPF50+ PA++++ 50ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.88,MANUAL_REVIEW
+research-axis-y-artichoke-intensive-skin-barrier-ampoule,AXIS-Y,Artichoke Intensive Skin Barrier Ampoule,34,AXIS-Y Artichoke Intensive Skin Barrier Ampoule,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-axis-y-pha-resurfacing-glow-peel,AXIS-Y,PHA Resurfacing Glow Peel,35,AXIS-Y PHA Resurfacing Glow Peel,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-axis-y-calamine-pore-control-capsule-serum,AXIS-Y,CALAMINE Pore Control Capsule Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-lha-peel-and-fill-pore-balancing-cream,AXIS-Y,LHA Peel & Fill Pore Balancing Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-biome-ultimate-indulging-cream,AXIS-Y,Biome Ultimate Indulging Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-biome-resetting-moringa-cleansing-oil,AXIS-Y,Biome Resetting Moringa Cleansing Oil,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-biome-comforting-infused-toner,AXIS-Y,Biome Comforting Infused Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-biome-radiating-intensified-essence,AXIS-Y,Biome Radiating Intensified Essence,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-quinoa-one-step-balanced-gel-cleanser,AXIS-Y,Quinoa One Step Balanced Gel Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-daily-purifying-treatment-toner,AXIS-Y,Daily Purifying Treatment Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-heartleaf-my-type-calming-cream,AXIS-Y,Heartleaf My Type Calming Cream,36,AXIS-Y Heartleaf My Type Calming Cream,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-axis-y-sunday-morning-refreshing-cleansing-foam,AXIS-Y,Sunday Morning Refreshing Cleansing Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-cera-heart-my-type-duo-cream,AXIS-Y,Cera-Heart My Type Duo Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-mugwort-pore-clarifying-wash-off-pack,AXIS-Y,Mugwort Pore Clarifying Wash Off Pack,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-heartleaf-skin-soothing-gel-mask,AXIS-Y,Heartleaf Skin Soothing Gel Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-axis-y-txa-3-intensive-radiance-boosting-serum,AXIS-Y,TXA 3% Intensive Radiance Boosting Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-aha-bha-pha-30-days-miracle-toner,SOME BY MI,AHA-BHA-PHA 30 Days Miracle Toner,38,SOME BY MI AHA.BHA.PHA 30 Days Miracle Serum 50ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.91,MANUAL_REVIEW
+research-some-by-mi-aha-bha-pha-30-days-miracle-serum,SOME BY MI,AHA-BHA-PHA 30 Days Miracle Serum,38,SOME BY MI AHA.BHA.PHA 30 Days Miracle Serum 50ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-some-by-mi-aha-bha-pha-30-days-miracle-cream,SOME BY MI,AHA-BHA-PHA 30 Days Miracle Cream,38,SOME BY MI AHA.BHA.PHA 30 Days Miracle Serum 50ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.91,MANUAL_REVIEW
+research-some-by-mi-aha-bha-pha-30-days-miracle-acne-clear-foam,SOME BY MI,AHA-BHA-PHA 30 Days Miracle Acne Clear Foam,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-aha-bha-pha-30-days-miracle-truecica-clear-pad,SOME BY MI,AHA-BHA-PHA 30 Days Miracle Truecica Clear Pad,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-aha-bha-pha-miracle-daily-mask,SOME BY MI,AHA.BHA.PHA Miracle Daily Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-snail-truecica-miracle-repair-toner,SOME BY MI,Snail Truecica Miracle Repair Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-snail-truecica-miracle-repair-serum,SOME BY MI,Snail Truecica Miracle Repair Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-snail-truecica-miracle-repair-cream,SOME BY MI,Snail Truecica Miracle Repair Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-snail-truecica-miracle-repair-low-ph-gel-cleanser,SOME BY MI,Snail Truecica Miracle Repair Low pH Gel Cleanser,43,SOME BY MI Snail Truecica Miracle Repair Low pH Gel Cleanser 100ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-some-by-mi-yuja-niacin-anti-blemish-serum,SOME BY MI,Yuja Niacin Anti-Blemish Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-yuja-niacin-anti-blemish-cream,SOME BY MI,Yuja Niacin Anti-Blemish Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-yuja-niacin-30-days-miracle-brightening-toner,SOME BY MI,Yuja Niacin 30 Days Miracle Brightening Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-yuja-niacin-brightening-moisture-gel-cream,SOME BY MI,Yuja Niacin Brightening Moisture Gel Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-retinol-intense-reactivating-serum,SOME BY MI,Retinol Intense Reactivating Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-retinol-intense-advanced-triple-action-eye-cream,SOME BY MI,Retinol Intense Advanced Triple Action Eye Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-retinol-bakuchiol-bubble-toner,SOME BY MI,Retinol Bakuchiol Bubble Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-retinol-bakuchiol-dual-cream,SOME BY MI,Retinol Bakuchiol Dual Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-retinol-intense-daily-mask,SOME BY MI,Retinol Intense Daily Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-beta-panthenol-repair-gel-cleanser,SOME BY MI,Beta Panthenol Repair Gel Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-beta-panthenol-repair-toner,SOME BY MI,Beta Panthenol Repair Toner,46,SOME BY MI Beta Panthenol Repair Toner 150ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-some-by-mi-beta-panthenol-repair-serum,SOME BY MI,Beta Panthenol Repair Serum,47,SOME BY MI Beta Panthenol Repair Serum 30ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-some-by-mi-super-matcha-pore-clean-cleansing-gel,SOME BY MI,Super Matcha Pore Clean Cleansing Gel,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-super-matcha-pore-tightening-toner,SOME BY MI,Super Matcha Pore Tightening Toner,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-super-matcha-pore-tightening-serum,SOME BY MI,Super Matcha Pore Tightening Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-super-matcha-pore-clean-clay-mask,SOME BY MI,Super Matcha Pore Clean Clay Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-v10-hyal-antioxidant-sunscreen,SOME BY MI,V10 Hyal Antioxidant Sunscreen,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-v10-hyal-hydra-capsule-sunscreen,SOME BY MI,V10 Hyal Hydra Capsule Sunscreen,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-some-by-mi-galactomyces-glutathione-glow-milky-toner,SOME BY MI,Galactomyces Glutathione Glow Milky Toner,41,SOME BY MI Galactomyces Glutathione Glow Milky Toner 200ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-some-by-mi-galactomyces-glutathione-brightening-cream,SOME BY MI,Galactomyces Glutathione Brightening Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-vitamin-c-booster-shot-serum,Arencia,Vitamin C Booster Shot Serum,2,Arencia Vitamin C Booster Shot 30ml,FUZZY_CANDIDATE_REVIEW_ONLY,0.88,MANUAL_REVIEW
+research-arencia-fresh-green-rice-mochi-cleanser,Arencia,Fresh Green Rice Mochi Cleanser,88,Arencia Fresh Green Rice Mochi Cleanser 120g,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-arencia-fresh-rosehip-rice-mochi-cleanser,Arencia,Fresh Rosehip Rice Mochi Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-green-tea-lha-deep-pore-rice-cake-cleanser,Arencia,Green Tea + LHA Deep Pore Rice Cake Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-calendula-rice-mochi-cleanser,Arencia,Calendula Rice Mochi Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-fresh-blue-hyssop-rice-mochi-cleanser,Arencia,Fresh Blue Hyssop Rice Mochi Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-black-tea-rice-mochi-cleanser,Arencia,Black Tea Rice Mochi Cleanser,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-pore-melt-mochi-makeup-removing-cleansing-oil,Arencia,Pore Melt Mochi Makeup-Removing Cleansing Oil,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-eraser-shot-glycolic-acid-booster,Arencia,Eraser Shot Glycolic Acid Booster,85,Arencia Eraser Shot Glycolic Acid Booster 30ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-arencia-retinal-booster-shot,Arencia,Retinal Booster Shot,87,Arencia Retinal Booster Shot 30ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-arencia-pdrn-booster-shot,Arencia,PDRN Booster Shot,86,Arencia PDRN Booster Shot 30ml,NORMALIZED_BRAND_NAME,1.00,ENRICH_EXISTING
+research-arencia-nad-time-rewind-booster-shot,Arencia,NAD+ Time-Rewind Booster Shot,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-txa-booster-shot,Arencia,TXA Booster Shot,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-overnight-red-collagen-peptide-smoothie-serum,Arencia,Overnight Red Collagen + Peptide Smoothie Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-red-collagen-peptide-smoothie-serum,Arencia,Red Collagen + Peptide Smoothie Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-holy-hyssop-serum-30,Arencia,Holy Hyssop Serum 30,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-holy-hyssop-glow-serum-12,Arencia,Holy Hyssop Glow Serum 12,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-hyssop-multi-eye-balm,Arencia,Hyssop Multi + Eye Balm,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-deep-water-surge-overnight-serum-30,Arencia,Deep Water Surge Overnight Serum 30,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-deep-water-surge-serum,Arencia,Deep Water Surge Serum,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-deep-water-surge-soothing-cream,Arencia,Deep Water Surge Soothing Cream,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-pdrn-hyaluronic-acid-deep-hydration-toner-pads,Arencia,PDRN Hyaluronic Acid Deep Hydration Toner Pads,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-red-collagen-jello-overnight-mask,Arencia,Red Collagen Jello Overnight Mask,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-vitamin-c-glutathione-booster-shot-essence,Arencia,Vitamin C Glutathione Booster Shot Essence,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS
+research-arencia-vitamin-c-glutathione-skin-booster-mist,Arencia,Vitamin C Glutathione Skin Booster Mist,,,NO_EXACT_MATCH,,CREATE_DRAFT_OOS

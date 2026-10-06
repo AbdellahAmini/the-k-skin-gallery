@@ -8,6 +8,8 @@
   padding-bottom: 0;
 }
 .header-main {
+  position: relative;
+  z-index: 60;
   width: 100%;
   max-width: 1440px;
   height: 64px;
@@ -21,6 +23,8 @@
 .logo-link { position: relative; width: 128px; height: 64px; overflow: hidden; }
 .brand-logo { position: absolute; top: -16px; left: 0; width: 128px; max-width: none; height: auto; }
 .header-main > .search-wrap {
+  position: relative;
+  z-index: 61;
   width: 100%;
   max-width: 620px;
   height: 43px;
@@ -31,8 +35,11 @@
 }
 .header-main > .search-wrap:focus-within { border-color: var(--rose); box-shadow: 0 0 0 3px #a7546b17; }
 .search-wrap input { font-size: 12px; }
-.search-popover { z-index: 35; background: var(--gallery-white); border-color: #ded6d3; box-shadow: 0 12px 28px #28252618; }
+.search-popover { z-index: 70; background: var(--gallery-white); border-color: #ded6d3; box-shadow: 0 12px 28px #28252618; }
 .search-popover .search-all-results { flex-direction: row; align-items: center; justify-content: space-between; color: var(--rose); font-weight: 700; }
+.search-popover .search-loading { padding: 10px 2px; color: #71676a; }
+.site-header.is-searching .gallery-nav-system,
+.site-header.is-searching .trust-marquee { visibility: hidden; pointer-events: none; }
 .header-actions { height: auto; justify-content: flex-end; gap: clamp(8px, 1.7vw, 22px); }
 .header-action {
   width: auto;

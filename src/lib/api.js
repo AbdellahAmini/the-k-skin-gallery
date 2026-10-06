@@ -1,11 +1,15 @@
 export async function api(path, options = {}) {
   let response;
   try {
+    const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
+    const headers = { ...(isFormData ? {} : { 'Content-Type': 'application/json' }), ...(options.headers || {}) };
+    const body = options.body && typeof options.body !== 'string' && !isFormData
+      ? JSON.stringify(options.body) : options.body;
     response = await fetch(`/api${path}`, {
       credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+      headers,
       ...options,
-      body: options.body && typeof options.body !== 'string' ? JSON.stringify(options.body) : options.body,
+      body,
     });
   } catch {
     throw new Error('La connexion au service est indisponible. Réessayez dans un instant.');

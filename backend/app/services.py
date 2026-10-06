@@ -7,30 +7,53 @@ from .models import Bundle, City, Product, Promotion, SiteSetting, now
 
 def product_public(p: Product) -> dict:
     details = p.metadata_record
-    return {"id": p.id, "sku": p.sku, "slug": p.slug, "name": p.name,
+    images = [{"image_url": image.image_url, "source_url": image.source_url,
+               "alt_text": image.alt_text, "position": image.position, "is_primary": image.is_primary}
+              for image in p.images]
+    image_url = next((image["image_url"] for image in images if image["is_primary"]), p.image_url)
+    return {"id": p.id, "sku": p.sku, "barcode": p.barcode, "slug": p.slug,
+        "name": p.display_name_fr or p.name, "official_name": p.official_name or p.name,
+        "display_name_fr": p.display_name_fr or p.name,
         "brand": p.brand.name, "brand_slug": p.brand.slug,
         "category": p.category.name, "category_slug": p.category.slug,
-        "size": p.size, "image_url": p.image_url, "price_dh": p.price_dh,
+        "product_type_id": p.category_id, "product_subtype_id": p.product_subtype_id,
+        "product_subtype": p.product_subtype.name if p.product_subtype else "",
+        "product_subtype_slug": p.product_subtype.slug if p.product_subtype else "",
+        "size": p.size, "size_value": float(p.size_value) if p.size_value is not None else None,
+        "size_unit": p.size_unit, "image_url": image_url, "images": images, "price_dh": p.price_dh,
         "compare_at_dh": p.compare_at_dh, "stock": p.stock,
+        "low_stock_threshold": p.low_stock_threshold,
+        "inventory_status": "out_of_stock" if p.stock <= 0 else "low_stock" if p.stock <= p.low_stock_threshold else "in_stock",
+        "publication_status": p.publication_status, "verification_status": p.verification_status,
+        "classification_verified": p.classification_verified,
+        "classification_verified_at": p.classification_verified_at,
         "featured": p.featured, "new_arrival": bool(details and details.new_until and details.new_until.date() >= now().date()),
-        "short_description": p.short_description, "description": p.description,
-        "usage_instructions": p.usage_instructions, "inci": p.inci,
+        "short_description": p.short_description, "short_description_fr": p.short_description,
+        "description": p.description, "description_fr": p.description,
+        "benefits_fr": p.benefits_fr, "usage_instructions": p.usage_instructions_fr or p.usage_instructions,
+        "usage_instructions_fr": p.usage_instructions_fr,
+        "manufacturer_usage_instructions": p.usage_instructions,
+        "manufacturer_description": p.manufacturer_description,
+        "manufacturer_benefits": p.manufacturer_benefits,
+        "warnings_fr": p.warnings_fr, "inci": p.inci, "full_inci": p.inci,
         "official_source_url": p.official_source_url,
         "official_source_name": details.official_source_name if details else "",
+        "source_language": p.source_language,
         "verified_at": details.verified_at if details else None,
         "new_until": details.new_until if details else None,
+        "seo_title": p.seo_title, "seo_description": p.seo_description,
         "search_aliases": details.search_aliases if details else "",
-        "usage_time": details.usage_time if details else "",
-        "routine_step": details.routine_step if details else "",
-        "skin_types": [{"name": item.name, "slug": item.slug} for item in p.skin_types],
-        "concerns": [{"name": item.name, "slug": item.slug} for item in p.concerns],
-        "ingredients": [{"name": item.name, "slug": item.slug} for item in p.ingredients]}
+        "usage_time": details.usage_time if details and p.classification_verified else "",
+        "routine_step": details.routine_step if details and p.classification_verified else "",
+        "skin_types": [{"name": item.name, "slug": item.slug} for item in p.skin_types] if p.classification_verified else [],
+        "concerns": [{"name": item.name, "slug": item.slug} for item in p.concerns] if p.classification_verified else [],
+        "ingredients": [{"name": item.name, "slug": item.slug} for item in p.ingredients] if p.classification_verified else []}
 
 
 def bundle_stock(bundle: Bundle) -> int:
     if not bundle.active or not bundle.items:
         return 0
-    if any(item.quantity <= 0 or not item.product.active for item in bundle.items):
+    if any(item.quantity <= 0 or not item.product.active or item.product.publication_status != "published" for item in bundle.items):
         return 0
     return min(item.product.stock // item.quantity for item in bundle.items)
 
@@ -92,8 +115,10 @@ def calculate_quote(db: Session, items: list, city_id: int | None, code: str = "
     products = {p.id: p for p in db.scalars(stmt).all()}
     for product_id, quantity in needed.items():
         product = products.get(product_id)
-        if not product or not product.active:
+        if not product or not product.active or product.publication_status != "published":
             raise HTTPException(409, "Un article du panier n'est plus disponible.")
+        if product.price_dh <= 0:
+            raise HTTPException(409, "Le prix de cet article doit être confirmé avant la commande.")
         if product.stock < quantity:
             raise HTTPException(409, f"Stock insuffisant pour {product.name}. Disponible : {product.stock}.")
     lines = []

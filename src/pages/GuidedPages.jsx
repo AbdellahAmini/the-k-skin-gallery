@@ -29,7 +29,7 @@ export function RoutinePage() {
   }
   return <main className="inner-page guided-page"><Breadcrumb parent="Routines" parentPath="/routines" name={routine.name} />
     <div className="page-heading"><p className="eyebrow">Routines & Packs</p><h1>{routine.name}</h1><p>{routine.description}</p></div>
-    <div className="routine-steps">{routine.steps.map((step) => <section className="guided-step" key={step.id}>
+    <div className="routine-steps" data-step-count={routine.steps.length} style={{ '--routine-columns': Math.min(routine.steps.length, 4) }}>{routine.steps.map((step) => <section className="guided-step" key={step.id}>
       <div className="guided-step-head"><span>{String(step.position).padStart(2, '0')}</span><div><h2>{step.name}</h2><p>{step.description}</p><Link className="text-link" to={`/soins/${step.category_slug}`}>Voir tous les produits de cette étape <ArrowRight size={15} /></Link></div></div>
       {step.products.length ? <div className="guided-products">{step.products.map((product) => <div key={product.id}><button type="button" className={`routine-select ${selected[step.id] === product.id ? 'selected' : ''}`} onClick={() => setSelected((current) => ({ ...current, [step.id]: current[step.id] === product.id ? null : product.id }))} aria-pressed={selected[step.id] === product.id}><Check size={16} /> {selected[step.id] === product.id ? 'Sélectionné' : 'Choisir ce soin'}</button><ProductCard product={product} /></div>)}</div>
         : <p className="quiet-note">La sélection de cette étape est en cours de préparation.</p>}

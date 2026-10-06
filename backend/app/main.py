@@ -8,7 +8,7 @@ from .api import accounts, admin, catalog, commerce
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    if os.getenv("AUTO_IMPORT_CATALOG", "1") == "1":
+    if os.getenv("AUTO_IMPORT_CATALOG", "0") == "1":
         import_catalog()
     yield
 
@@ -19,7 +19,7 @@ allowed_origins = [origin.strip() for origin in os.getenv(
 ).split(",") if origin.strip()]
 app.add_middleware(CORSMiddleware, allow_credentials=True,
     allow_origins=allowed_origins,
-    allow_methods=["GET", "POST", "PATCH", "DELETE"], allow_headers=["Content-Type"])
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 app.include_router(catalog.router)
 app.include_router(catalog.v1)
 app.include_router(commerce.router)

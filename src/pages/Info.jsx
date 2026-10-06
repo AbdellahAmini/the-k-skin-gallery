@@ -29,5 +29,9 @@ export default function Info({ type }) {
   const [title, fallbackBlocks] = content[type] || content.faq;
   const blocks = type === 'faq' && sections.faq?.items?.length
     ? sections.faq.items.map((item) => [item.question, item.answer]) : fallbackBlocks;
-  return <main className="inner-page"><div className="page-heading"><p className="eyebrow">Aide</p><h1>{title}</h1></div><div className="info-grid">{blocks.map(([heading, text]) => <section key={heading}><h2>{heading}</h2><p>{text}</p></section>)}</div><p className="info-contact">Vous avez une autre question ? <Link to="/contact" className="rose-link">Contactez-nous</Link>.</p></main>;
+  const threshold = Number(settings.free_shipping_threshold_dh || 0);
+  const visibleBlocks = type === 'livraison' && threshold > 0
+    ? [blocks[0], ['Livraison offerte', 'La livraison est offerte à partir de ' + threshold + ' DH d’achats, après remises éventuelles. Le tarif exact et votre éligibilité sont confirmés au moment de la commande.'], ...blocks.slice(1)]
+    : blocks;
+  return <main className="inner-page"><div className="page-heading"><p className="eyebrow">Aide</p><h1>{title}</h1></div><div className="info-grid">{visibleBlocks.map(([heading, text]) => <section key={heading}><h2>{heading}</h2><p>{text}</p></section>)}</div><p className="info-contact">Vous avez une autre question ? <Link to="/contact" className="rose-link">Contactez-nous</Link>.</p></main>;
 }

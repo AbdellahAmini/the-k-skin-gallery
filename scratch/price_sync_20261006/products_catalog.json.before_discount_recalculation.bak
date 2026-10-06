@@ -1,0 +1,793 @@
+[
+  {
+    "name": "SKIN1004 Madagascar Centella Travel Kit",
+    "pic": "images/0001-skin1004-madagascar-centella-travel-kit.png",
+    "buy_price": 220,
+    "mass_sell_price": 245,
+    "retail_sell_price": 300,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "Arencia Vitamin C Booster Shot 30ml",
+    "pic": "images/0002-arencia-vitamin-c-booster-shot-30ml.png",
+    "buy_price": 145,
+    "mass_sell_price": 180,
+    "retail_sell_price": 240,
+    "brand": "Arencia",
+    "compare_at_dh": 300
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Ampoule Kit (4 x 30ml)",
+    "pic": "images/0003-skin1004-madagascar-centella-ampoule-kit-4-x-30ml.png",
+    "buy_price": 220,
+    "mass_sell_price": 245,
+    "retail_sell_price": 300,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "Dr. Althea Lash Boost Serum 9ml",
+    "pic": "images/0004-dr-althea-lash-boost-serum-9ml.png",
+    "buy_price": 145,
+    "mass_sell_price": 175,
+    "retail_sell_price": 200,
+    "brand": "Dr. Althea"
+  },
+  {
+    "name": "Medicube Azelaic Acid 16 BB Calming Serum 30ml",
+    "pic": "images/0005-medicube-azelaic-acid-16-bb-calming-serum-30ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 195,
+    "retail_sell_price": 285,
+    "brand": "Medicube",
+    "compare_at_dh": 357
+  },
+  {
+    "name": "Anua Heartleaf Pore Control Cleansing Oil Mild 200ml",
+    "pic": "images/0006-anua-heartleaf-pore-control-cleansing-oil-mild-200ml.png",
+    "buy_price": 160,
+    "mass_sell_price": 180,
+    "retail_sell_price": 250,
+    "brand": "Anua",
+    "compare_at_dh": 313
+  },
+  {
+    "name": "Anua Peach 70 Niacin Serum 30ml",
+    "pic": "images/0007-anua-peach-70-niacin-serum-30ml.png",
+    "buy_price": 150,
+    "mass_sell_price": 185,
+    "retail_sell_price": 275,
+    "brand": "Anua",
+    "compare_at_dh": 344
+  },
+  {
+    "name": "Beauty of Joseon Stay Fresh Tone-Up Sunscreen Centella + Ceramide SPF50+ PA++++",
+    "pic": "images/0008-beauty-of-joseon-stay-fresh-tone-up-sunscreen-centella-ceramide-spf50-pa.png",
+    "buy_price": 160,
+    "mass_sell_price": 190,
+    "retail_sell_price": 260,
+    "brand": "Beauty of Joseon"
+  },
+  {
+    "name": "Beauty of Joseon Stay Fresh Tone-Up Sunscreen Centella + Ceramide SPF50+ PA++++",
+    "pic": "images/0009-beauty-of-joseon-stay-fresh-tone-up-sunscreen-centella-ceramide-spf50-pa.png",
+    "buy_price": 160,
+    "mass_sell_price": 190,
+    "retail_sell_price": 260,
+    "brand": "Beauty of Joseon"
+  },
+  {
+    "name": "COSRX Ultra-Light Invisible Sunscreen SPF50+ PA++++",
+    "pic": "images/0010-cosrx-ultra-light-invisible-sunscreen-spf50-pa.png",
+    "buy_price": 155,
+    "mass_sell_price": 175,
+    "retail_sell_price": 230,
+    "brand": "COSRX"
+  },
+  {
+    "name": "Medicube Collagen Firming Sun Cream SPF50+ PA++++ 50ml",
+    "pic": "images/0011-medicube-collagen-firming-sun-cream-spf50-pa-50ml.png",
+    "buy_price": 165,
+    "mass_sell_price": 195,
+    "retail_sell_price": 275,
+    "brand": "Medicube",
+    "compare_at_dh": 344
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Tea-Trica Purifying Toner 210ml",
+    "pic": "images/0012-skin1004-madagascar-centella-tea-trica-purifying-toner-210ml.png",
+    "buy_price": 180,
+    "mass_sell_price": 200,
+    "retail_sell_price": 260,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Tea-Trica Relief Ampoule 100ml",
+    "pic": "images/0013-skin1004-madagascar-centella-tea-trica-relief-ampoule-100ml.png",
+    "buy_price": 190,
+    "mass_sell_price": 220,
+    "retail_sell_price": 270,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Tea-Trica Spot Cream 20ml",
+    "pic": "images/0014-skin1004-madagascar-centella-tea-trica-spot-cream-20ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 200,
+    "retail_sell_price": 260,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "Mary&May Spicule Retinol PDRN Cream 2,000 Shot",
+    "pic": "images/0015-mary-may-spicule-retinol-pdrn-cream-2-000-shot.png",
+    "buy_price": 155,
+    "mass_sell_price": 185,
+    "retail_sell_price": 260,
+    "brand": "Mary&May"
+  },
+  {
+    "name": "Schwarzkopf got2b Glued Styling Spiking Glue",
+    "pic": "images/0016-schwarzkopf-got2b-glued-styling-spiking-glue.png",
+    "buy_price": 70,
+    "mass_sell_price": 85,
+    "retail_sell_price": 110,
+    "brand": "got2b"
+  },
+  {
+    "name": "Dr. Althea Aqua Marine Watery Cream 50ml",
+    "pic": "images/0017-dr-althea-aqua-marine-watery-cream-50ml.png",
+    "buy_price": 160,
+    "mass_sell_price": 195,
+    "retail_sell_price": 260,
+    "brand": "Dr. Althea"
+  },
+  {
+    "name": "Skinoren 20% Azelaic Acid Cream 30g",
+    "pic": "images/0018-skinoren-20-azelaic-acid-cream-30g.png",
+    "buy_price": 130,
+    "mass_sell_price": 150,
+    "retail_sell_price": 190,
+    "brand": "Skinoren"
+  },
+  {
+    "name": "Acretin 0.05% Cream 30g",
+    "pic": "images/0019-acretin-0-05-cream-30g.png",
+    "buy_price": 80,
+    "mass_sell_price": 100,
+    "retail_sell_price": 130,
+    "brand": "Acretin"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Double Cleansing Duo",
+    "pic": "images/0020-skin1004-madagascar-centella-double-cleansing-duo.png",
+    "buy_price": 255,
+    "mass_sell_price": 285,
+    "retail_sell_price": 430,
+    "brand": "SKIN1004",
+    "compare_at_dh": 538
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Glow 1004 Duo",
+    "pic": "images/0021-skin1004-madagascar-centella-glow-1004-duo.png",
+    "buy_price": 260,
+    "mass_sell_price": 300,
+    "retail_sell_price": 265,
+    "brand": "SKIN1004",
+    "compare_at_dh": 332
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++ 100ml",
+    "pic": "images/0022-skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum-spf50-pa-100ml.png",
+    "buy_price": 235,
+    "mass_sell_price": 265,
+    "retail_sell_price": 310,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++ 50ml",
+    "pic": "images/0023-skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum-spf50-pa-50ml.png",
+    "buy_price": 145,
+    "mass_sell_price": 170,
+    "retail_sell_price": 220,
+    "brand": "SKIN1004",
+    "compare_at_dh": 275
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Hyalu-Cica Water-Fit Sun Serum Twin Pack 50ml x 2",
+    "pic": "images/0024-skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum-twin-pack-50ml-x-2.png",
+    "buy_price": 250,
+    "mass_sell_price": 280,
+    "retail_sell_price": 360,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "Celimax Retinal Shot Tightening Booster 15ml",
+    "pic": "images/0025-celimax-retinal-shot-tightening-booster-15ml.png",
+    "buy_price": 140,
+    "mass_sell_price": 160,
+    "retail_sell_price": 205,
+    "brand": "Celimax",
+    "compare_at_dh": 257
+  },
+  {
+    "name": "numbuzin No.9+ NAD+ Peptides Dewy Sun Essence SPF50+ PA++++ 50ml",
+    "pic": "images/0026-numbuzin-no-9-nad-peptides-dewy-sun-essence-spf50-pa-50ml.png",
+    "buy_price": 155,
+    "mass_sell_price": 185,
+    "retail_sell_price": 230,
+    "brand": "numbuzin"
+  },
+  {
+    "name": "Biodance Hydro Cera-nol Real Deep Mask (4 sheets)",
+    "pic": "images/0027-biodance-hydro-cera-nol-real-deep-mask-4-sheets.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 300,
+    "brand": "Biodance"
+  },
+  {
+    "name": "Biodance Rejuvenating Caviar PDRN Real Deep Mask (4 sheets)",
+    "pic": "images/0028-biodance-rejuvenating-caviar-pdrn-real-deep-mask-4-sheets.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 300,
+    "brand": "Biodance"
+  },
+  {
+    "name": "Biodance Refreshing Sea Kelp Real Deep Mask (4 sheets)",
+    "pic": "images/0029-biodance-refreshing-sea-kelp-real-deep-mask-4-sheets.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 300,
+    "brand": "Biodance"
+  },
+  {
+    "name": "Biodance Radiant Vita Niacinamide Real Deep Mask (4 sheets)",
+    "pic": "images/0030-biodance-radiant-vita-niacinamide-real-deep-mask-4-sheets.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 300,
+    "brand": "Biodance"
+  },
+  {
+    "name": "AXIS-Y Dark Spot Correcting Glow Serum",
+    "pic": "images/0031-axis-y-dark-spot-correcting-glow-serum.png",
+    "buy_price": 145,
+    "mass_sell_price": 165,
+    "retail_sell_price": 230,
+    "brand": "AXIS-Y"
+  },
+  {
+    "name": "Biodance Bio Collagen Real Deep Mask (4 sheets)",
+    "pic": "images/0032-biodance-bio-collagen-real-deep-mask-4-sheets.png",
+    "buy_price": 200,
+    "mass_sell_price": 220,
+    "retail_sell_price": 280,
+    "brand": "Biodance"
+  },
+  {
+    "name": "AXIS-Y Spot The Difference Blemish Treatment",
+    "pic": "images/0033-axis-y-spot-the-difference-blemish-treatment.png",
+    "buy_price": 135,
+    "mass_sell_price": 160,
+    "retail_sell_price": 220,
+    "brand": "AXIS-Y"
+  },
+  {
+    "name": "AXIS-Y Artichoke Intensive Skin Barrier Ampoule",
+    "pic": "images/0034-axis-y-artichoke-intensive-skin-barrier-ampoule.png",
+    "buy_price": 140,
+    "mass_sell_price": 175,
+    "retail_sell_price": 250,
+    "brand": "AXIS-Y",
+    "compare_at_dh": 313
+  },
+  {
+    "name": "AXIS-Y PHA Resurfacing Glow Peel",
+    "pic": "images/0035-axis-y-pha-resurfacing-glow-peel.png",
+    "buy_price": 150,
+    "mass_sell_price": 180,
+    "retail_sell_price": 240,
+    "brand": "AXIS-Y"
+  },
+  {
+    "name": "AXIS-Y Heartleaf My Type Calming Cream",
+    "pic": "images/0036-axis-y-heartleaf-my-type-calming-cream.png",
+    "buy_price": 165,
+    "mass_sell_price": 190,
+    "retail_sell_price": 250,
+    "brand": "AXIS-Y"
+  },
+  {
+    "name": "SOME BY MI Lacto Soy Sebum & Blackhead Cleansing Oil 200ml",
+    "pic": "images/0037-some-by-mi-lacto-soy-sebum-blackhead-cleansing-oil-200ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 190,
+    "retail_sell_price": 240,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI AHA.BHA.PHA 30 Days Miracle Serum 50ml",
+    "pic": "images/0038-some-by-mi-aha-bha-pha-30-days-miracle-serum-50ml.png",
+    "buy_price": 160,
+    "mass_sell_price": 190,
+    "retail_sell_price": 220,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Lacto Soy Mild Peeling Bubble Cleanser 180ml",
+    "pic": "images/0039-some-by-mi-lacto-soy-mild-peeling-bubble-cleanser-180ml.png",
+    "buy_price": 160,
+    "mass_sell_price": 190,
+    "retail_sell_price": 230,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Galactomyces Pure Vitamin C Glow Toner 200ml",
+    "pic": "images/0040-some-by-mi-galactomyces-pure-vitamin-c-glow-toner-200ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 195,
+    "retail_sell_price": 210,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Galactomyces Glutathione Glow Milky Toner 200ml",
+    "pic": "images/0041-some-by-mi-galactomyces-glutathione-glow-milky-toner-200ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 195,
+    "retail_sell_price": 260,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Beta Panthenol Repair Perfect Duo Glass Skin Set",
+    "pic": "images/0042-some-by-mi-beta-panthenol-repair-perfect-duo-glass-skin-set.png",
+    "buy_price": 150,
+    "mass_sell_price": 185,
+    "retail_sell_price": 220,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Snail Truecica Miracle Repair Low pH Gel Cleanser 100ml",
+    "pic": "images/0043-some-by-mi-snail-truecica-miracle-repair-low-ph-gel-cleanser-100ml.png",
+    "buy_price": 150,
+    "mass_sell_price": 185,
+    "retail_sell_price": 220,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Snail Truecica Miracle Repair Starter Kit",
+    "pic": "images/0044-some-by-mi-snail-truecica-miracle-repair-starter-kit.png",
+    "buy_price": 190,
+    "mass_sell_price": 210,
+    "retail_sell_price": 300,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI V10 Hyal Lip Sun Protector SPF15 7ml",
+    "pic": "images/0045-some-by-mi-v10-hyal-lip-sun-protector-spf15-7ml.png",
+    "buy_price": 75,
+    "mass_sell_price": 100,
+    "retail_sell_price": 140,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Beta Panthenol Repair Toner 150ml",
+    "pic": "images/0046-some-by-mi-beta-panthenol-repair-toner-150ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 195,
+    "retail_sell_price": 260,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "SOME BY MI Beta Panthenol Repair Serum 30ml",
+    "pic": "images/0047-some-by-mi-beta-panthenol-repair-serum-30ml.png",
+    "buy_price": 150,
+    "mass_sell_price": 185,
+    "retail_sell_price": 245,
+    "brand": "SOME BY MI",
+    "compare_at_dh": 307
+  },
+  {
+    "name": "SOME BY MI Galactomyces Glutathione Glow Serum Mask",
+    "pic": "images/0048-some-by-mi-galactomyces-glutathione-glow-serum-mask.png",
+    "buy_price": 35,
+    "mass_sell_price": 48,
+    "retail_sell_price": 60,
+    "brand": "SOME BY MI"
+  },
+  {
+    "name": "Medicube Kojic Acid Turmeric Brightening Gel Mask",
+    "pic": "images/0049-medicube-kojic-acid-turmeric-brightening-gel-mask.png",
+    "buy_price": 38,
+    "mass_sell_price": 52,
+    "retail_sell_price": 60,
+    "brand": "Medicube"
+  },
+  {
+    "name": "Medicube PDRN Pink Collagen Gel Mask",
+    "pic": "images/0050-medicube-pdrn-pink-collagen-gel-mask.png",
+    "buy_price": 38,
+    "mass_sell_price": 52,
+    "retail_sell_price": 60,
+    "brand": "Medicube"
+  },
+  {
+    "name": "Anua Niacinamide + TXA Serum Mask 28ml",
+    "pic": "images/0051-anua-niacinamide-txa-serum-mask-28ml.png",
+    "buy_price": 42,
+    "mass_sell_price": 60,
+    "retail_sell_price": 80,
+    "brand": "Anua"
+  },
+  {
+    "name": "Medicube Azelaic Acid Niacinamide Deep Clean Foam Cleanser 120g",
+    "pic": "images/0052-medicube-azelaic-acid-niacinamide-deep-clean-foam-cleanser-120g.png",
+    "buy_price": 165,
+    "mass_sell_price": 195,
+    "retail_sell_price": 270,
+    "brand": "Medicube"
+  },
+  {
+    "name": "Medicube PDRN Pink Collagen Capsule Cream 55g",
+    "pic": "images/0053-medicube-pdrn-pink-collagen-capsule-cream-55g.png",
+    "buy_price": 195,
+    "mass_sell_price": 220,
+    "retail_sell_price": 280,
+    "brand": "Medicube"
+  },
+  {
+    "name": "Medicube TXA Niacinamide 15 Serum 30ml",
+    "pic": "images/0054-medicube-txa-niacinamide-15-serum-30ml.png",
+    "buy_price": 185,
+    "mass_sell_price": 210,
+    "retail_sell_price": 275,
+    "brand": "Medicube",
+    "compare_at_dh": 344
+  },
+  {
+    "name": "Medicube One Day Exosome Shot 7500 30ml",
+    "pic": "images/0055-medicube-one-day-exosome-shot-7500-30ml.png",
+    "buy_price": 195,
+    "mass_sell_price": 215,
+    "retail_sell_price": 290,
+    "brand": "Medicube"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Matrixyl 10 Boosting Shot Ampoule 30ml",
+    "pic": "images/0056-skin1004-madagascar-centella-matrixyl-10-boosting-shot-ampoule-30ml.png",
+    "buy_price": 180,
+    "mass_sell_price": 210,
+    "retail_sell_price": 250,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Niacinamide 10 Boosting Shot Ampoule 30ml",
+    "pic": "images/0057-skin1004-madagascar-centella-niacinamide-10-boosting-shot-ampoule-30ml.png",
+    "buy_price": 200,
+    "mass_sell_price": 220,
+    "retail_sell_price": 270,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Retinol 0.2 Boosting Shot Ampoule 30ml",
+    "pic": "images/0058-skin1004-madagascar-centella-retinol-0-2-boosting-shot-ampoule-30ml.png",
+    "buy_price": 200,
+    "mass_sell_price": 220,
+    "retail_sell_price": 270,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Soothing Cream 75ml",
+    "pic": "images/0059-skin1004-madagascar-centella-soothing-cream-75ml.png",
+    "buy_price": 190,
+    "mass_sell_price": 210,
+    "retail_sell_price": 260,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Tea-Trica B5 Cream 75ml",
+    "pic": "images/0060-skin1004-madagascar-centella-tea-trica-b5-cream-75ml.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 290,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Light Cleansing Oil 200ml",
+    "pic": "images/0061-skin1004-madagascar-centella-light-cleansing-oil-200ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 195,
+    "retail_sell_price": 245,
+    "brand": "SKIN1004",
+    "compare_at_dh": 307
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Ampoule Foam 125ml",
+    "pic": "images/0062-skin1004-madagascar-centella-ampoule-foam-125ml.png",
+    "buy_price": 165,
+    "mass_sell_price": 185,
+    "retail_sell_price": 230,
+    "brand": "SKIN1004",
+    "compare_at_dh": 288
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Ampoule 100ml",
+    "pic": "images/0063-skin1004-madagascar-centella-ampoule-100ml.png",
+    "buy_price": 190,
+    "mass_sell_price": 210,
+    "retail_sell_price": 260,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Tone Brightening Boosting Toner 210ml",
+    "pic": "images/0064-skin1004-madagascar-centella-tone-brightening-boosting-toner-210ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 195,
+    "retail_sell_price": 250,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Probio-Cica Intensive Ampoule 95ml",
+    "pic": "images/0065-skin1004-madagascar-centella-probio-cica-intensive-ampoule-95ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 195,
+    "retail_sell_price": 255,
+    "brand": "SKIN1004",
+    "compare_at_dh": 319
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Probio-Cica Bakuchiol Eye Cream 20ml",
+    "pic": "images/0066-skin1004-madagascar-centella-probio-cica-bakuchiol-eye-cream-20ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 195,
+    "retail_sell_price": 235,
+    "brand": "SKIN1004",
+    "compare_at_dh": 294
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Probio-Cica Enrich Cream 50ml",
+    "pic": "images/0067-skin1004-madagascar-centella-probio-cica-enrich-cream-50ml.png",
+    "buy_price": 195,
+    "mass_sell_price": 215,
+    "retail_sell_price": 260,
+    "brand": "SKIN1004"
+  },
+  {
+    "name": "Anua Heartleaf Pore Control Cleansing Oil 200ml",
+    "pic": "images/0068-anua-heartleaf-pore-control-cleansing-oil-mild-200ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 195,
+    "retail_sell_price": 250,
+    "brand": "Anua"
+  },
+  {
+    "name": "Anua Heartleaf Quercetinol Pore Deep Cleansing Foam 150ml",
+    "pic": "images/0069-anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 190,
+    "retail_sell_price": 230,
+    "brand": "Anua"
+  },
+  {
+    "name": "Beauty of Joseon Relief Sun Aqua-Fresh Rice + B5 SPF50+ PA++++",
+    "pic": "images/0070-beauty-of-joseon-relief-sun-aqua-fresh-rice-b5-spf50-pa.png",
+    "buy_price": 140,
+    "mass_sell_price": 165,
+    "retail_sell_price": 220,
+    "brand": "Beauty of Joseon"
+  },
+  {
+    "name": "Beauty of Joseon Relief Sun Rice + Probiotics SPF50+ PA++++",
+    "pic": "images/0071-beauty-of-joseon-relief-sun-rice-probiotics-spf50-pa.png",
+    "buy_price": 140,
+    "mass_sell_price": 165,
+    "retail_sell_price": 220,
+    "brand": "Beauty of Joseon"
+  },
+  {
+    "name": "Anua Azelaic Acid 10 Hyaluron Redness Soothing Serum 30ml",
+    "pic": "images/0072-anua-azelaic-acid-10-hyaluron-redness-soothing-serum-30ml.png",
+    "buy_price": 185,
+    "mass_sell_price": 210,
+    "retail_sell_price": 260,
+    "brand": "Anua",
+    "compare_at_dh": 325
+  },
+  {
+    "name": "Beauty of Joseon Matte Sun Stick Mugwort + Camelia SPF50+ PA++++",
+    "pic": "images/0073-beauty-of-joseon-matte-sun-stick-mugwort-camelia-spf50-pa.png",
+    "buy_price": 145,
+    "mass_sell_price": 170,
+    "retail_sell_price": 289,
+    "brand": "Beauty of Joseon",
+    "compare_at_dh": 362
+  },
+  {
+    "name": "Anua Zero-Cast Moisturizing Finish Sunscreen SPF50+ PA++++ 50ml",
+    "pic": "images/0074-anua-zero-cast-moisturizing-finish-sunscreen-spf50-pa-50ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 200,
+    "retail_sell_price": 250,
+    "brand": "Anua"
+  },
+  {
+    "name": "Anua Airy Sun Cream Cica + Heartleaf SPF50+ PA++++ 50ml",
+    "pic": "images/0075-anua-airy-sun-cream-cica-heartleaf-spf50-pa-50ml.png",
+    "buy_price": 180,
+    "mass_sell_price": 210,
+    "retail_sell_price": 250,
+    "brand": "Anua"
+  },
+  {
+    "name": "Dr. Althea Pure Grinding Cleansing Balm 50ml",
+    "pic": "images/0076-dr-althea-pure-grinding-cleansing-balm-50ml.png",
+    "buy_price": 185,
+    "mass_sell_price": 205,
+    "retail_sell_price": 290,
+    "brand": "Dr. Althea"
+  },
+  {
+    "name": "Dr. Althea 147 Barrier Cream",
+    "pic": "images/0077-dr-althea-147-barrier-cream.png",
+    "buy_price": 180,
+    "mass_sell_price": 200,
+    "retail_sell_price": 260,
+    "brand": "Dr. Althea",
+    "compare_at_dh": 325
+  },
+  {
+    "name": "Dr. Althea 345 Relief Cream",
+    "pic": "images/0078-dr-althea-345-relief-cream.png",
+    "buy_price": 185,
+    "mass_sell_price": 205,
+    "retail_sell_price": 230,
+    "brand": "Dr. Althea",
+    "compare_at_dh": 288
+  },
+  {
+    "name": "Beauty of Joseon Glow Replenishing Rice Milk",
+    "pic": "images/0079-beauty-of-joseon-glow-replenishing-rice-milk.png",
+    "buy_price": 185,
+    "mass_sell_price": 210,
+    "retail_sell_price": 290,
+    "brand": "Beauty of Joseon"
+  },
+  {
+    "name": "Beauty of Joseon Dynasty Cream 50ml",
+    "pic": "images/0080-beauty-of-joseon-dynasty-cream-50ml.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 295,
+    "brand": "Beauty of Joseon",
+    "compare_at_dh": 369
+  },
+  {
+    "name": "Dr. Althea Gentle Vitamin C Serum 30ml",
+    "pic": "images/0081-dr-althea-gentle-vitamin-c-serum-30ml.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 290,
+    "brand": "Dr. Althea"
+  },
+  {
+    "name": "Dr. Althea Vitamin C Boosting Serum 30ml",
+    "pic": "images/0082-dr-althea-vitamin-c-boosting-serum-30ml.png",
+    "buy_price": 190,
+    "mass_sell_price": 215,
+    "retail_sell_price": 290,
+    "brand": "Dr. Althea"
+  },
+  {
+    "name": "AXIS-Y Complete No-Stress Physical Sunscreen Ver.3 SPF50+ PA++++ 50ml",
+    "pic": "images/0083-axis-y-complete-no-stress-physical-sunscreen-ver-3-spf50-pa-50ml.png",
+    "buy_price": 155,
+    "mass_sell_price": 185,
+    "retail_sell_price": 220,
+    "brand": "AXIS-Y"
+  },
+  {
+    "name": "AXIS-Y Vegan Collagen Eye Serum 10ml",
+    "pic": "images/0084-axis-y-vegan-collagen-eye-serum-10ml.png",
+    "buy_price": 155,
+    "mass_sell_price": 185,
+    "retail_sell_price": 220,
+    "brand": "AXIS-Y"
+  },
+  {
+    "name": "Arencia Eraser Shot Glycolic Acid Booster 30ml",
+    "pic": "images/0085-arencia-eraser-shot-glycolic-acid-booster-30ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 200,
+    "retail_sell_price": 250,
+    "brand": "Arencia"
+  },
+  {
+    "name": "Arencia PDRN Booster Shot 30ml",
+    "pic": "images/0087-arencia-pdrn-booster-shot-30ml.png",
+    "buy_price": 170,
+    "mass_sell_price": 190,
+    "retail_sell_price": 240,
+    "brand": "Arencia"
+  },
+  {
+    "name": "Arencia Retinal Booster Shot 30ml",
+    "pic": "images/0088-arencia-retinal-booster-shot-30ml.png",
+    "buy_price": 175,
+    "mass_sell_price": 195,
+    "retail_sell_price": 250,
+    "brand": "Arencia"
+  },
+  {
+    "name": "Arencia Fresh Green Rice Mochi Cleanser 120g",
+    "pic": "images/0089-arencia-fresh-green-rice-mochi-cleanser-120g.png",
+    "buy_price": 170,
+    "mass_sell_price": 190,
+    "retail_sell_price": 260,
+    "brand": "Arencia",
+    "compare_at_dh": 325
+  },
+  {
+    "name": "numbuzin No.9 NAD+ PDRN Glow Boosting Toner 150ml",
+    "pic": "images/0090-numbuzin-no-9-nad-pdrn-glow-boosting-toner-150ml.png",
+    "buy_price": 185,
+    "mass_sell_price": 220,
+    "retail_sell_price": 250,
+    "brand": "numbuzin"
+  },
+  {
+    "name": "numbuzin No.9 NAD+ Retinol Volumetox Eye Cream 10ml",
+    "pic": "images/0091-numbuzin-no-9-nad-retinol-volumetox-eye-cream-10ml.png",
+    "buy_price": 180,
+    "mass_sell_price": 220,
+    "retail_sell_price": 260,
+    "brand": "numbuzin"
+  },
+  {
+    "name": "Shiseido Fino Premium Touch Hair Mask 230g",
+    "pic": "images/0092-shiseido-fino-premium-touch-hair-mask-230g.png",
+    "buy_price": 170,
+    "mass_sell_price": 195,
+    "retail_sell_price": 230,
+    "brand": "Shiseido Fino"
+  },
+  {
+    "name": "Dr.Melaxin Peel Shot Exfoliating White Rice Ampoule 80ml",
+    "pic": "images/0093-dr-melaxin-peel-shot-exfoliating-white-rice-ampoule-80ml.png",
+    "buy_price": 185,
+    "mass_sell_price": 220,
+    "retail_sell_price": 310,
+    "brand": "Dr.Melaxin"
+  },
+  {
+    "name": "Dr.Melaxin Peel Shot Exfoliating Black Rice Ampoule 80ml",
+    "pic": "images/0094-dr-melaxin-peel-shot-exfoliating-black-rice-ampoule-80ml.png",
+    "buy_price": 185,
+    "mass_sell_price": 205,
+    "retail_sell_price": 290,
+    "brand": "Dr.Melaxin"
+  },
+  {
+    "name": "Medicube 3H Relief Cream",
+    "pic": "images/0095-medicube-3h-relief-cream.png",
+    "buy_price": 175,
+    "mass_sell_price": 195,
+    "retail_sell_price": 260,
+    "brand": "Medicube"
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Poremizing Fresh Ampoule 100ml",
+    "pic": "images/0097-skin1004-madagascar-centella-poremizing-fresh-ampoule-100ml.png",
+    "buy_price": 185,
+    "mass_sell_price": 205,
+    "retail_sell_price": 225,
+    "brand": "SKIN1004",
+    "compare_at_dh": 282
+  },
+  {
+    "name": "SKIN1004 Madagascar Centella Poremizing Deep Cleansing Foam 125ml",
+    "pic": "images/0098-skin1004-madagascar-centella-poremizing-deep-cleansing-foam-125ml.png",
+    "buy_price": 160,
+    "mass_sell_price": 185,
+    "retail_sell_price": 220,
+    "brand": "SKIN1004"
+  }
+]

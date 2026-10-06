@@ -1,7 +1,9 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router';
 import { useStore } from './state/StoreContext';
+import { StoreProvider } from './state/StoreContext';
 import { BottomNav, CartDrawer, Footer, Header, Notice } from './components/SiteShell';
+import SectionReveal from './components/SectionReveal';
 import { loadRouteModule } from './lib/route-prefetch';
 
 const lazyPage = (moduleName, exportName = 'default') => lazy(() =>
@@ -34,7 +36,7 @@ function NotFound() {
   return <main className="inner-page"><div className="state-panel"><h1>Page introuvable</h1><p>Cette adresse ne correspond à aucune page de la Gallery.</p><Link className="button-primary" to="/">Retour à l’accueil</Link></div></main>;
 }
 
-export default function App() {
+function StorefrontApp() {
   const location = useLocation();
   const { error, brands, categories, skinTypes, concerns } = useStore();
   const isAdmin = location.pathname.startsWith('/admin');
@@ -53,7 +55,7 @@ export default function App() {
     document.title = location.pathname === '/' ? 'K-Skin Gallery — Korean Skincare au Maroc'
       : title ? `${title} | K-Skin Gallery` : 'K-Skin Gallery — Korean Skincare au Maroc';
   }, [location.pathname, brands, categories, skinTypes, concerns]);
-  return <div className="site-shell">{!isAdmin && <Header />}
+  return <div className="site-shell"><SectionReveal routeKey={location.pathname} />{!isAdmin && <Header />}
     {error && <div className="api-banner" role="alert">{error}</div>}
     <Suspense fallback={<PageLoading />}><Routes>
       <Route path="/" element={<Home />} />
@@ -78,4 +80,14 @@ export default function App() {
     </Routes></Suspense>
     {!isAdmin && <><Footer /><BottomNav /><CartDrawer /><Notice /></>}
   </div>;
+}
+
+// Admin is deliberately mounted outside StoreProvider. StoreProvider syncs the
+// signed-in shopper cart and wishlist; those effects must never run in admin.
+export default function App({ initialData = null }) {
+  const location = useLocation();
+  if (location.pathname.startsWith('/admin')) {
+    return <div className="admin-v2-root"><SectionReveal routeKey={location.pathname} rootSelector=".admin-v2-root" /><Suspense fallback={<main className="admin-v2-loading">Loading administration…</main>}><Admin /></Suspense></div>;
+  }
+  return <StoreProvider initialData={initialData}><StorefrontApp /></StoreProvider>;
 }

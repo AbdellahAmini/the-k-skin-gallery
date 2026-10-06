@@ -670,61 +670,247 @@ a {
   }
 }
 
-.brand-strip {
-  min-height: 66px;
-  padding: 10px 4.5%;
+/* ============================================================
+   HOMEPAGE KOREAN BRANDS MARQUEE (The K-Skin Gallery)
+   ============================================================ */
+
+.home-brands {
+  position: relative;
+  background: #fffdfb;
+  border-bottom: 1px solid rgba(40, 37, 38, 0.07);
+  padding: 30px 0 22px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.home-brands__header {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4.5vw, 48px);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 24px;
-  border-bottom: 1px solid #eee9e5;
-  background: #fffdfa;
+  gap: 16px;
+  margin-bottom: 22px;
 }
 
-.brand-strip>p {
-  flex: 0 0 auto;
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 14px;
-  line-height: 1.16;
-}
-
-.brand-list {
-  min-width: 0;
-  flex: 1;
+.home-brands__title-group {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  flex-direction: column;
 }
 
-.brand-name {
-  min-height: 22px;
-  display: flex;
-  align-items: center;
-  padding: 0 clamp(7px, 1.3vw, 19px);
-  color: #292527;
-  border-right: 1px solid #ded8d3;
-  font-family: var(--serif);
-  font-size: 15px;
-  white-space: nowrap;
-}
-
-.brand-name:first-child {
-  font-family: var(--serif);
-  font-weight: 600;
-}
-
-.brand-1,
-.brand-5,
-.brand-6 {
+.home-brands__eyebrow {
+  display: block;
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: .13em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rose, #a7546b);
+  margin-bottom: 5px;
 }
 
-.brand-list .brand-name:last-child {
-  border: 0;
+.home-brands__heading {
+  margin: 0;
+  font-family: var(--serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 500;
+  color: var(--ink, #282526);
+  line-height: 1.15;
+  display: inline-flex;
+  align-items: center;
+}
+
+.home-brands__heading-accent {
+  display: inline-block;
+  width: 3px;
+  height: 0.76em;
+  background: var(--rose, #a7546b);
+  margin-right: 11px;
+  border-radius: 1.5px;
+}
+
+.home-brands__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--rose, #a7546b);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 180ms ease, color 180ms ease;
+  padding-bottom: 2px;
+}
+
+.home-brands__cta:hover {
+  transform: translateX(2px);
+  color: #8c3f55;
+}
+
+.home-brands__cta-text-short {
+  display: none;
+}
+
+.home-brands__marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+}
+
+.home-brands__marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: brands-infinite-marquee 54s linear infinite;
+}
+
+.home-brands__marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+.home-brands__marquee-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(54px, 5.5vw, 84px);
+  padding-right: clamp(54px, 5.5vw, 84px);
+  flex-shrink: 0;
+}
+
+.home-brands__logo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(120px, 10vw, 170px);
+  height: 64px;
+  flex-shrink: 0;
+  text-decoration: none;
+  opacity: 0.78;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.home-brands__logo-item:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.home-brands__logo-item:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--rose, #a7546b);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.home-brands__logo-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.home-brands__logo-img {
+  max-width: 100%;
+  max-height: 38px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+.home-brands__logo-fallback {
+  font-family: var(--serif, 'Playfair Display', Georgia, serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink, #282526);
+  white-space: nowrap;
+  user-select: none;
+}
+
+@keyframes brands-infinite-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-brands {
+    padding: 24px 0 18px;
+  }
+
+  .home-brands__header {
+    margin-bottom: 16px;
+    align-items: flex-end;
+  }
+
+  .home-brands__heading {
+    font-size: clamp(20px, 5.5vw, 26px);
+  }
+
+  .home-brands__cta-text-full {
+    display: none;
+  }
+
+  .home-brands__cta-text-short {
+    display: inline;
+  }
+
+  .home-brands__marquee-track {
+    animation-duration: 36s;
+  }
+
+  .home-brands__marquee-group {
+    gap: clamp(38px, 9vw, 56px);
+    padding-right: clamp(38px, 9vw, 56px);
+  }
+
+  .home-brands__logo-item {
+    width: clamp(96px, 24vw, 130px);
+    height: 52px;
+  }
+
+  .home-brands__logo-img {
+    max-height: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-brands__marquee-track {
+    animation: none;
+    transform: none;
+  }
+
+  .home-brands__marquee {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .home-brands__marquee-group[aria-hidden="true"] {
+    display: none;
+  }
 }
 
 .text-link {
@@ -1523,23 +1709,6 @@ a {
     gap: 12px;
   }
 
-  .brand-list {
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .brand-list::-webkit-scrollbar {
-    display: none;
-  }
-
-  .brand-name {
-    padding-inline: 12px;
-  }
-
-  .brand-more {
-    display: none;
-  }
 
   .routine-band {
     grid-template-columns: 1.2fr repeat(3, 1fr);
@@ -1698,37 +1867,7 @@ a {
     overflow: hidden;
   }
 
-  .brand-strip>p {
-    font-size: 12px;
-  }
 
-  .brand-list {
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .brand-list::-webkit-scrollbar {
-    display: none;
-  }
-
-  .brand-name {
-    padding: 0 12px;
-    font-size: 12px;
-  }
-
-  .brand-name:nth-child(n+5) {
-    display: none;
-  }
-
-  .brand-1,
-  .brand-3 {
-    font-size: 10px;
-  }
-
-  .brand-more {
-    display: none;
-  }
 
   .selection-section {
     padding: 22px 15px 24px;

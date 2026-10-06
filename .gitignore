@@ -1,2 +1,7 @@
 node_modules
 dist
+.venv/
+backend/.venv/
+**/__pycache__/
+**/.pytest_cache/
+backend/.qa/

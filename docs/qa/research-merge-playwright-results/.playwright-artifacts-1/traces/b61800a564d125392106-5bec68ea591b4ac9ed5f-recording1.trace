@@ -1,0 +1,1 @@
+{"version":9,"type":"context-options","origin":"library","browserName":"","playwrightVersion":"1.63.0","options":{},"platform":"win32","wallTime":1790962091864,"monotonicTime":73713.745,"sdkLanguage":"javascript","title":"gallery.spec.mjs:54 › collection filter stays in the URL through back, forward and reload"}

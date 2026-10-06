@@ -137,20 +137,24 @@ def receipt(token: str, db: Session = Depends(get_db)):
 
 
 class StockAlertIn(BaseModel):
-    product_id: int
-    email: str
+    product_id: int = Field(gt=0)
+    email: str = Field(min_length=3, max_length=250)
 
 
 @router.post("/stock-alerts", status_code=201)
-def stock_alert(payload: StockAlertIn, db: Session = Depends(get_db)):
+def stock_alert(payload: StockAlertIn, response: Response, db: Session = Depends(get_db)):
     product = db.get(Product, payload.product_id)
-    if not product or not product.active: raise HTTPException(404, "Produit introuvable.")
+    if not product or not product.active or product.publication_status != "published" or product.price_dh <= 0:
+        raise HTTPException(404, "Produit introuvable.")
     if product.stock > 0: raise HTTPException(409, "Ce produit est actuellement disponible.")
-    if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", payload.email):
+    email = payload.email.strip().lower()
+    if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email):
         raise HTTPException(422, "Saisissez une adresse e-mail valide.")
     existing = db.scalar(select(StockAlert).where(StockAlert.product_id == product.id,
-        StockAlert.email == payload.email.lower()))
+        StockAlert.email == email))
     if not existing:
-        db.add(StockAlert(product_id=product.id, email=payload.email.lower()))
+        db.add(StockAlert(product_id=product.id, email=email))
         db.commit()
-    return {"message": "Alerte enregistrée."}
+        return {"status": "subscribed", "message": "Votre adresse est inscrite à l’alerte de réassort."}
+    response.status_code = 200
+    return {"status": "already_subscribed", "message": "Cette adresse est déjà inscrite pour ce produit."}

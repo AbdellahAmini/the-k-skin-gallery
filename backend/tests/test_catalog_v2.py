@@ -10,6 +10,7 @@ def test_taxonomy_filters_search_and_contextual_facets():
     try:
         with sessions() as db:
             product = db.scalar(select(Product).where(Product.sku == "TEST-001"))
+            product.classification_verified = True
             product.skin_types.append(SkinType(name="Peau sensible", slug="peau-sensible"))
             product.concerns.append(Concern(name="Éclat", slug="eclat"))
             product.metadata_record = ProductMetadata(usage_time="am", search_aliases="sérum lumière")

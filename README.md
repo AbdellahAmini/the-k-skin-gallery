@@ -24,7 +24,7 @@ py -3.12 -m venv .venv
 npm run dev -- --host 0.0.0.0
 ```
 
-Open `http://localhost:5173`. The frontend proxies `/api` to the local FastAPI process. Catalog rows are imported on API startup; local demo stock is enabled by default. Set `GALLERY_DEMO_STOCK=0` to seed products as out of stock.
+Open `http://localhost:5173`. The frontend proxies `/api` to the local FastAPI process. Apply `python -m alembic upgrade head` from `backend/` before starting the API. Catalog import is explicit; startup does not create products or sample stock. See [Product import](docs/PRODUCT_IMPORT.md) for CSV/JSON validation, simulation and safe updates.
 
 To create the first administrator after the API has initialized its database, run from `backend/`:
 

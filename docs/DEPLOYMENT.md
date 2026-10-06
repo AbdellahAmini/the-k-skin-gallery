@@ -2,7 +2,7 @@
 
 ## Build prerequisites
 
-1. Provision PostgreSQL, set `APP_ENV=production` and `DATABASE_URL`, then run `python -m alembic upgrade head` from `backend/`. Import the catalog once with `python -m app.catalog` while the source catalog and images are available. Create the first administrator with `python -m app.create_admin EMAIL --first-name FIRST --last-name LAST`; it prompts for a password. Use verified inventory rather than sample quantities.
+1. Provision PostgreSQL, set `APP_ENV=production` and `DATABASE_URL`, then run `python -m alembic upgrade head` from `backend/`. Import a validated catalog explicitly with `python -m app.scripts.import_products FILE --dry-run` before the real import; see [PRODUCT_IMPORT.md](PRODUCT_IMPORT.md). Create the first administrator with `python -m app.create_admin EMAIL --first-name FIRST --last-name LAST`; it prompts for a password. Use verified inventory rather than sample quantities.
 2. Make the API reachable to the build process; set `GALLERY_API_ORIGIN` to its origin.
 3. Set `PUBLIC_SITE_URL` to the canonical HTTPS storefront origin.
 4. Run `npm run build`; it fetches live public catalog data, pre-renders pages, and prepares the existing Sites asset package.

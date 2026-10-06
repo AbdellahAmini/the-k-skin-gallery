@@ -39,20 +39,33 @@ export function StoreProvider({ children, initialData = null }) {
   }, []);
 
   const refreshProducts = useCallback(async () => {
-    const result = await api('/products?page_size=200');
-    setProducts(result.products);
+    const [featured, fresh, promotions] = await Promise.all([
+      api('/products?featured=true&page_size=8'),
+      api('/products?new=true&sort=newest&page_size=8'),
+      api('/products?promotion=true&page_size=10'),
+    ]);
+    setProducts((current) => [...new Map([...current, ...featured.products, ...fresh.products, ...promotions.products].map((item) => [item.id, item])).values()]);
+  }, []);
+
+  const mergeProducts = useCallback((incoming = []) => {
+    if (!incoming.length) return;
+    setProducts((current) => [...new Map([...current, ...incoming].map((item) => [item.id, item])).values()]);
   }, []);
 
   useEffect(() => {
     let alive = true;
-    Promise.all([api('/products?page_size=200'), api('/navigation'), api('/routines'), api('/bundles'), api('/cities'), api('/settings'), api('/content'), api('/articles'), api('/auth/me')])
-      .then(async ([p, nav, routineRows, bundleRows, city, site, sections, advice, signedIn]) => {
+    Promise.all([api('/products?featured=true&page_size=8'), api('/products?new=true&sort=newest&page_size=8'), api('/products?promotion=true&page_size=10'), api('/navigation'), api('/routines'), api('/bundles'), api('/cities'), api('/settings'), api('/content'), api('/articles'), api('/auth/me')])
+      .then(async ([featured, fresh, promotions, nav, routineRows, bundleRows, city, site, sections, advice, signedIn]) => {
         if (!alive) return;
-        setProducts(p.products); setBrands(nav.brands); setCategories(nav.product_types);
+        const homeProducts = [...new Map([...featured.products, ...fresh.products, ...promotions.products].map((item) => [item.id, item])).values()];
+        setProducts((current) => [...new Map([...current, ...homeProducts].map((item) => [item.id, item])).values()]);
+        setBrands(nav.brands); setCategories(nav.product_types);
         setSkinTypes(nav.skin_types); setConcerns(nav.concerns);
         setRoutines(routineRows); setBundles(bundleRows); setCities(city); setSettings(site); setContent(sections); setArticles(advice);
+        let serverCart = [];
+        let serverWish = [];
         if (signedIn) {
-          const [serverCart, serverWish] = await Promise.all([api('/me/cart'), api('/me/wishlist')]);
+          [serverCart, serverWish] = await Promise.all([api('/me/cart'), api('/me/wishlist')]);
           if (!alive) return;
           const guestCart = read('gallery-cart', []);
           const merged = new Map(serverCart.map((item) => [cartKey(item), item]));
@@ -63,6 +76,18 @@ export function StoreProvider({ children, initialData = null }) {
           setCart([...merged.values()]);
           setWishlist([...new Set([...serverWish, ...read('gallery-wishlist', [])])]);
           setUser(signedIn);
+        }
+        const productIds = [...new Set([
+          ...read('gallery-cart', []).filter((item) => item.product_id).map((item) => item.product_id),
+          ...serverCart.filter((item) => item.product_id).map((item) => item.product_id),
+          ...read('gallery-wishlist', []), ...serverWish,
+        ])];
+        if (productIds.length) {
+          try {
+            const savedProducts = await api(`/products?ids=${productIds.join(',')}&page_size=100`);
+            if (!alive) return;
+            setProducts((current) => [...new Map([...current, ...savedProducts.products].map((item) => [item.id, item])).values()]);
+          } catch { /* Saved lines remain available; missing product details can be reloaded on demand. */ }
         }
         setReady(true);
       }).catch((e) => { if (alive) { setError(e.message); setReady(true); } });
@@ -80,6 +105,7 @@ export function StoreProvider({ children, initialData = null }) {
   }
 
   function addToCart(product, quantity = 1) {
+    mergeProducts([product]);
     if (!product.stock) { flash('Ce produit est actuellement indisponible.'); return; }
     setCart((current) => {
       const found = current.find((item) => item.product_id === product.id);
@@ -87,6 +113,7 @@ export function StoreProvider({ children, initialData = null }) {
         { ...item, quantity: Math.min(product.stock, item.quantity + quantity) } : item);
       return [...current, { product_id: product.id, quantity: Math.min(quantity, product.stock) }];
     });
+    setCartOpen(true);
     flash(`${product.brand} ajouté au panier`);
   }
 
@@ -98,6 +125,7 @@ export function StoreProvider({ children, initialData = null }) {
         { ...item, quantity: Math.min(bundle.stock, item.quantity + quantity) } : item);
       return [...current, { bundle_id: bundle.id, quantity: Math.min(quantity, bundle.stock) }];
     });
+    setCartOpen(true);
     flash(`${bundle.name} ajouté au panier`);
   }
 
@@ -109,6 +137,10 @@ export function StoreProvider({ children, initialData = null }) {
   }
 
   function removeFromCart(itemId, kind = 'product') { setCart((current) => current.filter((line) => line[kind === 'bundle' ? 'bundle_id' : 'product_id'] !== itemId)); }
+  function clearCart() {
+    setCart([]);
+    flash('Votre panier a été vidé.');
+  }
   function toggleWishlist(productId) {
     setWishlist((current) => current.includes(productId) ? current.filter((id) => id !== productId) : [...current, productId]);
   }
@@ -116,6 +148,8 @@ export function StoreProvider({ children, initialData = null }) {
   async function authenticate(path, values) {
     const signedIn = await api(path, { method: 'POST', body: values });
     const [serverCart, serverWish] = await Promise.all([api('/me/cart'), api('/me/wishlist')]);
+    const ids = [...new Set([...serverCart.filter((item) => item.product_id).map((item) => item.product_id), ...serverWish])];
+    if (ids.length) mergeProducts((await api(`/products?ids=${ids.join(',')}&page_size=100`)).products);
     const merged = new Map(serverCart.map((item) => [cartKey(item), item]));
     for (const item of cart) {
       const key = cartKey(item);
@@ -145,8 +179,9 @@ export function StoreProvider({ children, initialData = null }) {
   const subtotal = cartLines.reduce((sum, line) => sum + line.item.price_dh * line.quantity, 0);
 
   return <StoreContext.Provider value={{ products, brands, categories, skinTypes, concerns, routines, bundles,
-    cities, settings, content, articles, adviceArticles, cart, setCart,
-    cartLines, cartCount, subtotal, wishlist, toggleWishlist, addToCart, addBundleToCart, changeQuantity, removeFromCart,
+    initialCollectionResult: initialData?.collectionResult,
+    cities, settings, content, articles, adviceArticles, cart, setCart, mergeProducts,
+    cartLines, cartCount, subtotal, wishlist, toggleWishlist, addToCart, addBundleToCart, changeQuantity, removeFromCart, clearCart,
     user, authenticate, logout, ready, error, notice, setNotice, flash, cartOpen, setCartOpen, refreshProducts }}>
     {children}
   </StoreContext.Provider>;

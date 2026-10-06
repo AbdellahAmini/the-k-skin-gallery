@@ -1,16 +1,14 @@
-"""One product query path for every storefront collection.
-
-The catalog is currently small enough to calculate contextual counts in memory.
-The API boundary and response stay stable if this moves into SQL later.
-"""
-
+"""Database-paginated product search and contextual catalog facets."""
 import unicodedata
-from collections import Counter
 from dataclasses import dataclass
+from datetime import date
+
 from fastapi import HTTPException
-from sqlalchemy import func, select
+from sqlalchemy import case, distinct, func, or_, select
 from sqlalchemy.orm import Session, selectinload
-from .models import Order, OrderItem, Product
+
+from .models import (Brand, Category, Concern, Ingredient, Order, OrderItem, Product,
+                     ProductMetadata, SkinType)
 from .services import product_public
 
 
@@ -22,10 +20,12 @@ def normal(value: str) -> str:
 @dataclass
 class ProductFilters:
     q: str = ""
+    ids: list[int] | None = None
     brand: str = ""
     category: str = ""
     skin_type: str = ""
     concern: str = ""
+    ingredient: str = ""
     usage: str = ""
     availability: str = ""
     min_price: int = 0
@@ -39,66 +39,116 @@ class ProductFilters:
 
 
 def all_active(db: Session) -> list[Product]:
+    """Compatibility helper for small editorial consumers; list endpoints never use it."""
     return db.scalars(select(Product).options(
         selectinload(Product.brand), selectinload(Product.category),
         selectinload(Product.metadata_record), selectinload(Product.skin_types),
-        selectinload(Product.concerns), selectinload(Product.ingredients))
-        .where(Product.active.is_(True))).all()
+        selectinload(Product.concerns), selectinload(Product.ingredients),
+        selectinload(Product.images))
+        .where(Product.active.is_(True), Product.publication_status == "published",
+               Product.price_dh > 0)).all()
 
 
-def matches(product: Product, filters: ProductFilters, omit: str = "") -> bool:
-    details = product.metadata_record
-    term = normal(filters.q.strip())
-    if term and term not in normal(" ".join([
-        product.name, product.brand.name, product.category.name, product.sku,
-        details.search_aliases if details else "",
-        " ".join(item.name for item in product.skin_types),
-        " ".join(item.name for item in product.concerns),
-        " ".join(item.name for item in product.ingredients),
-    ])):
-        return False
-    if filters.brand and omit != "brand" and product.brand.slug != filters.brand: return False
-    if filters.category and omit != "category" and product.category.slug != filters.category: return False
-    if filters.skin_type and omit != "skin_type" and not any(s.slug == filters.skin_type for s in product.skin_types): return False
-    if filters.concern and omit != "concern" and not any(c.slug == filters.concern for c in product.concerns): return False
-    if filters.usage and omit != "usage" and (not details or details.usage_time != filters.usage): return False
+def _conditions(filters: ProductFilters, omit: str = ""):
+    conditions = [Product.active.is_(True), Product.publication_status == "published", Product.price_dh > 0]
+    if filters.ids is not None: conditions.append(Product.id.in_(filters.ids))
+    term = filters.q.strip().casefold()
+    if term:
+        pattern = f"%{term}%"
+        def searchable(field):
+            text = func.lower(field)
+            for original, replacement in [("é", "e"), ("è", "e"), ("ê", "e"), ("à", "a"), ("â", "a"), ("î", "i"), ("ï", "i"), ("ô", "o"), ("ù", "u"), ("û", "u"), ("ç", "c")]:
+                text = func.replace(text, original, replacement)
+            return text.like(f"%{normal(term)}%")
+        conditions.append(or_(
+            searchable(Product.name), searchable(Product.official_name),
+            searchable(Product.display_name_fr), searchable(Product.sku),
+            Product.brand.has(searchable(Brand.name)),
+            Product.category.has(searchable(Category.name)),
+            Product.metadata_record.has(searchable(ProductMetadata.search_aliases)),
+            (Product.classification_verified.is_(True) & Product.skin_types.any(searchable(SkinType.name))),
+            (Product.classification_verified.is_(True) & Product.concerns.any(searchable(Concern.name))),
+            (Product.classification_verified.is_(True) & Product.ingredients.any(searchable(Ingredient.name))),
+        ))
+    if filters.brand and omit != "brand":
+        conditions.append(Product.brand.has(Brand.slug == filters.brand))
+    if filters.category and omit != "category":
+        conditions.append(Product.category.has(Category.slug == filters.category))
+    if filters.skin_type and omit != "skin_type":
+        conditions.extend([Product.classification_verified.is_(True), Product.skin_types.any(SkinType.slug == filters.skin_type)])
+    if filters.concern and omit != "concern":
+        conditions.extend([Product.classification_verified.is_(True), Product.concerns.any(Concern.slug == filters.concern)])
+    if filters.ingredient and omit != "ingredient":
+        conditions.extend([Product.classification_verified.is_(True), Product.ingredients.any(Ingredient.slug == filters.ingredient)])
+    if filters.usage and omit != "usage":
+        conditions.extend([Product.classification_verified.is_(True),
+            Product.metadata_record.has(ProductMetadata.usage_time == filters.usage)])
     if filters.availability and omit != "availability":
-        if filters.availability == "in_stock" and product.stock <= 0: return False
-        if filters.availability == "out_of_stock" and product.stock > 0: return False
-    if filters.min_price and product.price_dh < filters.min_price: return False
-    if filters.max_price and product.price_dh > filters.max_price: return False
-    public = product_public(product)
-    if filters.new and not public["new_arrival"]: return False
-    if filters.featured and not product.featured: return False
-    if filters.promotion and not (product.compare_at_dh and product.compare_at_dh > product.price_dh): return False
-    return True
+        if filters.availability == "in_stock": conditions.append(Product.stock > 0)
+        elif filters.availability == "out_of_stock": conditions.append(Product.stock <= 0)
+    conditions.extend([Product.price_dh >= filters.min_price, Product.price_dh <= filters.max_price])
+    if filters.new:
+        conditions.append(Product.metadata_record.has(ProductMetadata.new_until >= date.today()))
+    if filters.featured: conditions.append(Product.featured.is_(True))
+    if filters.promotion:
+        conditions.extend([Product.compare_at_dh.is_not(None), Product.compare_at_dh > Product.price_dh])
+    return conditions
 
 
-def facets(rows: list[Product], filters: ProductFilters) -> dict:
-    fields = {
-        "brand": lambda p: [(p.brand.slug, p.brand.name)],
-        "category": lambda p: [(p.category.slug, p.category.name)],
-        "skin_type": lambda p: [(s.slug, s.name) for s in p.skin_types],
-        "concern": lambda p: [(c.slug, c.name) for c in p.concerns],
-        "usage": lambda p: ([(p.metadata_record.usage_time, {
-            "am": "Matin", "pm": "Soir", "both": "Matin & soir"}[p.metadata_record.usage_time])]
-            if p.metadata_record and p.metadata_record.usage_time in {"am", "pm", "both"} else []),
-        "availability": lambda p: [("in_stock", "En stock") if p.stock > 0 else ("out_of_stock", "Rupture de stock")],
-    }
-    result = {}
-    for field, values in fields.items():
-        counts = Counter()
-        names = {}
-        for product in rows:
-            if matches(product, filters, omit=field):
-                for slug, name in values(product):
-                    counts[slug] += 1
-                    names[slug] = name
-        selected = getattr(filters, field)
-        result[field] = [{"slug": slug, "name": names[slug], "count": count}
-                         for slug, count in sorted(counts.items(), key=lambda item: names[item[0]].casefold())
-                         if count > 0 or slug == selected]
-    return result
+def _facet_counts(db: Session, filters: ProductFilters) -> dict:
+    facets = {}
+
+    def grouped(key, field, query, value_map=None):
+        counts = db.execute(query).all()
+        selected = getattr(filters, key)
+        values = {slug: (name, int(count)) for slug, name, count in counts if count > 0 or slug == selected}
+        if selected and selected not in values:
+            # Keep the selected facet available even if its result count reaches zero.
+            model = {"brand": Brand, "category": Category, "skin_type": SkinType,
+                     "concern": Concern, "ingredient": Ingredient}.get(key)
+            if model:
+                row = db.scalar(select(model).where(model.slug == selected))
+                if row: values[selected] = (row.name, 0)
+        facets[key] = [{"slug": slug, "name": name, "count": count}
+                       for slug, (name, count) in sorted(values.items(), key=lambda item: item[1][0].casefold())]
+
+    def count_products(omit=""):
+        return [* _conditions(filters, omit)]
+
+    grouped("brand", "brand", select(Brand.slug, Brand.name, func.count(distinct(Product.id)))
+        .select_from(Product).join(Product.brand).where(*count_products("brand"))
+        .group_by(Brand.slug, Brand.name))
+    grouped("category", "category", select(Category.slug, Category.name, func.count(distinct(Product.id)))
+        .select_from(Product).join(Product.category).where(*count_products("category"))
+        .group_by(Category.slug, Category.name))
+    grouped("skin_type", "skin_type", select(SkinType.slug, SkinType.name, func.count(distinct(Product.id)))
+        .select_from(Product).join(Product.skin_types).where(Product.classification_verified.is_(True), *count_products("skin_type"))
+        .group_by(SkinType.slug, SkinType.name))
+    grouped("concern", "concern", select(Concern.slug, Concern.name, func.count(distinct(Product.id)))
+        .select_from(Product).join(Product.concerns).where(Product.classification_verified.is_(True), *count_products("concern"))
+        .group_by(Concern.slug, Concern.name))
+    grouped("ingredient", "ingredient", select(Ingredient.slug, Ingredient.name, func.count(distinct(Product.id)))
+        .select_from(Product).join(Product.ingredients).where(Product.classification_verified.is_(True), *count_products("ingredient"))
+        .group_by(Ingredient.slug, Ingredient.name))
+
+    usage_name = case((ProductMetadata.usage_time == "am", "Matin"),
+                      (ProductMetadata.usage_time == "pm", "Soir"), else_="Matin & soir")
+    usage_rows = db.execute(select(ProductMetadata.usage_time, usage_name, func.count(distinct(Product.id)))
+        .select_from(Product).join(Product.metadata_record).where(Product.classification_verified.is_(True), *count_products("usage"),
+            ProductMetadata.usage_time.in_(["am", "pm", "both"]))
+        .group_by(ProductMetadata.usage_time)).all()
+    usage_selected = filters.usage
+    facets["usage"] = [{"slug": slug, "name": name, "count": int(count)} for slug, name, count in usage_rows
+                        if count > 0 or slug == usage_selected]
+
+    available_case = case((Product.stock > 0, "in_stock"), else_="out_of_stock")
+    availability_names = {"in_stock": "En stock", "out_of_stock": "Rupture de stock"}
+    stock_rows = db.execute(select(available_case, func.count(Product.id)).where(*count_products("availability"))
+        .group_by(available_case)).all()
+    availability_selected = filters.availability
+    facets["availability"] = [{"slug": slug, "name": availability_names[slug], "count": int(count)}
+                               for slug, count in stock_rows if count > 0 or slug == availability_selected]
+    return facets
 
 
 def query_products(db: Session, filters: ProductFilters) -> dict:
@@ -108,23 +158,39 @@ def query_products(db: Session, filters: ProductFilters) -> dict:
         raise HTTPException(422, "Utilisation invalide.")
     if filters.availability and filters.availability not in {"in_stock", "out_of_stock"}:
         raise HTTPException(422, "Disponibilité invalide.")
-    all_rows = all_active(db)
-    selected = [product for product in all_rows if matches(product, filters)]
-    sold = Counter(dict(db.execute(select(OrderItem.product_id, func.sum(OrderItem.quantity))
-        .join(Order, Order.id == OrderItem.order_id).where(Order.status == "livree")
-        .group_by(OrderItem.product_id)).all()))
-    if filters.sort == "best_sellers" and not sold:
-        raise HTTPException(422, "Le tri meilleures ventes sera disponible après les premières commandes livrées.")
-    if filters.sort == "price_asc": selected.sort(key=lambda p: (p.price_dh, p.id))
-    elif filters.sort == "price_desc": selected.sort(key=lambda p: (-p.price_dh, p.id))
-    elif filters.sort == "newest": selected.sort(key=lambda p: (-p.id,))
-    elif filters.sort == "best_sellers": selected.sort(key=lambda p: (-sold[p.id], p.id))
-    else: selected.sort(key=lambda p: (not p.featured, p.id))
-    total = len(selected)
-    start = (filters.page - 1) * filters.page_size
-    page_rows = selected[start:start + filters.page_size]
+    base = select(Product).options(
+        selectinload(Product.brand), selectinload(Product.category),
+        selectinload(Product.product_subtype), selectinload(Product.metadata_record),
+        selectinload(Product.skin_types), selectinload(Product.concerns),
+        selectinload(Product.ingredients), selectinload(Product.images))
+    conditions = _conditions(filters)
+    base = base.where(*conditions)
+    count_stmt = select(func.count(Product.id)).where(*conditions)
+    total = int(db.scalar(count_stmt) or 0)
+
+    sold = select(OrderItem.product_id.label("product_id"), func.sum(OrderItem.quantity).label("units")) \
+        .join(Order, Order.id == OrderItem.order_id).where(Order.status == "livree") \
+        .group_by(OrderItem.product_id).subquery()
+    if filters.sort == "best_sellers":
+        if not db.scalar(select(func.count()).select_from(sold)):
+            raise HTTPException(422, "Le tri meilleures ventes sera disponible après les premières commandes livrées.")
+        base = base.outerjoin(sold, sold.c.product_id == Product.id).order_by(func.coalesce(sold.c.units, 0).desc(), Product.stock.desc(), Product.id)
+        sorts = ["relevance", "newest", "price_asc", "price_desc", "best_sellers"]
+    elif filters.sort == "price_asc":
+        base = base.order_by(Product.price_dh, Product.stock.desc(), Product.id)
+        sorts = ["relevance", "newest", "price_asc", "price_desc"]
+    elif filters.sort == "price_desc":
+        base = base.order_by(Product.price_dh.desc(), Product.stock.desc(), Product.id)
+        sorts = ["relevance", "newest", "price_asc", "price_desc"]
+    elif filters.sort == "newest":
+        base = base.order_by(Product.created_at.desc(), Product.id.desc())
+        sorts = ["relevance", "newest", "price_asc", "price_desc"]
+    else:
+        base = base.order_by(case((Product.stock > 0, 0), else_=1), Product.featured.desc(), Product.id)
+        sorts = ["relevance", "newest", "price_asc", "price_desc"]
+
+    rows = db.scalars(base.offset((filters.page - 1) * filters.page_size).limit(filters.page_size)).all()
     return {"total": total, "page": filters.page, "page_size": filters.page_size,
         "pages": max(1, (total + filters.page_size - 1) // filters.page_size),
-        "products": [product_public(p) for p in page_rows],
-        "available_facets": facets(all_rows, filters),
-        "available_sorts": ["relevance", "newest", "price_asc", "price_desc"] + (["best_sellers"] if sold else [])}
+        "products": [product_public(p) for p in rows],
+        "available_facets": _facet_counts(db, filters), "available_sorts": sorts}

@@ -2,7 +2,6 @@ import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import App from "./App.jsx";
-import { StoreProvider } from "./state/StoreContext.jsx";
 import "./styles.css";
 import "./rebuild.css";
 import "./header.css";
@@ -14,7 +13,7 @@ try { initialData = dataElement ? JSON.parse(dataElement.textContent) : null; } 
 
 const root = document.getElementById("root");
 const app = <React.StrictMode>
-  <BrowserRouter><StoreProvider initialData={initialData}><App /></StoreProvider></BrowserRouter>
+  <BrowserRouter><App initialData={initialData} /></BrowserRouter>
 </React.StrictMode>;
 
 if (initialData && root.hasChildNodes()) hydrateRoot(root, app);

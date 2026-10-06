@@ -4,7 +4,7 @@
 
 - `backend/.venv/Scripts/python.exe -m pytest -q` runs isolated SQLite integration tests for quote calculation, server-owned prices, COD order creation, Moroccan phone normalization, inventory decrement, reservation/outbox creation, idempotent retries, insufficient stock, normalized search, contextual facets, and pack component accounting.
 - `npm run test:sites` checks static asset fallback behavior and required Sites packaging outputs.
-- `npm run build` compiles route chunks and pre-renders pages against a reachable API. Product and collection HTML should contain visible content before JavaScript runs; product pages should contain Product JSON-LD.
+- `npm run build` compiles route chunks. Then `node scripts/prerender.mjs` pre-renders pages against a reachable API. Product and collection HTML should contain visible content before JavaScript runs; product pages should contain Product JSON-LD.
 - `npm run test:e2e` runs Playwright navigation, search, product/pack, responsive menu/filter, filter URL/back/forward/reload, cart, city quote, and COD receipt flows. It creates an order, so use a disposable local database.
 - `npx playwright test tests/e2e/header.spec.mjs` checks the compact header at 375, 390, 430, 768, 1024, 1280, 1440, and 1600px; sticky compression without content movement; desktop and mobile navigation/search/cart; marquee hover; and reduced-motion behavior. It does not create orders.
 
@@ -26,3 +26,19 @@ The checkout tests use an isolated temporary database. A sample order created du
 ## Current limits
 
 The browser suite covers critical paths, but production payment, delivery and notification services still need environment-specific acceptance checks. The test client reports a Starlette/httpx deprecation warning; it does not fail the tests.
+
+## Catalog foundation (2026-10-02)
+
+Run Python checks from `backend` using `../.venv/Scripts/python.exe -m pytest -q`. Eleven integration tests pass, covering COD, stock accounting, protected admin, verified classifications, public cost exclusion, import rollback/idempotency/null preservation/relationship replacement and media optimization/S3 adapter.
+
+An isolated fresh SQLite database was migrated through all four Alembic revisions. The 16-row CSV pilot imported successfully; its rerun returned 16 SKIPPED, with no duplicates. QA variations use a separate `backend/.qa/catalog-foundation.db`; no synthetic inventory or promotions were added to `gallery.db`.
+
+For browser checks, migrate a database inside `.qa` and run `python -m app.scripts.prepare_catalog_qa` with that DATABASE_URL. The script refuses other paths. Start its API and a local frontend, then set `GALLERY_E2E_URL` and run:
+
+```powershell
+npx playwright test tests/e2e/catalog-foundation.spec.mjs --output=backend/.qa/playwright-results
+```
+
+Four browser tests pass: imported brand listings, out-of-stock detail/search/alert, duplicate subscription, available product CTA, availability and brand URL filters, reload/back state, 24-item pagination, limited homepage requests, mobile overflow, admin stock filtering and grouped product save. The known QA admin credentials exist only in the guarded disposable seed script. This suite does not create orders or send external notifications.
+
+Evidence: `docs/qa/catalog-foundation-desktop.png`, `catalog-foundation-mobile.png`, `catalog-foundation-admin.png`. These captures show the synthetic QA dataset. Main database counts remain 96 products, 18 brands, 4 orders and 2 order lines. PostgreSQL deployment and real S3/notification delivery are not claimed as tested; see CATALOG_PHASE_GAPS.md.

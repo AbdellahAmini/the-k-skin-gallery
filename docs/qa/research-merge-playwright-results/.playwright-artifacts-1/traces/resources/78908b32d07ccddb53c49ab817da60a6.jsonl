@@ -1,0 +1,2 @@
+{"type":"receive","time":1790962092018.835,"opcode":1,"data":"{\"type\":\"connected\"}"}
+{"type":"receive","time":1790962092021.554,"opcode":1,"data":"{\"type\":\"full-reload\",\"path\":\"/docs/qa/research-merge-playwright-results/.playwright-artifacts-1/traces/resources/579b9d16baa312ae12c67adbec1e7d4809316388.html\"}"}

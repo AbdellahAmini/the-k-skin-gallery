@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Table, Column, Text, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, Numeric, String, Table, Column, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .database import Base
 
@@ -61,6 +61,14 @@ class Brand(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), unique=True, index=True)
     slug: Mapped[str] = mapped_column(String(140), unique=True, index=True)
+    logo: Mapped[str] = mapped_column(String(500), default="")
+    description_fr: Mapped[str] = mapped_column(Text, default="")
+    official_website: Mapped[str] = mapped_column(String(500), default="")
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    featured_homepage: Mapped[bool] = mapped_column(Boolean, default=False)
+    homepage_order: Mapped[int] = mapped_column(Integer, default=0)
+    seo_title: Mapped[str] = mapped_column(String(180), default="")
+    seo_description: Mapped[str] = mapped_column(String(320), default="")
     products: Mapped[list["Product"]] = relationship(back_populates="brand")
 
 
@@ -69,39 +77,115 @@ class Category(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), unique=True)
     slug: Mapped[str] = mapped_column(String(140), unique=True, index=True)
+    subtypes: Mapped[list["ProductSubtype"]] = relationship(back_populates="product_type", cascade="all, delete-orphan")
+
+
+# ProductType is the domain name; Category remains the ORM and API compatibility name.
+ProductType = Category
+
+
+class ProductSubtype(Base):
+    __tablename__ = "product_subtypes"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(120))
+    slug: Mapped[str] = mapped_column(String(140), unique=True, index=True)
+    product_type_id: Mapped[int] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"), index=True)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    product_type: Mapped[Category] = relationship(back_populates="subtypes")
 
 
 class Product(Base):
     __tablename__ = "products"
     id: Mapped[int] = mapped_column(primary_key=True)
     sku: Mapped[str] = mapped_column(String(80), unique=True, index=True)
+    barcode: Mapped[str | None] = mapped_column(String(80), unique=True, nullable=True)
     slug: Mapped[str] = mapped_column(String(220), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(300))
+    official_name: Mapped[str] = mapped_column(String(300), default="")
+    display_name_fr: Mapped[str] = mapped_column(String(300), default="")
     brand_id: Mapped[int] = mapped_column(ForeignKey("brands.id"), index=True)
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"), index=True)
+    product_subtype_id: Mapped[int | None] = mapped_column(ForeignKey("product_subtypes.id"), nullable=True, index=True)
     size: Mapped[str] = mapped_column(String(50), default="")
+    size_value: Mapped[float | None] = mapped_column(Numeric(10, 2), nullable=True)
+    size_unit: Mapped[str] = mapped_column(String(20), default="")
     image_url: Mapped[str] = mapped_column(String(350), default="")
     price_dh: Mapped[int] = mapped_column(Integer)
     compare_at_dh: Mapped[int | None] = mapped_column(Integer, nullable=True)
     cost_dh: Mapped[int | None] = mapped_column(Integer, nullable=True)
     wholesale_dh: Mapped[int | None] = mapped_column(Integer, nullable=True)
     stock: Mapped[int] = mapped_column(Integer, default=0)
+    low_stock_threshold: Mapped[int] = mapped_column(Integer, default=3)
     stock_is_sample: Mapped[bool] = mapped_column(Boolean, default=False)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
+    publication_status: Mapped[str] = mapped_column(String(16), default="published", index=True)
+    verification_status: Mapped[str] = mapped_column(String(20), default="UNVERIFIED", index=True)
+    classification_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    classification_verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     featured: Mapped[bool] = mapped_column(Boolean, default=False)
     new_arrival: Mapped[bool] = mapped_column(Boolean, default=False)
     short_description: Mapped[str] = mapped_column(Text, default="")
     description: Mapped[str] = mapped_column(Text, default="")
+    manufacturer_description: Mapped[str] = mapped_column(Text, default="")
+    manufacturer_benefits: Mapped[str] = mapped_column(Text, default="")
+    benefits_fr: Mapped[str] = mapped_column(Text, default="")
     usage_instructions: Mapped[str] = mapped_column(Text, default="")
+    usage_instructions_fr: Mapped[str] = mapped_column(Text, default="")
     inci: Mapped[str] = mapped_column(Text, default="")
+    warnings_fr: Mapped[str] = mapped_column(Text, default="")
     official_source_url: Mapped[str] = mapped_column(String(500), default="")
+    source_language: Mapped[str] = mapped_column(String(16), default="")
+    seo_title: Mapped[str] = mapped_column(String(180), default="")
+    seo_description: Mapped[str] = mapped_column(String(320), default="")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
     brand: Mapped[Brand] = relationship(back_populates="products")
     category: Mapped[Category] = relationship()
+    product_subtype: Mapped[ProductSubtype | None] = relationship()
+    images: Mapped[list["ProductImage"]] = relationship(back_populates="product", cascade="all, delete-orphan", order_by="ProductImage.position")
     metadata_record: Mapped[ProductMetadata | None] = relationship(back_populates="product", uselist=False, cascade="all, delete-orphan")
     skin_types: Mapped[list[SkinType]] = relationship(secondary=product_skin_types)
     concerns: Mapped[list[Concern]] = relationship(secondary=product_concerns)
     ingredients: Mapped[list[Ingredient]] = relationship(secondary=product_ingredients)
+    research_record: Mapped["ProductResearch | None"] = relationship(
+        back_populates="product", uselist=False, cascade="all, delete-orphan")
+
+
+class ProductResearch(Base):
+    """Private provenance and commercial readiness for imported research rows."""
+    __tablename__ = "product_research"
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"), primary_key=True)
+    external_id: Mapped[str] = mapped_column(String(180), unique=True, index=True)
+    source_scope: Mapped[str] = mapped_column(String(30), default="")
+    desired_visibility: Mapped[str] = mapped_column(String(30), default="")
+    official_reference_price: Mapped[float | None] = mapped_column(Numeric(10, 2), nullable=True)
+    official_reference_currency: Mapped[str] = mapped_column(String(8), default="")
+    official_price_note: Mapped[str] = mapped_column(Text, default="")
+    price_source: Mapped[str] = mapped_column(String(40), default="")
+    media_status: Mapped[str] = mapped_column(String(40), default="NEEDS_ASSET_INGESTION")
+    pdp_content_status: Mapped[str] = mapped_column(String(40), default="INCOMPLETE")
+    commercial_ready: Mapped[bool] = mapped_column(Boolean, default=False)
+    commercial_hold_reason: Mapped[str] = mapped_column(String(300), default="")
+    selection_basis: Mapped[str] = mapped_column(String(160), default="")
+    curation_basis: Mapped[str] = mapped_column(String(160), default="")
+    research_notes: Mapped[str] = mapped_column(Text, default="")
+    raw_payload_json: Mapped[str] = mapped_column(Text, default="{}")
+    merged_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    product: Mapped[Product] = relationship(back_populates="research_record")
+
+
+class ProductImage(Base):
+    __tablename__ = "product_images"
+    __table_args__ = (UniqueConstraint("product_id", "position"),)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"), index=True)
+    image_url: Mapped[str] = mapped_column(String(500))
+    source_url: Mapped[str] = mapped_column(String(1000), default="")
+    alt_text: Mapped[str] = mapped_column(String(300), default="")
+    position: Mapped[int] = mapped_column(Integer, default=0)
+    is_primary: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    product: Mapped[Product] = relationship(back_populates="images")
 
 
 class Routine(Base):

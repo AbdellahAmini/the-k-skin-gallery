@@ -6,10 +6,11 @@ import unicodedata
 from pathlib import Path
 from datetime import timedelta
 from sqlalchemy import select
-from .database import Base, SessionLocal, engine
+from .database import SessionLocal
 from .content import seed_content
 from .models import (Brand, Bundle, BundleItem, Category, City, Concern, Product,
     ProductMetadata, Routine, RoutineStep, RoutineStepProduct, SiteSetting, SkinType, now)
+from .pricing import round_up_to_10_dh
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -98,12 +99,8 @@ ROUTINE_SEED = [
 
 def import_catalog(demo_stock: bool | None = None):
     """Idempotent import. Retail prices come from the source; stock is explicit demo data only."""
-    # Production schemas are created by Alembic before the API starts. The local
-    # SQLite preview can still bootstrap itself without an extra setup command.
-    if os.getenv("APP_ENV") != "production":
-        Base.metadata.create_all(engine)
     if demo_stock is None:
-        demo_stock = os.getenv("GALLERY_DEMO_STOCK", "0" if os.getenv("APP_ENV") == "production" else "1") == "1"
+        demo_stock = os.getenv("GALLERY_DEMO_STOCK", "0") == "1"
     rows = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
     IMAGE_TARGET.mkdir(parents=True, exist_ok=True)
     with SessionLocal() as db:
@@ -138,6 +135,7 @@ def import_catalog(demo_stock: bool | None = None):
                 product = Product(sku=sku, slug=f"{slugify(row['name'])}-{index:04d}", name=row["name"],
                     brand_id=brands[brand_name].id, category_id=categories[category_slug].id,
                     image_url=image_url, size=size_for(row["name"]), price_dh=int(row["retail_sell_price"]),
+                    compare_at_dh=round_up_to_10_dh(row.get("compare_at_dh")),
                     cost_dh=int(row["buy_price"]), wholesale_dh=int(row["mass_sell_price"]),
                     stock=10 if demo_stock else 0, stock_is_sample=demo_stock,
                     active=brand_name not in ("Acretin", "Skinoren"),
