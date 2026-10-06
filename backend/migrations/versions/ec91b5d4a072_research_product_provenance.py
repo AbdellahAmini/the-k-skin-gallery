@@ -21,7 +21,7 @@ def upgrade() -> None:
         sa.Column("product_id", sa.Integer(), nullable=False),
         sa.Column("external_id", sa.String(length=180), nullable=False),
         sa.Column("source_scope", sa.String(length=30), nullable=False, server_default=""),
-        sa.Column("desired_visibility", sa.String(length=30), nullable=False, server_default=""),
+        sa.Column("desired_visibility", sa.String(length=80), nullable=False, server_default=""),
         sa.Column("official_reference_price", sa.Numeric(10, 2), nullable=True),
         sa.Column("official_reference_currency", sa.String(length=8), nullable=False, server_default=""),
         sa.Column("official_price_note", sa.Text(), nullable=False, server_default=""),

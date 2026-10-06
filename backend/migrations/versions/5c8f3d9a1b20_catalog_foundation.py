@@ -103,7 +103,7 @@ def upgrade() -> None:
         sa.UniqueConstraint("product_id", "position", name="uq_product_images_position"),
         )
     create_index_if_missing("ix_product_images_product_id", "product_images", ["product_id"])
-    bind.execute(sa.text("INSERT INTO product_images (product_id, image_url, alt_text, position, is_primary, created_at) SELECT p.id, p.image_url, p.name, 0, 1, CURRENT_TIMESTAMP FROM products p WHERE p.image_url IS NOT NULL AND p.image_url <> '' AND NOT EXISTS (SELECT 1 FROM product_images i WHERE i.product_id = p.id)"))
+    bind.execute(sa.text("INSERT INTO product_images (product_id, image_url, alt_text, position, is_primary, created_at) SELECT p.id, p.image_url, p.name, 0, true, CURRENT_TIMESTAMP FROM products p WHERE p.image_url IS NOT NULL AND p.image_url <> '' AND NOT EXISTS (SELECT 1 FROM product_images i WHERE i.product_id = p.id)"))
 
 
 def downgrade() -> None:
