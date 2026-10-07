@@ -56,7 +56,7 @@ function StorefrontApp() {
     document.title = location.pathname === '/' ? 'K-Skin Gallery — Korean Skincare au Maroc'
       : title ? `${title} | K-Skin Gallery` : 'K-Skin Gallery — Korean Skincare au Maroc';
   }, [location.pathname, brands, categories, skinTypes, concerns]);
-  return <div className="site-shell"><SectionReveal routeKey={location.pathname} />{!isAdmin && <Header />}
+  return <><div className="site-shell"><SectionReveal routeKey={location.pathname} />{!isAdmin && <Header />}
     {error && <div className="api-banner" role="alert">{error}</div>}
     <Suspense fallback={<PageLoading />}><Routes>
       <Route path="/" element={<Home />} />
@@ -79,8 +79,8 @@ function StorefrontApp() {
       {['contact', 'faq', 'livraison', 'retours', 'cgv', 'confidentialite'].map((type) => <Route key={type} path={`/${type}`} element={<Info type={type} />} />)}
       <Route path="/admin/*" element={<Admin />} /><Route path="*" element={<NotFound />} />
     </Routes></Suspense>
-    {!isAdmin && <><Footer /><BottomNav /><CartDrawer /><Notice /></>}
-  </div>;
+    {!isAdmin && <><Footer /><CartDrawer /><Notice /></>}
+  </div>{!isAdmin && <BottomNav />}</>;
 }
 
 // Admin is deliberately mounted outside StoreProvider. StoreProvider syncs the

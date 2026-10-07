@@ -17,6 +17,11 @@ def normal(value: str) -> str:
                    if unicodedata.category(c) != "Mn")
 
 
+def filter_values(value: str) -> list[str]:
+    """Read a single legacy slug or a comma-separated multi-select value."""
+    return list(dict.fromkeys(part.strip() for part in value.split(",") if part.strip()))
+
+
 @dataclass
 class ProductFilters:
     q: str = ""
@@ -71,22 +76,31 @@ def _conditions(filters: ProductFilters, omit: str = ""):
             (Product.classification_verified.is_(True) & Product.concerns.any(searchable(Concern.name))),
             (Product.classification_verified.is_(True) & Product.ingredients.any(searchable(Ingredient.name))),
         ))
-    if filters.brand and omit != "brand":
-        conditions.append(Product.brand.has(Brand.slug == filters.brand))
-    if filters.category and omit != "category":
-        conditions.append(Product.category.has(Category.slug == filters.category))
-    if filters.skin_type and omit != "skin_type":
-        conditions.extend([Product.classification_verified.is_(True), Product.skin_types.any(SkinType.slug == filters.skin_type)])
-    if filters.concern and omit != "concern":
-        conditions.extend([Product.classification_verified.is_(True), Product.concerns.any(Concern.slug == filters.concern)])
-    if filters.ingredient and omit != "ingredient":
-        conditions.extend([Product.classification_verified.is_(True), Product.ingredients.any(Ingredient.slug == filters.ingredient)])
-    if filters.usage and omit != "usage":
+    brands = filter_values(filters.brand)
+    categories = filter_values(filters.category)
+    skin_types = filter_values(filters.skin_type)
+    concerns = filter_values(filters.concern)
+    ingredients = filter_values(filters.ingredient)
+    usages = filter_values(filters.usage)
+    availabilities = filter_values(filters.availability)
+    if brands and omit != "brand":
+        conditions.append(Product.brand.has(Brand.slug.in_(brands)))
+    if categories and omit != "category":
+        conditions.append(Product.category.has(Category.slug.in_(categories)))
+    if skin_types and omit != "skin_type":
+        conditions.extend([Product.classification_verified.is_(True), Product.skin_types.any(SkinType.slug.in_(skin_types))])
+    if concerns and omit != "concern":
+        conditions.extend([Product.classification_verified.is_(True), Product.concerns.any(Concern.slug.in_(concerns))])
+    if ingredients and omit != "ingredient":
+        conditions.extend([Product.classification_verified.is_(True), Product.ingredients.any(Ingredient.slug.in_(ingredients))])
+    if usages and omit != "usage":
         conditions.extend([Product.classification_verified.is_(True),
-            Product.metadata_record.has(ProductMetadata.usage_time == filters.usage)])
+            Product.metadata_record.has(ProductMetadata.usage_time.in_(usages))])
     if filters.availability and omit != "availability":
-        if filters.availability == "in_stock": conditions.append(Product.stock > 0)
-        elif filters.availability == "out_of_stock": conditions.append(Product.stock <= 0)
+        stock_conditions = []
+        if "in_stock" in availabilities: stock_conditions.append(Product.stock > 0)
+        if "out_of_stock" in availabilities: stock_conditions.append(Product.stock <= 0)
+        if stock_conditions: conditions.append(or_(*stock_conditions))
     conditions.extend([Product.price_dh >= filters.min_price, Product.price_dh <= filters.max_price])
     if filters.new:
         conditions.append(Product.metadata_record.has(ProductMetadata.new_until >= date.today()))
@@ -103,15 +117,17 @@ def _facet_counts(db: Session, filters: ProductFilters) -> dict:
 
     def grouped(key, field, query, value_map=None):
         counts = db.execute(query).all()
-        selected = getattr(filters, key)
-        values = {slug: (name, int(count)) for slug, name, count in counts if count > 0 or slug == selected}
-        if selected and selected not in values:
+        selected = filter_values(getattr(filters, key))
+        values = {slug: (name, int(count)) for slug, name, count in counts if count > 0 or slug in selected}
+        if selected:
             # Keep the selected facet available even if its result count reaches zero.
             model = {"brand": Brand, "category": Category, "skin_type": SkinType,
                      "concern": Concern, "ingredient": Ingredient}.get(key)
             if model:
-                row = db.scalar(select(model).where(model.slug == selected))
-                if row: values[selected] = (row.name, 0)
+                for selected_slug in selected:
+                    if selected_slug not in values:
+                        row = db.scalar(select(model).where(model.slug == selected_slug))
+                        if row: values[selected_slug] = (row.name, 0)
         facets[key] = [{"slug": slug, "name": name, "count": count}
                        for slug, (name, count) in sorted(values.items(), key=lambda item: item[1][0].casefold())]
 
@@ -140,26 +156,26 @@ def _facet_counts(db: Session, filters: ProductFilters) -> dict:
         .select_from(Product).join(Product.metadata_record).where(Product.classification_verified.is_(True), *count_products("usage"),
             ProductMetadata.usage_time.in_(["am", "pm", "both"]))
         .group_by(ProductMetadata.usage_time)).all()
-    usage_selected = filters.usage
+    usage_selected = filter_values(filters.usage)
     facets["usage"] = [{"slug": slug, "name": name, "count": int(count)} for slug, name, count in usage_rows
-                        if count > 0 or slug == usage_selected]
+                        if count > 0 or slug in usage_selected]
 
     available_case = case((Product.stock > 0, "in_stock"), else_="out_of_stock")
     availability_names = {"in_stock": "En stock", "out_of_stock": "Rupture de stock"}
     stock_rows = db.execute(select(available_case, func.count(Product.id)).where(*count_products("availability"))
         .group_by(available_case)).all()
-    availability_selected = filters.availability
+    availability_selected = filter_values(filters.availability)
     facets["availability"] = [{"slug": slug, "name": availability_names[slug], "count": int(count)}
-                               for slug, count in stock_rows if count > 0 or slug == availability_selected]
+                               for slug, count in stock_rows if count > 0 or slug in availability_selected]
     return facets
 
 
 def query_products(db: Session, filters: ProductFilters) -> dict:
     if filters.sort not in {"relevance", "newest", "price_asc", "price_desc", "best_sellers"}:
         raise HTTPException(422, "Tri invalide.")
-    if filters.usage and filters.usage not in {"am", "pm", "both"}:
+    if any(value not in {"am", "pm", "both"} for value in filter_values(filters.usage)):
         raise HTTPException(422, "Utilisation invalide.")
-    if filters.availability and filters.availability not in {"in_stock", "out_of_stock"}:
+    if any(value not in {"in_stock", "out_of_stock"} for value in filter_values(filters.availability)):
         raise HTTPException(422, "Disponibilité invalide.")
     base = select(Product).options(
         selectinload(Product.brand), selectinload(Product.category),
