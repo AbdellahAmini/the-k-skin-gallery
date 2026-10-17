@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight } from '@phosphor-icons/react';
+import useMarqueeSpeed from '../hooks/useMarqueeSpeed';
 
 export const BRAND_ASSETS = {
   anua: { logo: '/assets/brands/anua.png', name: 'ANUA', order: 1 },
@@ -51,9 +52,10 @@ export function BrandLogoLink({ brand, isDuplicate = false }) {
 }
 
 export function BrandsMarquee({ brands }) {
+  const marqueeRef = useMarqueeSpeed();
   return (
     <div className="home-brands__marquee" aria-label="Défilement des marques">
-      <div className="home-brands__marquee-track">
+      <div ref={marqueeRef} className="home-brands__marquee-track">
         <div className="home-brands__marquee-group">
           {brands.map((brand) => (
             <BrandLogoLink key={`track-a-${brand.slug}`} brand={brand} isDuplicate={false} />

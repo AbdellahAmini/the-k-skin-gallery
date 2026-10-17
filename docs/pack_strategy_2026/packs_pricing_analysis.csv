@@ -1,0 +1,21 @@
+rank,pack_id,name_fr,component_ids,component_skus,component_quantities,total_product_cost_dh,individual_retail_total_dh,regular_pack_price_dh,promo_pack_price_dh,customer_savings_dh,customer_savings_percent,gross_profit_dh,gross_margin_percent,packaging_dh_assumed,acquisition_dh_assumed,cod_payment_dh_assumed,failed_delivery_reserve_dh_assumed,delivery_subsidy_dh_assumed,estimated_extra_cost_dh,contribution_profit_dh,contribution_margin_percent,minimum_viable_price_dh,contribution_if_order_gets_free_delivery_dh,score_out_of_100,recorded_independent_pack_max,confirmed_sellable_pack_units,inventory_status,market_evidence_confidence
+1,ksg-pack-06,SPF Quotidien & Retouche,70;73,KG-0070;KG-0073,1;1,285,509,509,459,50,9.82,174,37.91,10,20,5,10,0,45,129,28.1,439,93,84,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+2,ksg-pack-12,Pêche & Équilibre,7;34,KG-0007;KG-0034,1;1,290,525,525,489,36,6.86,199,40.7,10,20,5,10,0,45,154,31.49,447,118,83,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+3,ksg-pack-02,Éclat Pêche & SPF,7;70,KG-0007;KG-0070,1;1,290,495,495,469,26,5.25,179,38.17,10,20,5,10,0,45,134,28.57,447,98,83,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+4,ksg-pack-09,Premier Éclat à Petit Prix,51;70,KG-0051;KG-0070,1;1,182,300,300,289,11,3.67,107,37.02,10,20,5,10,0,45,62,21.45,280,26,81,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+5,ksg-pack-19,"Matin Pêche, Crème & SPF",7;17;11,KG-0007;KG-0017;KG-0011,1;1;1,475,810,810,759,51,6.3,284,37.42,10,20,5,10,36,81,203,26.75,731,203,79,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+6,ksg-pack-18,Teint Uniforme & Barrière,31;34,KG-0031;KG-0034,1;1,285,480,480,449,31,6.46,164,36.53,10,20,5,10,0,45,119,26.5,439,83,79,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+7,ksg-pack-15,La Signature Gallery,20;7;17;70,KG-0020;KG-0007;KG-0017;KG-0070,1;1;1;1,705,1185,1185,1099,86,7.26,394,35.85,10,20,5,10,36,81,313,28.48,1085,313,78,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+8,ksg-pack-16,Lait de Riz & Glow du Matin,79;7;70,KG-0079;KG-0007;KG-0070,1;1;1,475,785,785,749,36,4.59,274,36.58,10,20,5,10,36,81,193,25.77,731,193,78,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+9,ksg-pack-01,Duo Barrière Sereine,34;17,KG-0034;KG-0017,1;1,300,510,510,469,41,8.04,169,36.03,10,20,5,10,0,45,124,26.44,462,88,78,10,0,STOCK_CONFIRMATION_REQUIRED,low
+10,ksg-pack-08,Nettoyer & Préserver,88;34,KG-0088;KG-0034,1;1,310,510,510,489,21,4.12,179,36.61,10,20,5,10,0,45,134,27.4,477,98,77,10,0,STOCK_CONFIRMATION_REQUIRED,low
+11,ksg-pack-05,Matin Vitamine C & Soleil,2;70,KG-0002;KG-0070,1;1,285,460,460,439,21,4.57,154,35.08,10,20,5,10,0,45,109,24.83,439,73,77,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+12,ksg-pack-20,Cible & Confort,33;34,KG-0033;KG-0034,1;1,275,470,470,429,41,8.72,154,35.9,10,20,5,10,0,45,109,25.41,424,73,77,10,0,STOCK_CONFIRMATION_REQUIRED,low
+13,ksg-pack-03,Rituel Double Nettoyage & SPF,20;71,KG-0020;KG-0071,1;1,395,650,650,609,41,6.31,214,35.14,10,20,5,10,36,81,133,21.84,608,133,76,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+14,ksg-pack-04,Calme & Imperfections Visibles,5;34,KG-0005;KG-0034,1;1,315,535,535,489,46,8.6,174,35.58,10,20,5,10,0,45,129,26.38,485,93,76,10,0,STOCK_CONFIRMATION_REQUIRED,low
+15,ksg-pack-07,Hydratation & Soleil Doux,17;11,KG-0017;KG-0011,1;1,325,535,535,509,26,4.86,184,36.15,10,20,5,10,36,81,103,20.24,500,103,76,10,0,STOCK_CONFIRMATION_REQUIRED,low
+16,ksg-pack-10,Visage & Lèvres au Soleil,45;71,KG-0045;KG-0071,1;1,215,360,360,339,21,5.83,124,36.58,10,20,5,10,0,45,79,23.3,331,43,76,10,0,STOCK_CONFIRMATION_REQUIRED,low
+17,ksg-pack-11,Soir Panthénol & Confort,47;17,KG-0047;KG-0017,1;1,310,505,505,479,26,5.15,169,35.28,10,20,5,10,0,45,124,25.89,477,88,75,10,0,STOCK_CONFIRMATION_REQUIRED,low
+18,ksg-pack-17,Quatre Pauses Hydratantes,27;17,KG-0027;KG-0017,1;1,350,560,560,539,21,3.75,189,35.06,10,20,5,10,36,81,108,20.04,539,108,75,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+19,ksg-pack-13,"Texture Douce, Semaine Claire",35;34;70,KG-0035;KG-0034;KG-0070,1;1;1,430,710,710,679,31,4.37,249,36.67,10,20,5,10,36,81,168,24.74,662,168,72,10,0,STOCK_CONFIRMATION_REQUIRED,medium
+20,ksg-pack-14,"Retinal du Soir, Confort",25;34,KG-0025;KG-0034,1;1,280,455,455,439,16,3.52,159,36.22,10,20,5,10,0,45,114,25.97,431,78,72,10,0,STOCK_CONFIRMATION_REQUIRED,medium

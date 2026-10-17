@@ -227,6 +227,7 @@ class Bundle(Base):
     slug: Mapped[str] = mapped_column(String(180), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(200))
     description: Mapped[str] = mapped_column(Text, default="")
+    content_json: Mapped[str] = mapped_column(Text, default="{}")
     image_url: Mapped[str] = mapped_column(String(350), default="")
     price_dh: Mapped[int] = mapped_column(Integer)
     compare_at_dh: Mapped[int | None] = mapped_column(Integer, nullable=True)

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Bag, Heart, ShieldCheck, Truck } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowRight, Bag, Heart, Package, ShieldCheck, Truck } from '@phosphor-icons/react';
 import { Link, useParams } from 'react-router';
 import { api, money } from '../lib/api';
 import ProductImage from '../components/ProductImage';
@@ -8,7 +8,7 @@ import { useStore } from '../state/StoreContext';
 
 export default function ProductDetail() {
   const { slug } = useParams();
-  const { products, wishlist, toggleWishlist, addToCart, mergeProducts } = useStore();
+  const { products, bundles, wishlist, toggleWishlist, addToCart, mergeProducts } = useStore();
   const initialProduct = products.find((item) => item.slug === slug) || null;
   const [product, setProduct] = useState(initialProduct);
   const [quantity, setQuantity] = useState(1);
@@ -33,6 +33,14 @@ export default function ProductDetail() {
   const isPromotion = product.compare_at_dh > product.price_dh;
   const discountPercent = isPromotion ? Math.round((product.compare_at_dh - product.price_dh) / product.compare_at_dh * 100) : 0;
   const savings = isPromotion ? product.compare_at_dh - product.price_dh : 0;
+  const bundleOffers = bundles.map((bundle) => {
+    const component = bundle.items.find((item) => item.product.id === product.id);
+    const total = bundle.items.reduce((sum, item) => sum + item.product.price_dh * item.quantity, 0);
+    return component ? { bundle, total, saving: total - bundle.price_dh } : null;
+  }).filter((offer) => offer && offer.bundle.stock > 0 && offer.saving > 0)
+    .sort((a, b) => b.saving - a.saving);
+  const bestBundleOffer = bundleOffers[0];
+  const bundleSearch = `/packs?q=${encodeURIComponent(product.name)}`;
   async function alert(event) {
     event.preventDefault(); setMessage(''); setAlertState('loading');
     try {
@@ -53,6 +61,11 @@ export default function ProductDetail() {
         {product.verification_status !== 'VERIFIED' && <p className="quiet-note">Informations produit en cours de vérification auprès des sources officielles. Consultez l’emballage pour les instructions complètes.</p>}
         {product.stock > 0 ? <div className="pdp-actions"><label>Quantité <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>{Array.from({ length: Math.min(10, product.stock) }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1}</option>)}</select></label><button className="button-primary" onClick={() => addToCart(product, quantity)}><Bag size={18} /> Ajouter au panier</button></div>
           : <form className="stock-alert-form" id="alerte" onSubmit={alert}><h2>Me prévenir du réassort</h2><label>E-mail<input type="email" required value={email} onChange={(e) => { setEmail(e.target.value); if (alertState !== 'loading') setAlertState('idle'); }} placeholder="vous@exemple.ma" /></label><button className="button-primary" disabled={alertState === 'loading'}>{alertState === 'loading' ? 'Envoi…' : 'Me prévenir'}</button>{message && <p role={alertState === 'error' ? 'alert' : 'status'} className={alertState === 'error' ? 'form-error' : ''}>{message}</p>}</form>}
+        {bestBundleOffer && <aside className="pdp-pack-offer" aria-label="Économie disponible dans un pack">
+          <div className="pdp-pack-offer-heading"><Package size={19} /><div><strong>Ce soin revient moins cher dans un pack</strong><span>{bestBundleOffer.bundle.name}</span></div></div>
+          <div className="pdp-pack-offer-price"><strong>{money(bestBundleOffer.bundle.price_dh)} le pack</strong><del>{money(bestBundleOffer.total)} au total séparément</del><span>−{money(bestBundleOffer.saving)}</span></div>
+          <div className="pdp-pack-offer-links"><Link to={`/packs/${bestBundleOffer.bundle.slug}`}>Découvrir ce pack <ArrowRight size={15} /></Link>{bundleOffers.length > 1 && <Link to={bundleSearch}>Voir les {bundleOffers.length} packs liés</Link>}</div>
+        </aside>}
         <button className="favorite-inline" onClick={() => toggleWishlist(product.id)}><Heart size={19} weight={wishlist.includes(product.id) ? 'fill' : 'regular'} /> {wishlist.includes(product.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}</button>
         <div className="pdp-promises"><span><Truck size={18} /> Livraison 24–48h selon ville</span><span><ShieldCheck size={18} /> Paiement à la livraison</span><span><ShieldCheck size={18} /> Produits authentiques</span></div>
         {(product.skin_types?.length || product.concerns?.length || product.usage_time || product.routine_step) && <dl className="pdp-facts">

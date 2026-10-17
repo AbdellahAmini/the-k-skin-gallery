@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, Bag, Check, ShieldCheck } from '@phosphor-icons/react';
+import { ArrowRight, Bag, Check } from '@phosphor-icons/react';
 import { Link, useParams } from 'react-router';
 import ProductCard from '../components/ProductCard';
-import ProductImage from '../components/ProductImage';
-import { api, money } from '../lib/api';
+import { api } from '../lib/api';
 import { useStore } from '../state/StoreContext';
 
 function Breadcrumb({ parent, parentPath, name }) {
@@ -35,29 +34,5 @@ export function RoutinePage() {
         : <p className="quiet-note">La sélection de cette étape est en cours de préparation.</p>}
     </section>)}</div>
     <div className="routine-selection-bar"><span>{chosen.length} soin{chosen.length > 1 ? 's' : ''} choisi{chosen.length > 1 ? 's' : ''}</span><button type="button" className="button-primary" disabled={!chosen.length} onClick={addSelection}><Bag size={17} /> Ajouter ma sélection au panier</button></div>
-  </main>;
-}
-
-export function PackPage() {
-  const { slug } = useParams();
-  const { bundles, addBundleToCart } = useStore();
-  const [bundle, setBundle] = useState(bundles.find((item) => item.slug === slug) || null);
-  const [quantity, setQuantity] = useState(1);
-  useEffect(() => {
-    setBundle(bundles.find((item) => item.slug === slug) || null);
-    setQuantity(1);
-    if (!bundles.some((item) => item.slug === slug)) api(`/bundles/${slug}`).then(setBundle).catch(() => setBundle(null));
-  }, [slug, bundles]);
-  if (!bundle) return <main className="inner-page"><div className="state-panel"><h1>Pack introuvable</h1><Link to="/packs" className="button-primary">Voir les packs</Link></div></main>;
-  return <main className="inner-page pack-page"><Breadcrumb parent="Packs" parentPath="/packs" name={bundle.name} />
-    <div className="pdp-layout"><div className="pdp-image"><ProductImage src={bundle.image_url} alt={bundle.name} eager /></div>
-      <div className="pdp-info"><p className="eyebrow">Pack de la Gallery</p><h1>{bundle.name}</h1><p>{bundle.description}</p>
-        <p className="pdp-price">{money(bundle.price_dh)}{bundle.compare_at_dh > bundle.price_dh && <del>{money(bundle.compare_at_dh)}</del>}</p>
-        <p className={bundle.stock > 0 ? 'stock-ok' : 'stock-out'}>{bundle.stock > 0 ? `${bundle.stock} pack${bundle.stock > 1 ? 's' : ''} disponible${bundle.stock > 1 ? 's' : ''}` : 'Rupture de stock'}</p>
-        <p className="quiet-note">La disponibilité dépend de chaque soin inclus dans le pack.</p>
-        {bundle.stock > 0 && <div className="pdp-actions"><label>Quantité <select value={quantity} onChange={(event) => setQuantity(Number(event.target.value))}>{Array.from({ length: Math.min(bundle.stock, 10) }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label><button className="button-primary" onClick={() => addBundleToCart(bundle, quantity)}><Bag size={18} /> Ajouter le pack au panier</button></div>}
-        <div className="pdp-promises"><span><ShieldCheck size={18} /> Produits authentiques</span><span><Bag size={18} /> Paiement à la livraison</span></div>
-      </div></div>
-    <section className="pack-components"><h2>Ce pack contient</h2><div className="pack-component-grid">{bundle.items.map(({ product, quantity: count }) => <Link key={product.id} to={`/produits/${product.slug}`} className="pack-component"><ProductImage src={product.image_url} alt="" /><span><small>{product.brand}</small><strong>{product.name}</strong><em>Quantité : {count}</em></span><ArrowRight size={17} /></Link>)}</div></section>
   </main>;
 }

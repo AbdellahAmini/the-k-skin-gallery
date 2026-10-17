@@ -7,6 +7,7 @@ import FreeShippingProgress from './FreeShippingProgress';
 import { money } from '../lib/api';
 import { useStore } from '../state/StoreContext';
 import { buildNavigation, MobileNavigationDrawer, PrimaryNavigation } from './Navigation';
+import useMarqueeSpeed from '../hooks/useMarqueeSpeed';
 
 const trustMessages = [
   [Truck, 'Livraison 24–48h partout au Maroc', 'Livraison 24–48h'],
@@ -30,6 +31,7 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchPanelOpen, setSearchPanelOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const trustScrollerRef = useMarqueeSpeed();
   const location = useLocation();
   useEffect(() => { setMenuOpen(false); setSearchOpen(false); }, [location.pathname]);
   useEffect(() => {
@@ -46,7 +48,7 @@ export function Header() {
         <button className="header-action" onClick={() => setCartOpen(true)} aria-label={`Panier, ${cartCount} article${cartCount > 1 ? 's' : ''}`} title="Panier"><span className="bag-wrap"><Bag size={20} /><small>{cartCount}</small></span><span>Panier</span></button></div></div>
       <SearchBox mobile open={searchOpen} onClose={() => setSearchOpen(false)} />
       <PrimaryNavigation sections={navigation} />
-      <div className="trust-marquee" aria-label="Nos engagements"><div className="trust-scroller"><TrustTrack /><TrustTrack duplicate /></div></div>
+      <div className="trust-marquee" aria-label="Nos engagements"><div ref={trustScrollerRef} className="trust-scroller"><TrustTrack /><TrustTrack duplicate /></div></div>
     </header>
     {menuOpen && <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && setMenuOpen(false)}><aside className="mobile-drawer" role="dialog" aria-modal="true" aria-label="Menu mobile"><div className="drawer-head"><span>La Gallery</span><button onClick={() => setMenuOpen(false)} aria-label="Fermer le menu"><X size={22} /></button></div>
       <MobileNavigationDrawer sections={navigation} onNavigate={() => setMenuOpen(false)} />

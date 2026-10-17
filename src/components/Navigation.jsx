@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CaretDown, Sparkle } from '@phosphor-icons/react';
+import { ArrowRight, CaretDown, Sparkle, Tag } from '@phosphor-icons/react';
 import { Link, NavLink, useLocation } from 'react-router';
 import { prefetchRoute } from '../lib/route-prefetch';
 
@@ -23,7 +23,7 @@ export function buildNavigation({ brands, categories, skinTypes, concerns, routi
     .filter(Boolean).map((item) => ({ label: item.name, href: `/soins/${item.slug}` })) })).filter((group) => group.links.length);
   const linkRows = (items, prefix) => items.map((item) => ({ label: item.name, href: `${prefix}/${item.slug}` }));
   return [
-    { id: 'new', label: 'Nouveautés', href: '/nouveautes' },
+    { id: 'shop', label: 'Boutique', href: '/boutique' },
     { id: 'brands', label: 'Marques', href: '/marques', menuType: 'brands',
       preview: linkRows(dropdownBrands, '/marques') },
     { id: 'care', label: 'Soins', href: '/soins', menuType: 'care', groups: careGroups },
@@ -33,14 +33,17 @@ export function buildNavigation({ brands, categories, skinTypes, concerns, routi
     ] },
     { id: 'routines', label: 'Routines & Packs', href: '/routines', menuType: 'routines', groups: [
       { title: 'Routines', links: linkRows(routines, '/routines') },
-      { title: 'Packs', links: [...linkRows(bundles, '/packs'), { label: 'Tous les packs', href: '/packs' }] },
+      { title: 'Packs', links: [...linkRows(bundles.slice(0, 5), '/packs'), { label: 'Tous les packs', href: '/packs' }] },
     ], feature: routines[0] },
     { id: 'promos', label: 'Promotions', href: '/promotions' },
   ];
 }
 
 function MenuLinks({ links, onNavigate }) {
-  return links.map((item) => <Link key={item.href} to={item.href} onClick={onNavigate}>{item.label}</Link>);
+  return links.map((item) => <Link key={item.href} to={item.href} onClick={onNavigate}
+    className={item.label === 'Tous les packs' ? 'gallery-mega-all-packs' : undefined}>
+    {item.label}
+  </Link>);
 }
 
 function MenuGroup({ title, links, onNavigate, className = '' }) {
@@ -82,18 +85,21 @@ function RoutineMegaMenu({ section, onNavigate }) {
 }
 
 function MegaMenuShell({ section, visible, fading, onNavigate, onEnter, onLeave }) {
-  return <div id="gallery-primary-menu" className={`gallery-mega gallery-mega--${section?.menuType || 'brands'} ${visible ? 'is-open' : ''} ${fading ? 'is-switching' : ''}`}
+  return <>
+    <button type="button" className={`gallery-menu-backdrop ${visible ? 'is-open' : ''}`} aria-label="Fermer le menu" tabIndex={-1} onClick={onNavigate} />
+    <div id="gallery-primary-menu" className={`gallery-mega gallery-mega--${section?.menuType || 'brands'} ${visible ? 'is-open' : ''} ${fading ? 'is-switching' : ''}`}
     role="region" aria-label={section ? `Explorer ${section.label}` : 'Navigation'} aria-hidden={!visible}
     onMouseEnter={onEnter} onMouseLeave={onLeave} inert={!visible}>
     {section && <div className="gallery-mega-inner" key={section.id}>
-      <div className="gallery-mega-heading"><span>{section.label}</span>
+      <div className="gallery-mega-heading"><div className="gallery-mega-heading-copy"><span>The K-Skin Gallery</span><h2>{section.label}</h2></div>
         <Link to={section.href} onClick={onNavigate}>{section.id === 'brands' ? 'Toutes les marques' : `Voir ${section.id === 'care' ? 'tous les soins' : section.id === 'skin' ? 'tout' : 'toutes les routines'}`} <ArrowRight size={15} /></Link></div>
       {section.id === 'brands' && <BrandsMegaMenu section={section} onNavigate={onNavigate} />}
       {section.id === 'care' && <CareMegaMenu section={section} onNavigate={onNavigate} />}
       {section.id === 'skin' && <SkinMegaMenu section={section} onNavigate={onNavigate} />}
       {section.id === 'routines' && <RoutineMegaMenu section={section} onNavigate={onNavigate} />}
     </div>}
-  </div>;
+    </div>
+  </>;
 }
 
 export function PrimaryNavigation({ sections }) {
@@ -120,7 +126,7 @@ export function PrimaryNavigation({ sections }) {
     if (openId) { show(id); return; }
     timers.current.open = window.setTimeout(() => show(id), 90);
   };
-  const leave = () => { clear('open'); clear('close'); timers.current.close = window.setTimeout(close, 110); };
+  const leave = () => { clear('open'); clear('close'); timers.current.close = window.setTimeout(close, 150); };
   useEffect(() => close(), [location.pathname]);
   useEffect(() => {
     const outside = (event) => { if (!root.current?.contains(event.target)) close(); };
@@ -136,7 +142,7 @@ export function PrimaryNavigation({ sections }) {
       {sections.map((item) => <div className={`gallery-nav-item ${openId === item.id ? 'is-open' : ''}`} key={item.id}
         onMouseEnter={() => { prefetchRoute(item.href).catch(() => {}); intent(item.menuType ? item.id : ''); }}>
         <NavLink data-nav-id={item.id} to={item.href}
-          className={({ isActive }) => `${isActive ? 'active ' : ''}${item.id === 'promos' ? 'promo-link' : ''}`}>{item.label}</NavLink>
+          className={({ isActive }) => `${isActive ? 'active ' : ''}${item.id === 'promos' ? 'promo-link' : ''}`}>{item.id === 'promos' ? <>{item.label}<Tag className="promo-nav-icon" size={15} weight="duotone" aria-hidden="true" /></> : item.label}</NavLink>
         {item.menuType && <button type="button" className="gallery-nav-chevron" aria-label={`Afficher le menu ${item.label}`}
           aria-expanded={openId === item.id} aria-controls="gallery-primary-menu"
           onClick={() => openId === item.id ? close() : show(item.id)}><CaretDown size={11} /></button>}
@@ -166,6 +172,6 @@ export function MobileNavigationDrawer({ sections, onNavigate }) {
   return <><Link className="gallery-mobile-link" to="/" onClick={onNavigate}>Accueil <ArrowRight size={16} /></Link>
     {sections.map((section) => section.menuType
       ? <MobileNavAccordion key={section.id} section={section} onNavigate={onNavigate} />
-      : <Link key={section.id} className="gallery-mobile-link" to={section.href} onClick={onNavigate}>{section.label}<ArrowRight size={16} /></Link>)}
+      : <Link key={section.id} className={`gallery-mobile-link${section.id === 'promos' ? ' gallery-mobile-promo-link' : ''}`} to={section.href} onClick={onNavigate}>{section.id === 'promos' && <Tag size={15} weight="duotone" aria-hidden="true" />}{section.label}<ArrowRight size={16} /></Link>)}
   </>;
 }

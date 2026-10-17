@@ -104,7 +104,7 @@
   height: 30px;
   display: flex;
   align-items: center;
-  animation: gallery-trust-marquee 34s linear infinite;
+  animation: gallery-trust-marquee var(--marquee-duration, 34s) linear infinite reverse;
 }
 .trust-track {
   --trust-gap: clamp(18px, 2.5vw, 34px);

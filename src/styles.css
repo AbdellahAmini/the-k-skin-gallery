@@ -441,8 +441,8 @@ a {
     /* Mobile: Adjusted for smaller screens (e.g. stronger gradient or top-to-bottom) */
     background: linear-gradient(180deg,
         transparent 0%,
-        rgba(247, 246, 243, 0.2) 30%,
-        rgba(247, 246, 243, 0.85) 55%,
+        rgba(247, 246, 243, 0.2) 40%,
+        rgba(247, 246, 243, 0.85) 65%,
         rgba(247, 246, 243, 1) 90%);
   }
 }
@@ -688,9 +688,10 @@ a {
 
 .home-brands {
   position: relative;
-  background: #fffdfb;
-  border-bottom: 1px solid rgba(40, 37, 38, 0.07);
-  padding: 30px 0 22px;
+  background: #faf6f3;
+  border-top: 1px solid #e7dcd7;
+  border-bottom: 1px solid #e7dcd7;
+  padding: 28px 0 18px;
   overflow: hidden;
   width: 100%;
 }
@@ -698,12 +699,12 @@ a {
 .home-brands__header {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 clamp(16px, 4.5vw, 48px);
+  padding: 0 3.3%;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 22px;
+  margin-bottom: 17px;
 }
 
 .home-brands__title-group {
@@ -769,6 +770,8 @@ a {
   position: relative;
   width: 100%;
   overflow: hidden;
+  padding-top: 8px;
+  border-top: 1px solid #eadfdb;
   -webkit-mask-image: linear-gradient(to right,
       transparent 0%,
       black 6%,
@@ -785,7 +788,7 @@ a {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: brands-infinite-marquee 54s linear infinite;
+  animation: brands-infinite-marquee var(--marquee-duration, 54s) linear infinite;
 }
 
 .home-brands__marquee-track:focus-within {
@@ -805,10 +808,10 @@ a {
   align-items: center;
   justify-content: center;
   width: clamp(120px, 10vw, 170px);
-  height: 64px;
+  height: 56px;
   flex-shrink: 0;
   text-decoration: none;
-  opacity: 0.78;
+  opacity: .94;
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
@@ -871,6 +874,7 @@ a {
 
   .home-brands__header {
     margin-bottom: 16px;
+    padding-inline: 15px;
     align-items: flex-end;
   }
 
@@ -887,7 +891,7 @@ a {
   }
 
   .home-brands__marquee-track {
-    animation-duration: 36s;
+    animation-duration: var(--marquee-duration, 36s);
   }
 
   .home-brands__marquee-group {

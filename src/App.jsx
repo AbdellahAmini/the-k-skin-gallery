@@ -14,7 +14,8 @@ const DirectoryPage = lazyPage('catalog', 'DirectoryPage');
 const FavoritesPage = lazyPage('catalog', 'FavoritesPage');
 const ProductDetail = lazyPage('product');
 const RoutinePage = lazyPage('guided', 'RoutinePage');
-const PackPage = lazyPage('guided', 'PackPage');
+const PackDirectoryPage = lazyPage('pack', 'PackDirectoryPage');
+const PackPage = lazyPage('pack', 'PackPage');
 const CartPage = lazyPage('cart');
 const Checkout = lazyPage('checkout');
 const Receipt = lazyPage('receipt');
@@ -39,7 +40,7 @@ function NotFound() {
 function StorefrontApp() {
   const location = useLocation();
   const collection = (mode = 'all') => <CollectionPage key={location.pathname} mode={mode} />;
-  const { error, brands, categories, skinTypes, concerns } = useStore();
+  const { error, brands, categories, skinTypes, concerns, bundles } = useStore();
   const isAdmin = location.pathname.startsWith('/admin');
   useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
   useEffect(() => {
@@ -48,14 +49,16 @@ function StorefrontApp() {
     const category = location.pathname.match(/^\/soins\/([^/]+)/)?.[1];
     const skin = location.pathname.match(/^\/type-de-peau\/([^/]+)/)?.[1];
     const concern = location.pathname.match(/^\/besoins\/([^/]+)/)?.[1];
+    const pack = location.pathname.match(/^\/packs\/([^/]+)/)?.[1];
     const title = brand ? brands.find((item) => item.slug === brand)?.name
       : category ? categories.find((item) => item.slug === category)?.name
       : skin ? skinTypes.find((item) => item.slug === skin)?.name
       : concern ? concerns.find((item) => item.slug === concern)?.name
+      : pack ? bundles.find((item) => item.slug === pack)?.name
       : ({ '/': 'K-Skin Gallery', '/nouveautes': 'Nouveautés', '/promotions': 'Promotions', '/boutique': 'La boutique', '/soins': 'Tous les soins', '/peau': 'Peau', '/besoins': 'Besoins', '/packs': 'Packs', '/checkout': 'Finaliser ma commande', '/panier': 'Mon panier', '/favoris': 'Mes favoris' })[location.pathname];
     document.title = location.pathname === '/' ? 'K-Skin Gallery — Korean Skincare au Maroc'
       : title ? `${title} | K-Skin Gallery` : 'K-Skin Gallery — Korean Skincare au Maroc';
-  }, [location.pathname, brands, categories, skinTypes, concerns]);
+  }, [location.pathname, brands, categories, skinTypes, concerns, bundles]);
   return <><div className="site-shell"><SectionReveal routeKey={location.pathname} />{!isAdmin && <Header />}
     {error && <div className="api-banner" role="alert">{error}</div>}
     <Suspense fallback={<PageLoading />}><Routes>
@@ -66,7 +69,7 @@ function StorefrontApp() {
       <Route path="/peau" element={<DirectoryPage kind="peau" />} /><Route path="/besoins" element={<DirectoryPage kind="besoins" />} /><Route path="/besoins/hydratation" element={<Navigate to="/besoins/deshydratation" replace />} /><Route path="/besoins/:slug" element={collection('concern')} />
       <Route path="/type-de-peau" element={<DirectoryPage kind="type-de-peau" />} /><Route path="/type-de-peau/:slug" element={collection('skin')} />
       <Route path="/routines" element={<DirectoryPage kind="routines" />} /><Route path="/routines/:slug" element={<RoutinePage />} />
-      <Route path="/packs" element={<DirectoryPage kind="packs" />} /><Route path="/packs/:slug" element={<PackPage />} />
+      <Route path="/packs" element={<PackDirectoryPage />} /><Route path="/packs/:slug" element={<PackPage />} />
       <Route path="/promotions" element={collection('promo')} /><Route path="/recherche" element={collection('search')} />
       <Route path="/favoris" element={<FavoritesPage />} /><Route path="/panier" element={<CartPage />} />
       <Route path="/produits/:slug" element={<ProductDetail />} /><Route path="/checkout" element={<Checkout />} />

@@ -1,3 +1,4 @@
+import json
 import re
 from fastapi import HTTPException
 from sqlalchemy import select
@@ -53,14 +54,19 @@ def product_public(p: Product) -> dict:
 def bundle_stock(bundle: Bundle) -> int:
     if not bundle.active or not bundle.items:
         return 0
-    if any(item.quantity <= 0 or not item.product.active or item.product.publication_status != "published" for item in bundle.items):
+    if any(item.quantity <= 0 or not item.product.active or item.product.publication_status != "published"
+           for item in bundle.items):
         return 0
     return min(item.product.stock // item.quantity for item in bundle.items)
 
 
 def bundle_public(bundle: Bundle) -> dict:
+    try:
+        content = json.loads(bundle.content_json or "{}")
+    except (TypeError, ValueError):
+        content = {}
     return {"id": bundle.id, "slug": bundle.slug, "name": bundle.name,
-        "description": bundle.description, "image_url": bundle.image_url,
+        "description": bundle.description, "content": content, "image_url": bundle.image_url,
         "price_dh": bundle.price_dh, "compare_at_dh": bundle.compare_at_dh,
         "stock": bundle_stock(bundle), "active": bundle.active,
         "items": [{"product": product_public(item.product), "quantity": item.quantity}

@@ -62,7 +62,7 @@ def upgrade() -> None:
         sa.Column("official_name", sa.String(300), nullable=False, server_default=""),
         sa.Column("display_name_fr", sa.String(300), nullable=False, server_default=""),
         sa.Column("product_subtype_id", sa.Integer(),
-            None if op.get_bind().dialect.name == "sqlite" else sa.ForeignKey("product_subtypes.id"), nullable=True),
+            *([sa.ForeignKey("product_subtypes.id")] if op.get_bind().dialect.name != "sqlite" else []), nullable=True),
         sa.Column("size_value", sa.Numeric(10, 2), nullable=True),
         sa.Column("size_unit", sa.String(20), nullable=False, server_default=""),
         sa.Column("low_stock_threshold", sa.Integer(), nullable=False, server_default="3"),

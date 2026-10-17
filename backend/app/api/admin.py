@@ -895,6 +895,7 @@ class BundleIn(BaseModel):
     name: str = Field(min_length=2)
     slug: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
     description: str = ""
+    content: dict = Field(default_factory=dict)
     image_url: str = ""
     price_dh: int = Field(ge=0)
     compare_at_dh: int | None = Field(None, ge=0)
@@ -913,7 +914,8 @@ def set_bundle(row: Bundle, payload: BundleIn, db: Session):
     products = {p.id: p for p in db.scalars(select(Product).where(Product.id.in_(ids), Product.active.is_(True))).all()}
     if len(products) != len(ids): raise HTTPException(422, "Un composant du pack est introuvable ou inactif.")
     row.name = payload.name.strip(); row.slug = payload.slug
-    row.description = payload.description.strip(); row.image_url = payload.image_url.strip() or products[ids[0]].image_url
+    row.description = payload.description.strip(); row.content_json = json.dumps(payload.content, ensure_ascii=False)
+    row.image_url = payload.image_url.strip()
     row.price_dh = payload.price_dh; row.compare_at_dh = payload.compare_at_dh; row.active = payload.active
     row.items.clear()
     if row.id is not None: db.flush()

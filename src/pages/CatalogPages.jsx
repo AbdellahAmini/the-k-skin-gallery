@@ -3,6 +3,7 @@ import { ArrowCounterClockwise, ArrowRight, CaretDown, MagnifyingGlass, SlidersH
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { api, slugLabel } from '../lib/api';
 import ProductCard from '../components/ProductCard';
+import { PackCard } from './PackPages';
 import { useStore } from '../state/StoreContext';
 
 const filterFields = [
@@ -61,6 +62,9 @@ export function DirectoryPage({ kind }) {
               : [['Type de peau', skinTypes.map((item) => ({ ...item, path: `/type-de-peau/${item.slug}` }))],
               ['Besoins', concerns.map((item) => ({ ...item, path: `/besoins/${item.slug}` }))]];
 
+  const featuredPacks = [...bundles].filter((bundle) => bundle.stock > 0)
+    .map((bundle) => ({ bundle, saving: bundle.items.reduce((sum, item) => sum + item.product.price_dh * item.quantity, 0) - bundle.price_dh }))
+    .filter(({ saving }) => saving > 0).sort((a, b) => b.saving - a.saving).slice(0, 4).map(({ bundle }) => bundle);
   const title = {
     marques: 'Nos marques', soins: 'Les soins', peau: 'Votre peau, votre point de départ',
     'type-de-peau': 'Choisir selon votre type de peau', besoins: 'Choisir selon vos besoins',
@@ -73,8 +77,11 @@ export function DirectoryPage({ kind }) {
         : 'Explorez notre sélection à votre rythme.';
 
   return <main className="inner-page"><Crumbs nodes={[[title]]} /><div className="page-heading"><p className="eyebrow">La Gallery</p><h1>{title}</h1><p>{intro}</p></div>
-    {groups.map(([heading, entries]) => <section className="directory-section" key={heading}><h2>{heading}</h2>
-      {entries.length ? <div className="directory-grid">{entries.map((item) => <Link key={item.path} to={item.path} className="directory-card"><span>{item.name}</span>{typeof item.count === 'number' && item.count > 0 && <small>{item.count} produit{item.count > 1 ? 's' : ''} sélectionné{item.count > 1 ? 's' : ''}</small>}<ArrowRight size={18} /></Link>)}</div>
+    {groups.map(([heading, entries]) => <section className={`directory-section${kind === 'routines' && heading === 'Packs' ? ' routine-pack-preview' : ''}`} key={heading}>
+      {kind === 'routines' && heading === 'Packs' ? <div className="routine-pack-heading"><h2>{heading}</h2><Link className="text-link pack-preview-cta" to="/packs">Voir tous les packs <ArrowRight size={16} /></Link></div> : <h2>{heading}</h2>}
+      {kind === 'routines' && heading === 'Packs' ? <>
+        {featuredPacks.length ? <div className="pack-directory-grid pack-preview-grid">{featuredPacks.map((bundle) => <PackCard bundle={bundle} compact key={bundle.id} />)}</div> : <p className="quiet-note">Une sélection arrive bientôt.</p>}
+      </> : entries.length ? <div className="directory-grid">{entries.map((item) => <Link key={item.path} to={item.path} className="directory-card"><span>{item.name}</span>{typeof item.count === 'number' && item.count > 0 && <small>{item.count} produit{item.count > 1 ? 's' : ''} sélectionné{item.count > 1 ? 's' : ''}</small>}<ArrowRight size={18} /></Link>)}</div>
         : <p className="quiet-note">Une sélection arrive bientôt.</p>}</section>)}
     {kind === 'soins' && <div className="directory-all-cta" style={{ marginTop: '36px', textAlign: 'center' }}>
       <Link to="/boutique" className="button-primary">Voir tous les produits <ArrowRight size={16} /></Link>
@@ -92,7 +99,7 @@ function initialRows(products, mode, slug, query) {
     if (mode === 'new' && (!p.new_arrival || p.compare_at_dh > p.price_dh)) return false;
     if (mode === 'promo' && !(p.compare_at_dh > p.price_dh)) return false;
     if (mode === 'featured' && !p.featured) return false;
-    if (mode === 'search' && term && !`${p.name} ${p.brand} ${p.category}`
+    if ((mode === 'search' || mode === 'all') && term && !`${p.name} ${p.brand} ${p.category}`
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(term)) return false;
     return true;
   });
@@ -118,7 +125,7 @@ function collectionContext(mode, slug, brands, categories, skinTypes, concerns, 
 function productQuery(mode, slug, source, contextField, preview = false) {
   const next = new URLSearchParams();
   const query = source.get('q');
-  if (mode === 'search' && query) next.set('q', query);
+  if ((mode === 'search' || mode === 'all') && query) next.set('q', query);
   if (mode === 'brand') next.set('brand', slug);
   if (mode === 'category') next.set('category', slug);
   if (mode === 'skin') next.set('skin_type', slug);
@@ -171,7 +178,7 @@ export function CollectionPage({ mode = 'all' }) {
   const query = params.get('q') || '';
   const { products, brands, categories, skinTypes, concerns, ready, mergeProducts, initialCollectionResult, initialCollectionPath } = useStore();
   const [result, setResult] = useState(() => {
-    if (initialCollectionPath === location.pathname && initialCollectionResult) return initialCollectionResult;
+    if (initialCollectionPath === location.pathname && initialCollectionResult && !params.toString()) return initialCollectionResult;
     const rows = initialRows(products, mode, slug, query);
     return { products: rows.slice(0, 24), total: rows.length, page: 1, pages: Math.max(1, Math.ceil(rows.length / 24)), available_facets: {}, available_sorts: ['relevance', 'newest', 'price_asc', 'price_desc'] };
   });
@@ -183,10 +190,12 @@ export function CollectionPage({ mode = 'all' }) {
   const [draftParams, setDraftParams] = useState(() => new URLSearchParams(params));
   const [draftPreview, setDraftPreview] = useState({ key: '', total: null, facets: null, error: '' });
   const [searchValue, setSearchValue] = useState(query);
+  const [collectionSearchOpen, setCollectionSearchOpen] = useState(mode === 'all' && Boolean(query));
   const [priceMin, setPriceMin] = useState(params.get('min') || '');
   const [priceMax, setPriceMax] = useState(params.get('max') || '');
   const filterPanelRef = useRef(null);
   const filterToggleRef = useRef(null);
+  const collectionSearchRef = useRef(null);
   const navigate = useNavigate();
   useEffect(() => {
     const media = window.matchMedia('(max-width: 760px)');
@@ -224,6 +233,21 @@ export function CollectionPage({ mode = 'all' }) {
   }, [mobileFilters, filterOpen]);
   useEffect(() => setFilterOpen(false), [mode, slug]);
   useEffect(() => setSearchValue(query), [query]);
+  useEffect(() => {
+    if (mode === 'all' && collectionSearchOpen) collectionSearchRef.current?.focus();
+  }, [mode, collectionSearchOpen]);
+  useEffect(() => {
+    if (mode !== 'all' || !collectionSearchOpen) return undefined;
+    const value = searchValue.trim();
+    const timer = window.setTimeout(() => {
+      const latest = new URLSearchParams(window.location.search);
+      if ((latest.get('q') || '') === value) return;
+      if (value) latest.set('q', value); else latest.delete('q');
+      latest.delete('page');
+      setParams(latest, { replace: true });
+    }, 240);
+    return () => window.clearTimeout(timer);
+  }, [mode, collectionSearchOpen, searchValue]);
   useEffect(() => { setPriceMin(params.get('min') || ''); setPriceMax(params.get('max') || ''); }, [params]);
   const context = collectionContext(mode, slug, brands, categories, skinTypes, concerns, query);
   const contextField = { brand: 'brand', category: 'category', skin: 'skin_type', concern: 'concern' }[mode];
@@ -320,14 +344,14 @@ export function CollectionPage({ mode = 'all' }) {
   }
   function clear() {
     const next = new URLSearchParams();
-    if (query && mode === 'search') next.set('q', query);
+    if (query && (mode === 'search' || mode === 'all')) next.set('q', query);
     setParams(next);
     setPriceMin(''); setPriceMax('');
   }
   function clearFilterPanel() {
     if (!mobileFilters || !filterOpen) { clear(); return; }
     const next = new URLSearchParams();
-    if (query && mode === 'search') next.set('q', query);
+    if (query && (mode === 'search' || mode === 'all')) next.set('q', query);
     setDraftParams(next);
     setPriceMin(''); setPriceMax('');
   }
@@ -389,6 +413,14 @@ export function CollectionPage({ mode = 'all' }) {
     <div className="collection-toolbar">
       <div className="collection-toolbar-summary">
         <span className="collection-result-count">{loading ? 'Chargement…' : `${result.total} produit${result.total > 1 ? 's' : ''}`}</span>
+        {mode === 'all' && <div className={`collection-inline-search${collectionSearchOpen ? ' is-open' : ''}`}>
+          {!collectionSearchOpen ? <button type="button" className="collection-search-toggle" aria-label="Rechercher dans la boutique" aria-expanded="false" onClick={() => setCollectionSearchOpen(true)}><MagnifyingGlass size={18} /></button>
+            : <form className="collection-search-form" role="search" onSubmit={(event) => event.preventDefault()} onBlur={(event) => { if (!searchValue.trim() && !event.currentTarget.contains(event.relatedTarget)) setCollectionSearchOpen(false); }}>
+              <MagnifyingGlass size={17} aria-hidden="true" />
+              <input ref={collectionSearchRef} type="text" aria-label="Rechercher dans la boutique" placeholder="Rechercher un produit ou une marque" value={searchValue} onChange={(event) => { const value = event.target.value; if (!value.trim()) { setSearchValue(''); setCollectionSearchOpen(false); update('q', ''); } else setSearchValue(value); }} />
+              <button type="button" className="collection-search-close" aria-label={searchValue ? 'Effacer la recherche' : 'Fermer la recherche'} onClick={() => { if (searchValue) { setSearchValue(''); update('q', ''); } setCollectionSearchOpen(false); }}><X size={15} /></button>
+            </form>}
+        </div>}
         {selected.length > 0 && <div className="selected-filters" aria-label="Filtres sélectionnés">{selected.map((item) => <button key={item.key} title={`Retirer le filtre ${item.label}`} onClick={() => { if (item.key === 'price') { const next = new URLSearchParams(params); next.delete('min'); next.delete('max'); next.delete('page'); setParams(next); } else if (item.key === 'promotion') update('promotion', ''); else removeFacetChoice(item.fieldKey, item.value); }}><span>{item.label}</span><X size={13} /></button>)}<button className="clear-all" onClick={clear}>Tout effacer</button></div>}
       </div>
       <div className="collection-toolbar-controls"><button ref={filterToggleRef} className="filter-toggle" onClick={openFilters}><SlidersHorizontal size={17} /> Filtrer{activeFilterCount(params, contextField) > 0 && <span className="filter-toggle-count">{activeFilterCount(params, contextField)}</span>}</button><label>Trier <select value={sort} onChange={(event) => update('sort', event.target.value)}>{(result.available_sorts || Object.keys(labels)).map((value) => <option value={value} key={value}>{labels[value]}</option>)}</select></label></div>

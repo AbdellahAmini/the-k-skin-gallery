@@ -35,6 +35,7 @@ export default function Home() {
     ['03', 'Je connais ma marque', 'ANUA, COSRX, SKIN1004…', '/marques', 'Voir les marques'],
   ];
   const entries = home.entry_cards?.length === 3 ? home.entry_cards.map((card, index) => [String(index + 1).padStart(2, '0'), card.title, card.description, card.path, card.action]) : fallbackEntries;
+  const featuredPack = bundles.find((item) => item.slug === 'ksg-pack-01') || bundles[0];
   return <main id="top">
     <HeroCarousel slides={home.slides} home={home} />
 
@@ -46,8 +47,8 @@ export default function Home() {
     <PromotionsSection products={promotionProducts} />
     <ProductSection title="Nouveautés dans la Gallery" path="/nouveautes" eyebrow="À découvrir" products={newProducts} />
 
-    <section className="home-guided"><div className="section-heading"><div><p className="eyebrow">Le bon geste, simplement</p><h2>Routines & Packs</h2></div><Link className="text-link" to="/routines">Voir toutes les routines <ArrowRight size={16} /></Link></div>
-      <div className="home-guided-grid">{routines.filter((item) => (home.featured_routine_slugs || ['simple', 'matin', 'soir']).includes(item.slug)).map((item) => <Link key={item.slug} to={`/routines/${item.slug}`} className="home-guided-card"><Sparkle size={22} /><h3>{item.name}</h3><p>{item.description}</p><span>Découvrir <ArrowRight size={16} /></span></Link>)}{bundles.slice(0, 1).map((item) => <Link key={item.slug} to={`/packs/${item.slug}`} className="home-guided-card home-pack-card"><Bag size={22} /><h3>{item.name}</h3><p>{item.items.length} soins réunis dans un pack.</p><span>Voir le pack <ArrowRight size={16} /></span></Link>)}</div>
+    <section className="home-guided"><div className="section-heading"><div><p className="eyebrow">Le bon geste, simplement</p><h2>Routines & Packs</h2></div><Link className="text-link" to="/packs">Voir tous les packs <ArrowRight size={16} /></Link></div>
+      <div className="home-guided-grid">{routines.filter((item) => (home.featured_routine_slugs || ['simple', 'matin', 'soir']).includes(item.slug)).map((item) => <Link key={item.slug} to={`/routines/${item.slug}`} className="home-guided-card"><Sparkle size={22} /><h3>{item.name}</h3><p>{item.description}</p><span>Découvrir <ArrowRight size={16} /></span></Link>)}{featuredPack && <Link to={`/packs/${featuredPack.slug}`} className="home-guided-card home-pack-card"><Bag size={22} /><h3>{featuredPack.name}</h3><p>{featuredPack.items.length} soins réunis dans un pack.</p><span>Voir le pack <ArrowRight size={16} /></span></Link>}</div>
     </section>
     <section className="bottom-trust" aria-label="Vos achats en confiance">{(home.trust_messages || ['Produits authentiques', 'Livraison partout au Maroc', 'Paiement à la livraison', 'Assistance 7j/7']).map((message, index) => { const Icon = [ShieldCheck, Truck, Bag, MapPin][index]; return <div key={index}><Icon size={20} /><span>{message}</span></div>; })}</section>
   </main>;

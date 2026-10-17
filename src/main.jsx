@@ -6,6 +6,7 @@ import "./styles.css";
 import "./rebuild.css";
 import "./header.css";
 import "./navigation.css";
+import "./pack-pages.css";
 
 const dataElement = document.getElementById("gallery-initial-data");
 let initialData = null;
