@@ -75,7 +75,7 @@ test('storefront routes fit mobile and desktop without overflow or native button
       }));
       expect(metrics.overflow, `${path} overflow at ${width}px`).toBeLessThanOrEqual(2);
       if (path === '/' && width <= 760) {
-        expect(metrics.hero, `mobile hero height at ${width}px`).toBeGreaterThanOrEqual(500);
+        expect(metrics.hero, `mobile hero height at ${width}px`).toBeGreaterThanOrEqual(460);
         expect(metrics.hero, `mobile hero height at ${width}px`).toBeLessThanOrEqual(550);
         expect(Math.abs(metrics.header.searchTop - metrics.header.cartTop), `header actions alignment at ${width}px`).toBeLessThanOrEqual(1);
         expect(metrics.header.cartBottom, `cart stays in the mobile header at ${width}px`).toBeLessThanOrEqual(metrics.header.bottom + 1);

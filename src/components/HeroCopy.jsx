@@ -15,13 +15,16 @@ export default function HeroCopy({ slide, active = true }) {
         <p className="eyebrow">{slide.eyebrow}</p>
       )}
 
-      <h1 id={active ? 'hero-title' : undefined}>
-        {slide.title.split('\n').map((line, idx) => (
+      <h1 id={active ? 'hero-title' : undefined} aria-label={slide.title.replace(/\n/g, ' ')}>
+        <span className="hero-title-desktop" aria-hidden="true">
+          {slide.title.split('\n').map((line, idx) => (
           <span key={idx}>
             {line}
             <br />
           </span>
-        ))}
+          ))}
+        </span>
+        <span className="hero-title-mobile" aria-hidden="true">{slide.mobileTitle || slide.title.replace(/\n/g, ' ')}</span>
       </h1>
 
       {slide.description && (

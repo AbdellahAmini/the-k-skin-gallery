@@ -6,6 +6,7 @@ const screenshots = join(process.cwd(), 'test-results', 'homepage-mobile-refinem
 const sizes = [
   { width: 375, height: 667, label: '375' },
   { width: 390, height: 844, label: '390' },
+  { width: 393, height: 852, label: '393' },
   { width: 430, height: 932, label: '430' },
   { width: 768, height: 1024, label: '768' },
   { width: 1024, height: 900, label: '1024' },
@@ -39,8 +40,13 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
 
-  for (const width of [375, 390, 430]) {
-    await page.setViewportSize({ width, height: 844 });
+  for (const { width, height } of [
+    { width: 375, height: 667 },
+    { width: 390, height: 844 },
+    { width: 393, height: 852 },
+    { width: 430, height: 932 },
+  ]) {
+    await page.setViewportSize({ width, height });
     await page.goto('/');
     await expect(page.locator('.home-mobile-featured .product-card')).toHaveCount(4, { timeout: 15000 });
     const metrics = await page.evaluate(() => {
@@ -72,9 +78,15 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
           return rect.right > 0 && rect.left < innerWidth;
         }).length,
         logoImagesReady: [...document.querySelectorAll('.home-brands__logo-img')].every((image) => image.complete && image.naturalWidth > 0),
+        viewport: { innerWidth, height: innerHeight, metaCount: document.querySelectorAll('meta[name="viewport"]').length, metaContent: document.querySelector('meta[name="viewport"]')?.content },
+        heroHeight: hero?.height,
+        brandsHeadingBottom: box('.home-brands__heading')?.bottom,
+        entrySectionHeight: box('.gallery-entry')?.height,
         entryDisplay: getDisplay(entryRail),
+        entryColumns: getColumnCount(entryRail),
         entryRailBounds: railBounds(entryRail),
-        entryRects: entryCards.map((card) => { const rect = card.getBoundingClientRect(); return { left: rect.left, right: rect.right, width: rect.width }; }),
+        entryRects: entryCards.map((card) => { const rect = card.getBoundingClientRect(); return { left: rect.left, right: rect.right, top: rect.top, width: rect.width }; }),
+        entryTextWrap: entryCards.map((card) => ({ wordBreak: getComputedStyle(card.querySelector('h3')).wordBreak, overflowWrap: getComputedStyle(card.querySelector('h3')).overflowWrap, text: card.querySelector('h3').textContent.trim() })),
         featuredVisible: !!featured && getComputedStyle(featured).display !== 'none',
         newArrivalsHidden: !newArrivals || getComputedStyle(newArrivals).display === 'none',
         productColumns: getColumnCount(featuredGrid),
@@ -85,6 +97,8 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
         routineDisplay: getDisplay(routineRail),
         routineRailBounds: railBounds(routineRail),
         routineRects: routineCards.map((card) => { const rect = card.getBoundingClientRect(); return { left: rect.left, right: rect.right, width: rect.width }; }),
+        routineHint: document.querySelector('.home-guided-hint')?.innerText.replace(/\s+/g, ' ').trim(),
+        routineIndicators: document.querySelectorAll('.home-guided-indicator').length,
         trustItems: document.querySelectorAll('.bottom-trust > div').length,
         footerLogoWidth: document.querySelector('.full-footer .footer-brand')?.getBoundingClientRect().width,
         footerLinkLabels: [...document.querySelectorAll('.full-footer a')].map((link) => link.textContent.trim()),
@@ -92,18 +106,32 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
     });
 
     expect(metrics.overflow, `body overflow at ${width}px`).toBeLessThanOrEqual(0);
+    expect(metrics.viewport.innerWidth).toBe(width);
+    expect(metrics.viewport.metaCount).toBe(1);
+    expect(metrics.viewport.metaContent).toBe('width=device-width, initial-scale=1');
+    expect(metrics.heroHeight, `hero is compact at ${width}px`).toBeGreaterThanOrEqual(460);
+    expect(metrics.heroHeight, `hero is compact at ${width}px`).toBeLessThanOrEqual(550);
+    expect(metrics.brandsHeadingBottom, `brands peek below the hero at ${width}px`).toBeLessThan(height);
+    expect(metrics.entrySectionHeight, `entry choices stay compact at ${width}px`).toBeLessThanOrEqual(420);
     expect(metrics.brandsTop, `brand rail immediately follows the hero at ${width}px`).toBeGreaterThanOrEqual(metrics.heroBottom - 1);
     expect(metrics.logoDuration, `brand marquee speed at ${width}px`).toBeGreaterThanOrEqual(38);
     expect(metrics.logoDuration, `brand marquee speed at ${width}px`).toBeLessThanOrEqual(50);
     expect(metrics.logoImagesReady, `brand logos load at ${width}px`).toBe(true);
     expect(metrics.visibleLogos, `marquee shows a few logos at ${width}px`).toBeGreaterThanOrEqual(2);
     expect(metrics.visibleLogos, `marquee is not too dense at ${width}px`).toBeLessThanOrEqual(4);
-    expect(metrics.entryDisplay).toBe('flex');
-    expect(metrics.entryRailBounds.scrollWidth, `discovery rail scrolls at ${width}px`).toBeGreaterThan(metrics.entryRailBounds.width);
-    expect(Math.abs(metrics.entryRects[0].left - metrics.entryRailBounds.left), `first discovery card aligns with its heading at ${width}px`).toBeLessThanOrEqual(1);
-    expect(metrics.entryRects[0].right, `first discovery card stays fully inside the rail at ${width}px`).toBeLessThanOrEqual(metrics.entryRailBounds.right + 1);
-    expect(metrics.entryRects[0].width, `discovery card fills its available rail width at ${width}px`).toBeCloseTo(metrics.entryRailBounds.width, 0);
-    expect(Math.max(0, metrics.entryRailBounds.right - metrics.entryRects[1].left), `next discovery card preview at ${width}px`).toBeLessThanOrEqual(12);
+    expect(metrics.entryDisplay).toBe('grid');
+    expect(metrics.entryColumns).toBe(1);
+    expect(metrics.entryRailBounds.scrollWidth).toBe(metrics.entryRailBounds.width);
+    expect(metrics.entryRects).toHaveLength(3);
+    expect(metrics.entryRects.every((card) => card.width > 300)).toBe(true);
+    expect(metrics.entryRects.every((card) => card.right <= width - 17 && card.left >= 17)).toBe(true);
+    expect(metrics.entryRects[0].top).toBeLessThan(metrics.entryRects[1].top);
+    expect(metrics.entryRects[1].top).toBeLessThan(metrics.entryRects[2].top);
+    expect(metrics.entryTextWrap.every(({ wordBreak, overflowWrap }) => wordBreak === 'normal' && overflowWrap === 'normal')).toBe(true);
+    await expect(page.locator('.gallery-entry .home-section-link')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: /Je cherche un soin/ })).toHaveAttribute('href', '/soins');
+    await expect(page.getByRole('link', { name: /Je pars de ma peau/ })).toHaveAttribute('href', '/peau');
+    await expect(page.getByRole('link', { name: /Je connais ma marque/ })).toHaveAttribute('href', '/marques');
     expect(metrics.featuredVisible).toBe(true);
     expect(metrics.newArrivalsHidden).toBe(true);
     expect(metrics.productColumns, `featured product grid columns at ${width}px`).toBe(2);
@@ -115,7 +143,9 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
     expect(metrics.routineRailBounds.scrollWidth, `routines rail scrolls at ${width}px`).toBeGreaterThan(metrics.routineRailBounds.width);
     expect(Math.abs(metrics.routineRects[0].left - metrics.routineRailBounds.left)).toBeLessThanOrEqual(1);
     expect(metrics.routineRects[0].right).toBeLessThanOrEqual(metrics.routineRailBounds.right + 1);
-    expect(metrics.routineRects[0].width).toBeCloseTo(metrics.routineRailBounds.width, 0);
+    expect(metrics.routineRects[0].width).toBeCloseTo(metrics.routineRailBounds.width - 22, 0);
+    expect(metrics.routineHint).toMatch(new RegExp(`^${metrics.routineRects.length} choix · Faites glisser`));
+    expect(metrics.routineIndicators).toBe(metrics.routineRects.length);
     expect(Math.max(0, metrics.routineRailBounds.right - metrics.routineRects[1].left)).toBeLessThanOrEqual(12);
     expect(metrics.trustItems).toBe(4);
     expect(metrics.footerLogoWidth).toBeGreaterThanOrEqual(145);
@@ -124,10 +154,9 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
       expect(metrics.footerLinkLabels, `footer link ${label}`).toContain(label);
     }
 
-    const entryRail = page.locator('.gallery-entry-grid');
-    const secondEntry = page.locator('.gallery-entry-card').nth(1);
-    await entryRail.evaluate((element) => { element.style.scrollBehavior = 'auto'; element.scrollLeft = element.clientWidth; });
-    await expect.poll(() => secondEntry.evaluate((element) => Math.abs(element.getBoundingClientRect().left - document.querySelector('.gallery-entry-grid').getBoundingClientRect().left))).toBeLessThanOrEqual(1);
+    const routineDots = page.locator('.home-guided-indicator');
+    await routineDots.nth(2).click();
+    await expect(routineDots.nth(2)).toHaveAttribute('aria-current', 'true');
 
     const verticalBefore = await page.evaluate(() => window.scrollY);
     await page.evaluate(() => window.scrollBy({ top: 500, behavior: 'smooth' }));
@@ -160,6 +189,7 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
       const rect = card.getBoundingClientRect();
       return rail.right - rect.right;
     })).toBeGreaterThanOrEqual(-1);
+    await expect(page.locator('.home-guided-indicator').last()).toHaveAttribute('aria-current', 'true');
     await page.locator('.home-guided .home-section-link').click();
     await expect(page).toHaveURL(/\/packs$/);
     await page.goto('/');

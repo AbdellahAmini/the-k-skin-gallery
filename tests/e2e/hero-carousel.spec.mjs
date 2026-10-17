@@ -120,9 +120,9 @@ test.describe('Hero Carousel Verification Suite', () => {
       const hero = page.locator('.hero-carousel-container');
       await expect(hero).toBeVisible();
 
-      // Hero uses the dedicated 500px–550px mobile composition.
+      // Hero uses the compact 460px–550px small-viewport composition.
       const heroBox = await hero.boundingBox();
-      expect(heroBox.height).toBeGreaterThanOrEqual(500);
+      expect(heroBox.height).toBeGreaterThanOrEqual(460);
       expect(heroBox.height).toBeLessThanOrEqual(550);
 
       // 18. Text is rendered directly OVER image (inside hero container)

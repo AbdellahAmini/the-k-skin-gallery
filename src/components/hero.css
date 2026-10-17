@@ -153,6 +153,8 @@
   color: #1f1b1c;
 }
 
+.hero-title-mobile { display: none; }
+
 .hero-intro {
   max-width: 440px;
   margin: 0 0 24px;
@@ -326,7 +328,8 @@
 /* Dedicated mobile composition; desktop hero styling remains above unchanged. */
 @media (max-width: 760px) {
   .hero-carousel-container {
-    height: clamp(500px, 132vw, 550px);
+    height: clamp(460px, 62vh, 550px);
+    height: clamp(460px, 62svh, 550px);
     min-height: 0;
     max-height: none;
     align-items: stretch;
@@ -343,9 +346,10 @@
   .hero-gradient-overlay {
     background: linear-gradient(180deg,
       rgba(247, 246, 243, .02) 0%,
-      rgba(247, 246, 243, .08) 35%,
-      rgba(247, 246, 243, .42) 52%,
-      rgba(247, 246, 243, .88) 72%,
+      rgba(247, 246, 243, .08) 28%,
+      rgba(247, 246, 243, .48) 38%,
+      rgba(247, 246, 243, .88) 50%,
+      rgba(247, 246, 243, .98) 68%,
       rgba(247, 246, 243, .97) 100%);
   }
 
@@ -353,29 +357,31 @@
     position: absolute;
     inset: auto 0 0;
     max-width: none;
-    padding: 0 20px 62px;
+    padding: 0 18px 58px;
   }
 
-  .hero-copy-content { max-width: 34ch; }
-  .hero-copy-content .eyebrow { font-size: 8px; letter-spacing: .18em; }
+  .hero-copy-content { max-width: 35ch; }
+  .hero-title-desktop { display: none; }
+  .hero-title-mobile { display: block; }
+  .hero-copy-content .eyebrow { font-size: 8px; letter-spacing: .16em; }
   .hero-copy-content h1 {
-    max-width: 11ch;
-    margin: 10px 0;
-    font-size: clamp(31px, 8.4vw, 35px);
+    max-width: 15ch;
+    margin: 7px 0 8px;
+    font-size: clamp(31px, 8vw, 35px);
     line-height: 1.04;
     letter-spacing: -.025em;
   }
   .hero-intro {
-    max-width: 34ch;
-    margin: 0 0 12px;
+    max-width: 35ch;
+    margin: 0 0 8px;
     font-size: 12.5px;
-    line-height: 1.48;
+    line-height: 1.45;
   }
-  .hero-actions { align-items: flex-start; flex-direction: column; gap: 2px; }
+  .hero-actions { align-items: flex-start; flex-direction: column; gap: 0; }
   .hero-cta {
     width: fit-content;
     min-width: 190px;
-    min-height: 48px;
+    min-height: 46px;
     padding: 0 16px;
     border-color: var(--rose);
     background: var(--rose);
@@ -384,7 +390,7 @@
   }
   .hero-cta:hover { border-color: #8e4058; background: #8e4058; color: #fff; }
   .hero-cta-secondary {
-    min-height: 40px;
+    min-height: 34px;
     padding: 0 4px;
     border-color: transparent;
     background: transparent;
@@ -395,7 +401,7 @@
   .hero-cta-secondary:hover { border-color: transparent; background: transparent; color: var(--rose); }
 
   .hero-indicators {
-    bottom: 0;
+    bottom: 14px;
     gap: 0;
     padding: 0;
     border: 0;
