@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, CaretDown, Sparkle, Tag } from '@phosphor-icons/react';
 import { Link, NavLink, useLocation } from 'react-router';
 import { prefetchRoute } from '../lib/route-prefetch';
+import Button from './ui/Button';
 
 const careMap = [
   ['Nettoyer', ['huiles-baumes', 'nettoyants', 'exfoliants']],
@@ -14,27 +15,35 @@ export function buildNavigation({ brands, categories, skinTypes, concerns, routi
     .sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }));
   const featuredSlugs = content.homepage?.featured_brand_slugs || [];
   const dropdownBrands = [...featuredSlugs.map((slug) => activeBrands.find((item) => item.slug === slug)).filter(Boolean),
-    ...[...activeBrands].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'fr'))]
+  ...[...activeBrands].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'fr'))]
     .filter((item, index, items) => items.findIndex((candidate) => candidate.slug === item.slug) === index)
     .slice(0, 9)
     .sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }));
-  const careGroups = careMap.map(([title, slugs]) => ({ title, links: slugs
-    .map((slug) => categories.find((item) => item.slug === slug && item.count > 0))
-    .filter(Boolean).map((item) => ({ label: item.name, href: `/soins/${item.slug}` })) })).filter((group) => group.links.length);
+  const careGroups = careMap.map(([title, slugs]) => ({
+    title, links: slugs
+      .map((slug) => categories.find((item) => item.slug === slug && item.count > 0))
+      .filter(Boolean).map((item) => ({ label: item.name, href: `/soins/${item.slug}` }))
+  })).filter((group) => group.links.length);
   const linkRows = (items, prefix) => items.map((item) => ({ label: item.name, href: `${prefix}/${item.slug}` }));
   return [
     { id: 'shop', label: 'Boutique', href: '/boutique' },
-    { id: 'brands', label: 'Marques', href: '/marques', menuType: 'brands',
-      preview: linkRows(dropdownBrands, '/marques') },
+    {
+      id: 'brands', label: 'Marques', href: '/marques', menuType: 'brands',
+      preview: linkRows(dropdownBrands, '/marques')
+    },
     { id: 'care', label: 'Soins', href: '/soins', menuType: 'care', groups: careGroups },
-    { id: 'skin', label: 'Peau', href: '/peau', menuType: 'skin', groups: [
-      { title: 'Type de peau', links: linkRows(skinTypes, '/type-de-peau') },
-      { title: 'Besoins', links: linkRows(concerns, '/besoins') },
-    ] },
-    { id: 'routines', label: 'Routines & Packs', href: '/routines', menuType: 'routines', groups: [
-      { title: 'Routines', links: linkRows(routines, '/routines') },
-      { title: 'Packs', links: [...linkRows(bundles.slice(0, 5), '/packs'), { label: 'Tous les packs', href: '/packs' }] },
-    ], feature: routines[0] },
+    {
+      id: 'skin', label: 'Peau', href: '/peau', menuType: 'skin', groups: [
+        { title: 'Type de peau', links: linkRows(skinTypes, '/type-de-peau') },
+        { title: 'Besoins', links: linkRows(concerns, '/besoins') },
+      ]
+    },
+    {
+      id: 'routines', label: 'Routines & Packs', href: '/routines', menuType: 'routines', groups: [
+        { title: 'Routines', links: linkRows(routines, '/routines') },
+        { title: 'Packs', links: [...linkRows(bundles.slice(0, 5), '/packs'), { label: 'Tous les packs', href: '/packs' }] },
+      ], feature: routines[0]
+    },
     { id: 'promos', label: 'Promotions', href: '/promotions' },
   ];
 }
@@ -88,16 +97,16 @@ function MegaMenuShell({ section, visible, fading, onNavigate, onEnter, onLeave 
   return <>
     <button type="button" className={`gallery-menu-backdrop ${visible ? 'is-open' : ''}`} aria-label="Fermer le menu" tabIndex={-1} onClick={onNavigate} />
     <div id="gallery-primary-menu" className={`gallery-mega gallery-mega--${section?.menuType || 'brands'} ${visible ? 'is-open' : ''} ${fading ? 'is-switching' : ''}`}
-    role="region" aria-label={section ? `Explorer ${section.label}` : 'Navigation'} aria-hidden={!visible}
-    onMouseEnter={onEnter} onMouseLeave={onLeave} inert={!visible}>
-    {section && <div className="gallery-mega-inner" key={section.id}>
-      <div className="gallery-mega-heading"><div className="gallery-mega-heading-copy"><span>The K-Skin Gallery</span><h2>{section.label}</h2></div>
-        <Link to={section.href} onClick={onNavigate}>{section.id === 'brands' ? 'Toutes les marques' : `Voir ${section.id === 'care' ? 'tous les soins' : section.id === 'skin' ? 'tout' : 'toutes les routines'}`} <ArrowRight size={15} /></Link></div>
-      {section.id === 'brands' && <BrandsMegaMenu section={section} onNavigate={onNavigate} />}
-      {section.id === 'care' && <CareMegaMenu section={section} onNavigate={onNavigate} />}
-      {section.id === 'skin' && <SkinMegaMenu section={section} onNavigate={onNavigate} />}
-      {section.id === 'routines' && <RoutineMegaMenu section={section} onNavigate={onNavigate} />}
-    </div>}
+      role="region" aria-label={section ? `Explorer ${section.label}` : 'Navigation'} aria-hidden={!visible}
+      onMouseEnter={onEnter} onMouseLeave={onLeave} inert={!visible}>
+      {section && <div className="gallery-mega-inner" key={section.id}>
+        <div className="gallery-mega-heading"><div className="gallery-mega-heading-copy"><span>The K-Skin Gallery</span><h2>{section.label}</h2></div>
+          <Link to={section.href} onClick={onNavigate}>{section.id === 'brands' ? 'Toutes les marques' : `Voir ${section.id === 'care' ? 'tous les soins' : section.id === 'skin' ? 'tout' : 'Toutes les Packs & routines'}`} <ArrowRight size={15} /></Link></div>
+        {section.id === 'brands' && <BrandsMegaMenu section={section} onNavigate={onNavigate} />}
+        {section.id === 'care' && <CareMegaMenu section={section} onNavigate={onNavigate} />}
+        {section.id === 'skin' && <SkinMegaMenu section={section} onNavigate={onNavigate} />}
+        {section.id === 'routines' && <RoutineMegaMenu section={section} onNavigate={onNavigate} />}
+      </div>}
     </div>
   </>;
 }
@@ -140,12 +149,12 @@ export function PrimaryNavigation({ sections }) {
     onKeyDown={(event) => { if (event.key === 'Escape') { close(); root.current?.querySelector(`[data-nav-id="${openId}"]`)?.focus(); } }}>
     <nav className="primary-nav gallery-nav" aria-label="Navigation principale">
       {sections.map((item) => <div className={`gallery-nav-item ${openId === item.id ? 'is-open' : ''}`} key={item.id}
-        onMouseEnter={() => { prefetchRoute(item.href).catch(() => {}); intent(item.menuType ? item.id : ''); }}>
+        onMouseEnter={() => { prefetchRoute(item.href).catch(() => { }); intent(item.menuType ? item.id : ''); }}>
         <NavLink data-nav-id={item.id} to={item.href}
           className={({ isActive }) => `${isActive ? 'active ' : ''}${item.id === 'promos' ? 'promo-link' : ''}`}>{item.id === 'promos' ? <>{item.label}<Tag className="promo-nav-icon" size={15} weight="duotone" aria-hidden="true" /></> : item.label}</NavLink>
-        {item.menuType && <button type="button" className="gallery-nav-chevron" aria-label={`Afficher le menu ${item.label}`}
+        {item.menuType && <Button variant="ghost" size="icon" type="button" className="gallery-nav-chevron" aria-label={`Afficher le menu ${item.label}`}
           aria-expanded={openId === item.id} aria-controls="gallery-primary-menu"
-          onClick={() => openId === item.id ? close() : show(item.id)}><CaretDown size={11} /></button>}
+          onClick={() => openId === item.id ? close() : show(item.id)}><CaretDown size={11} /></Button>}
       </div>)}
     </nav>
     <MegaMenuShell section={section} visible={!!openId} fading={fading} onNavigate={close}
@@ -156,14 +165,14 @@ export function PrimaryNavigation({ sections }) {
 function MobileNavAccordion({ section, onNavigate }) {
   const [open, setOpen] = useState(false);
   return <div className={`gallery-mobile-accordion gallery-mobile-accordion--${section.id} ${open ? 'is-open' : ''}`}>
-    <button type="button" className="gallery-mobile-trigger" aria-expanded={open} aria-controls={`mobile-${section.id}`}
-      onClick={() => setOpen((value) => !value)}>{section.label}<CaretDown size={16} /></button>
+    <Button variant="ghost" size="default" type="button" className="gallery-mobile-trigger" aria-expanded={open} aria-controls={`mobile-${section.id}`}
+      onClick={() => setOpen((value) => !value)}>{section.label}<CaretDown size={16} /></Button>
     <div id={`mobile-${section.id}`} className="gallery-mobile-panel" aria-hidden={!open} inert={!open}><div className="gallery-mobile-panel-inner">
       {section.id === 'brands' ? <><Link className="gallery-mobile-brand-all" to="/marques" onClick={onNavigate}>Toutes les marques <ArrowRight size={14} /></Link>
         <div className="gallery-mobile-brand-links"><MenuLinks links={section.preview} onNavigate={onNavigate} /></div></>
         : section.groups.map((group) => <section key={group.title}><h3>{group.title}</h3><MenuLinks links={group.links} onNavigate={onNavigate} /></section>)}
       {section.id !== 'brands' && <Link className="gallery-mobile-all" to={section.href} onClick={onNavigate}>
-        {section.id === 'care' ? 'Tous les soins' : section.id === 'skin' ? 'Voir tout' : 'Toutes les routines'} <ArrowRight size={15} /></Link>}
+        {section.id === 'care' ? 'Tous les soins' : section.id === 'skin' ? 'Voir tout' : 'Toutes les Packs & routines'} <ArrowRight size={15} /></Link>}
     </div></div>
   </div>;
 }

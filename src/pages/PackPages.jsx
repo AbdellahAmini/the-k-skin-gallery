@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowCounterClockwise, ArrowLeft, ArrowRight, Bag, CaretDown, MagnifyingGlass, Package, SlidersHorizontal, X } from '@phosphor-icons/react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import PackImage from '../components/PackImage';
+import Button from '../components/ui/Button';
 import { api, money } from '../lib/api';
 import { useStore } from '../state/StoreContext';
 
@@ -38,8 +39,8 @@ function textItems(value) {
 
 function LanguageToggle({ lang, onChange }) {
   return <div className="pack-language-toggle" role="group" aria-label="Langue du guide / لغة الدليل">
-    <button type="button" aria-pressed={lang === 'fr'} className={lang === 'fr' ? 'is-active' : ''} onClick={() => onChange('fr')}>Français</button>
-    <button type="button" aria-pressed={lang === 'ar'} className={lang === 'ar' ? 'is-active' : ''} onClick={() => onChange('ar')}>الدارجة</button>
+    <Button variant="ghost" size="sm" type="button" aria-pressed={lang === 'fr'} className={lang === 'fr' ? 'is-active' : ''} onClick={() => onChange('fr')}>Français</Button>
+    <Button variant="ghost" size="sm" type="button" aria-pressed={lang === 'ar'} className={lang === 'ar' ? 'is-active' : ''} onClick={() => onChange('ar')}>الدارجة</Button>
   </div>;
 }
 
@@ -228,42 +229,42 @@ export function PackDirectoryPage() {
   }
 
   const filters = <div className="filters">
-    <div className="filter-head"><div className="filter-head-copy"><h2>{t.filterTitle}</h2></div><div className="filter-head-actions"><button className="filter-reset-all" type="button" onClick={resetAll} disabled={!activeCount && !activeParams.has('q')}><ArrowCounterClockwise size={14} /> {t.clearAll}</button><button className="filter-close" type="button" onClick={() => setFilterOpen(false)} aria-label={rtl ? 'سد الفلاتر' : 'Fermer les filtres'}><X size={20} /></button></div></div>
+    <div className="filter-head"><div className="filter-head-copy"><h2>{t.filterTitle}</h2></div><div className="filter-head-actions"><Button variant="link" size="sm" className="filter-reset-all" type="button" onClick={resetAll} disabled={!activeCount && !activeParams.has('q')}><ArrowCounterClockwise size={14} /> {t.clearAll}</Button><Button variant="ghost" size="icon" className="filter-close" type="button" onClick={() => setFilterOpen(false)} aria-label={rtl ? 'سد الفلاتر' : 'Fermer les filtres'}><X size={20} /></Button></div></div>
     {packFilterFields.map(([field, label, key]) => {
       const selected = chosenValues(activeParams, key);
       const options = field === 'availability' ? [{ slug: 'in_stock', name: t.inStock }, { slug: 'out_of_stock', name: t.outOfStock }]
         : [...new Map(packs.flatMap((bundle) => valuesFor(bundle, field, lang)).map((option) => [option.slug, option])).values()].sort((a, b) => a.name.localeCompare(b.name, rtl ? 'ar' : 'fr'));
       const counts = options.map((option) => ({ ...option, count: packs.filter((bundle) => matchesPack(bundle, activeParams, field) && valuesFor(bundle, field).some((value) => value.slug === option.slug)).length }));
       return <details className={`filter-section${selected.length ? ' has-selection' : ''}`} key={field}>
-        <summary><span>{t[label]}</span>{selected.length > 0 && <span className="filter-section-count" aria-label={`${selected.length} ${rtl ? 'اختيارات مفعّلة' : 'choix actifs'}`}>{selected.length}</span>}<CaretDown size={15} aria-hidden="true" />{selected.length > 0 && <button className="filter-section-clear" type="button" aria-label={`${t.clearAll} ${t[label]}`} onClick={(event) => { event.preventDefault(); event.stopPropagation(); resetSection(key); }}><X size={14} /></button>}</summary>
-        <div className="facet-options">{counts.filter((option) => option.count > 0 || selected.includes(option.slug) || field === 'availability').map((option) => <button type="button" key={option.slug} disabled={option.count === 0 && !selected.includes(option.slug)} className={selected.includes(option.slug) ? 'selected' : ''} aria-pressed={selected.includes(option.slug)} onClick={() => toggleFilter(key, option.slug)}><span className="facet-option-label"><span className="facet-check" aria-hidden="true">{selected.includes(option.slug) ? '✓' : ''}</span>{option.name}</span><small>{option.count}</small></button>)}</div>
+        <summary><span>{t[label]}</span>{selected.length > 0 && <span className="filter-section-count" aria-label={`${selected.length} ${rtl ? 'اختيارات مفعّلة' : 'choix actifs'}`}>{selected.length}</span>}<CaretDown size={15} aria-hidden="true" />{selected.length > 0 && <Button variant="ghost" size="icon" className="filter-section-clear" type="button" aria-label={`${t.clearAll} ${t[label]}`} onClick={(event) => { event.preventDefault(); event.stopPropagation(); resetSection(key); }}><X size={14} /></Button>}</summary>
+        <div className="facet-options">{counts.filter((option) => option.count > 0 || selected.includes(option.slug) || field === 'availability').map((option) => <Button variant="ghost" size="default" type="button" key={option.slug} disabled={option.count === 0 && !selected.includes(option.slug)} className={selected.includes(option.slug) ? 'selected' : ''} aria-pressed={selected.includes(option.slug)} onClick={() => toggleFilter(key, option.slug)}><span className="facet-option-label"><span className="facet-check" aria-hidden="true">{selected.includes(option.slug) ? '✓' : ''}</span>{option.name}</span><small>{option.count}</small></Button>)}</div>
       </details>;
     })}
     <details className={`filter-section${activeParams.has('min') || activeParams.has('max') ? ' has-selection' : ''}`}>
-      <summary><span>{t.priceFilter}</span>{(activeParams.has('min') || activeParams.has('max')) && <span className="filter-section-count" aria-label={rtl ? 'فلتر الثمن مفعّل' : 'Filtre de prix actif'}>1</span>}<CaretDown size={15} aria-hidden="true" />{(activeParams.has('min') || activeParams.has('max')) && <button className="filter-section-clear" type="button" aria-label={`${t.clearAll} ${t.priceFilter}`} onClick={(event) => { event.preventDefault(); event.stopPropagation(); resetSection('price'); }}><X size={14} /></button>}</summary>
+      <summary><span>{t.priceFilter}</span>{(activeParams.has('min') || activeParams.has('max')) && <span className="filter-section-count" aria-label={rtl ? 'فلتر الثمن مفعّل' : 'Filtre de prix actif'}>1</span>}<CaretDown size={15} aria-hidden="true" />{(activeParams.has('min') || activeParams.has('max')) && <Button variant="ghost" size="icon" className="filter-section-clear" type="button" aria-label={`${t.clearAll} ${t.priceFilter}`} onClick={(event) => { event.preventDefault(); event.stopPropagation(); resetSection('price'); }}><X size={14} /></Button>}</summary>
       <form className="price-filter" onSubmit={(event) => { event.preventDefault(); if (invalidPrice) return; if (!mobileFilters || !filterOpen) { const next = new URLSearchParams(params); if (priceMin) next.set('min', priceMin); else next.delete('min'); if (priceMax) next.set('max', priceMax); else next.delete('max'); setParams(next); } }}>
         <label>{t.minimum}<input type="number" min="0" step="1" value={priceMin} onChange={(event) => setPriceMin(event.target.value)} /></label><label>{t.maximum}<input type="number" min="0" step="1" value={priceMax} onChange={(event) => setPriceMax(event.target.value)} /></label>
-        {invalidPrice && <p className="price-filter-error" role="alert">{rtl ? 'الحد الأقصى خاصو يكون أكبر من الحد الأدنى.' : 'Le prix maximum doit dépasser le minimum.'}</p>}<button type="submit" disabled={invalidPrice}>{t.apply}</button>
+        {invalidPrice && <p className="price-filter-error" role="alert">{rtl ? 'الحد الأقصى خاصو يكون أكبر من الحد الأدنى.' : 'Le prix maximum doit dépasser le minimum.'}</p>}<Button variant="outline" size="sm" type="submit" disabled={invalidPrice}>{t.apply}</Button>
       </form>
     </details>
-    {mobileFilters && filterOpen && <button className="button-primary filter-apply" type="button" disabled={invalidPrice} onClick={applyMobileFilters}>{rtl ? `عرض ${packs.filter((bundle) => matchesPack(bundle, priceDraft)).length} باك` : `Afficher ${packs.filter((bundle) => matchesPack(bundle, priceDraft)).length} pack${packs.filter((bundle) => matchesPack(bundle, priceDraft)).length > 1 ? 's' : ''}`}</button>}
+    {mobileFilters && filterOpen && <Button variant="primary" size="lg" className="filter-apply" type="button" disabled={invalidPrice} onClick={applyMobileFilters}>{rtl ? `عرض ${packs.filter((bundle) => matchesPack(bundle, priceDraft)).length} باك` : `Afficher ${packs.filter((bundle) => matchesPack(bundle, priceDraft)).length} pack${packs.filter((bundle) => matchesPack(bundle, priceDraft)).length > 1 ? 's' : ''}`}</Button>}
   </div>;
 
   return <main className="inner-page pack-directory" lang={rtl ? 'ar-MA' : 'fr'} dir={rtl ? 'rtl' : undefined}>
     <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link to="/">{t.home}</Link> / {t.packs}</nav>
     <div className="pack-directory-heading"><div><p className="eyebrow">THE K-SKIN GALLERY</p><h1>{t.collection}</h1><p>{t.intro}</p></div><LanguageToggle lang={lang} onChange={setLang} /></div>
-    <label className="pack-search"><MagnifyingGlass size={18} aria-hidden="true" /><input dir={rtl ? 'rtl' : undefined} type="search" aria-label={rtl ? 'قلبي على باك ولا منتج داخلو' : 'Rechercher un pack ou un produit inclus'} placeholder={t.searchPlaceholder} value={params.get('q') || ''} onChange={(event) => changeParams('q', event.target.value, true)} />{params.get('q') && <button type="button" onClick={() => changeParams('q', '')} aria-label={rtl ? 'مسح البحث' : 'Effacer la recherche'}><X size={16} /></button>}</label>
+    <label className="pack-search"><MagnifyingGlass size={18} aria-hidden="true" /><input dir={rtl ? 'rtl' : undefined} type="search" aria-label={rtl ? 'قلبي على باك ولا منتج داخلو' : 'Rechercher un pack ou un produit inclus'} placeholder={t.searchPlaceholder} value={params.get('q') || ''} onChange={(event) => changeParams('q', event.target.value, true)} />{params.get('q') && <Button variant="ghost" size="icon" type="button" onClick={() => changeParams('q', '')} aria-label={rtl ? 'مسح البحث' : 'Effacer la recherche'}><X size={16} /></Button>}</label>
     <div className="collection-toolbar pack-collection-toolbar">
       <div className="collection-toolbar-summary"><span className="collection-result-count">{ready ? (rtl ? `${filtered.length} ${t.count}` : `${filtered.length} pack${filtered.length > 1 ? 's' : ''}`) : t.loadingPacks}</span>
-        {selectedFilters.length > 0 && <div className="selected-filters" aria-label={rtl ? 'الفلاتر المختارة' : 'Filtres sélectionnés'}>{selectedFilters.map((item) => <button key={`${item.key}:${item.value || ''}`} type="button" onClick={() => removeSelected(item)} title={`${t.clearAll} ${item.label}`}><span>{item.label}</span><X size={13} /></button>)}<button className="clear-all" type="button" onClick={resetAll}>{t.clearAll}</button></div>}
+        {selectedFilters.length > 0 && <div className="selected-filters" aria-label={rtl ? 'الفلاتر المختارة' : 'Filtres sélectionnés'}>{selectedFilters.map((item) => <Button variant="outline" size="sm" key={`${item.key}:${item.value || ''}`} type="button" onClick={() => removeSelected(item)} title={`${t.clearAll} ${item.label}`}><span>{item.label}</span><X size={13} /></Button>)}<Button variant="link" size="sm" className="clear-all" type="button" onClick={resetAll}>{t.clearAll}</Button></div>}
       </div>
-      <div className="collection-toolbar-controls"><button ref={toggleRef} className="filter-toggle" type="button" onClick={openFilters}><SlidersHorizontal size={17} /> {t.filterButton}{activeCount > 0 && <span className="filter-toggle-count">{activeCount}</span>}</button><label>{t.sortTitle} <select value={params.get('sort') || 'relevance'} onChange={(event) => changeParams('sort', event.target.value)}>{Object.entries(sortLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label></div>
+      <div className="collection-toolbar-controls"><Button ref={toggleRef} variant="outline" size="default" className="filter-toggle" type="button" onClick={openFilters}><SlidersHorizontal size={17} /> {t.filterButton}{activeCount > 0 && <span className="filter-toggle-count">{activeCount}</span>}</Button><label>{t.sortTitle} <select value={params.get('sort') || 'relevance'} onChange={(event) => changeParams('sort', event.target.value)}>{Object.entries(sortLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label></div>
     </div>
     <div className="collection-layout pack-collection-layout">
       <aside ref={panelRef} className={`filter-panel pack-filter-panel${filterOpen ? ' open' : ''}`} role={mobileFilters && filterOpen ? 'dialog' : undefined} aria-modal={mobileFilters && filterOpen ? 'true' : undefined} aria-label={mobileFilters && filterOpen ? (rtl ? 'فلاتر الباكات' : 'Filtres des packs') : undefined}>{filters}</aside>
       <div className="pack-results">
         {filtered.length ? <div className="pack-directory-grid pack-results-grid">{filtered.map((bundle) => <PackCard bundle={bundle} key={bundle.id} lang={lang} />)}</div>
-          : <div className="state-panel"><Package size={28} /><h2>{t.noMatches}</h2><p>{t.noMatchesHint}</p><button type="button" className="button-primary" onClick={resetAll}>{t.clearAll}</button></div>}
+          : <div className="state-panel"><Package size={28} /><h2>{t.noMatches}</h2><p>{t.noMatchesHint}</p><Button type="button" variant="primary" onClick={resetAll}>{t.clearAll}</Button></div>}
       </div>
     </div>
   </main>;
@@ -286,7 +287,7 @@ export function PackPage() {
     return () => { live = false; };
   }, [slug]);
   const t = labels[lang];
-  if (!bundle) return <main className="inner-page"><div className="state-panel"><h1>{loading ? t.loading : t.notFound}</h1><Link to="/packs" className="button-primary">{t.back}</Link></div></main>;
+  if (!bundle) return <main className="inner-page"><div className="state-panel"><h1>{loading ? t.loading : t.notFound}</h1><Button asChild variant="primary"><Link to="/packs">{t.back}</Link></Button></div></main>;
   const c = copy(bundle, lang);
   const rtl = lang === 'ar';
   const hasGuide = Boolean(c.who || c.why || c.morning);
@@ -302,8 +303,8 @@ export function PackPage() {
       <div className="pack-compact-main">
         <p className="eyebrow">{t.pack}</p><h1>{c.name || bundle.name}</h1><p className="pack-lead">{c.summary || bundle.description}</p>
         <div className="pack-purchase-line"><StockLabel bundle={bundle} lang={lang} /><strong>{money(bundle.price_dh)}</strong></div>
-        {bundle.stock > 0 ? <div className="pack-buy"><label>{t.quantity}<select value={quantity} onChange={(event) => setQuantity(Number(event.target.value))}>{Array.from({ length: qtyMax }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label><button className="button-primary" type="button" onClick={() => addBundleToCart(bundle, quantity)}><Bag size={18} /> {t.add}</button></div>
-          : <button className="button-primary pack-unavailable" type="button" disabled>{t.unavailable}</button>}
+        {bundle.stock > 0 ? <div className="pack-buy"><label>{t.quantity}<select value={quantity} onChange={(event) => setQuantity(Number(event.target.value))}>{Array.from({ length: qtyMax }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label><Button variant="primary" size="default" className="pack-add-button" type="button" onClick={() => addBundleToCart(bundle, quantity)}><Bag size={18} /> {t.add}</Button></div>
+          : <Button variant="primary" size="default" className="pack-unavailable" type="button" disabled>{t.unavailable}</Button>}
         <section className="pack-text-block" aria-labelledby="pack-contents-title"><h2 id="pack-contents-title">{t.contents} <small>({bundle.items.length})</small></h2>
           <ol className="pack-text-list pack-component-list">{bundle.items.map(({ product, quantity: count }) => <li key={product.id}>
             <Link to={`/produits/${product.slug}`} dir="ltr">{product.name}</Link><span className="pack-component-quantity">× {count}</span>

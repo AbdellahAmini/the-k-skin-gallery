@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import Button from '../components/ui/Button';
 import { useStore } from '../state/StoreContext';
 
 const content = {
@@ -24,7 +25,7 @@ export default function Info({ type }) {
   const { settings, content: sections } = useStore();
   if (type === 'contact') return <main className="inner-page"><div className="page-heading"><p className="eyebrow">À votre écoute</p><h1>Contact</h1><p>Une question sur un produit, une commande ou la livraison ?</p></div>
     <div className="info-grid"><section><h2>Assistant skincare</h2><p>Notre équipe peut vous aider à trouver un soin parmi les produits de la Gallery.</p>
-      {settings.whatsapp_number ? <a className="button-primary" href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}`} target="_blank" rel="noreferrer">Écrire sur WhatsApp</a> : <p className="quiet-note">Le numéro WhatsApp sera affiché lorsqu’il aura été configuré.</p>}</section>
+      {settings.whatsapp_number ? <Button asChild variant="primary"><a href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}`} target="_blank" rel="noreferrer">Écrire sur WhatsApp</a></Button> : <p className="quiet-note">Le numéro WhatsApp sera affiché lorsqu’il aura été configuré.</p>}</section>
       <section><h2>Par téléphone</h2>{settings.support_phone ? <a href={`tel:${settings.support_phone}`}>{settings.support_phone}</a> : <p className="quiet-note">Numéro à renseigner dans les paramètres de la Gallery.</p>}</section></div></main>;
   const [title, fallbackBlocks] = content[type] || content.faq;
   const blocks = type === 'faq' && sections.faq?.items?.length

@@ -3,6 +3,7 @@ import { ArrowRight, Bag, ShieldCheck } from '@phosphor-icons/react';
 import { Link, useNavigate } from 'react-router';
 import ProductImage from '../components/ProductImage';
 import { api, money } from '../lib/api';
+import Button from '../components/ui/Button';
 import { useStore } from '../state/StoreContext';
 
 export default function Checkout() {
@@ -38,7 +39,7 @@ export default function Checkout() {
       navigate(`/commande/${order.public_token}/confirmation`, { replace: true });
     } catch (e) { setError(e.message); setSubmitting(false); }
   }
-  if (!cartLines.length) return <main className="inner-page"><div className="state-panel"><h1>Votre panier est vide</h1><p>Ajoutez un soin avant de passer commande.</p><Link to="/boutique" className="button-primary">Voir la boutique</Link></div></main>;
+  if (!cartLines.length) return <main className="inner-page"><div className="state-panel"><h1>Votre panier est vide</h1><p>Ajoutez un soin avant de passer commande.</p><Button asChild variant="primary"><Link to="/boutique">Voir la boutique</Link></Button></div></main>;
   return <main className="inner-page checkout-page"><div className="page-heading"><p className="eyebrow">Paiement à la livraison</p><h1>Finaliser ma commande</h1><p>Votre commande sera confirmée par téléphone avant préparation.</p></div>
     <div className="checkout-layout"><form className="checkout-page-form" onSubmit={submit}>
       <section className="form-section"><h2>Vos coordonnées</h2><div className="form-grid">
@@ -57,7 +58,7 @@ export default function Checkout() {
       </div></section>
       <section className="form-section"><h2>Paiement</h2><div className="payment-method"><Bag size={21} /><div><strong>À la livraison</strong><small>Réglez votre commande lors de la réception.</small></div><span aria-hidden="true">✓</span></div></section>
       {error && <p className="form-error" role="alert">{error}</p>}
-      <button type="submit" className="button-primary checkout-submit" disabled={submitting || !quote || !form.city_id}>{submitting ? 'Enregistrement…' : 'Commander'} <ArrowRight size={17} /></button>
+      <Button type="submit" variant="primary" size="lg" className="checkout-submit" disabled={submitting || !quote || !form.city_id}>{submitting ? 'Enregistrement…' : 'Commander'} <ArrowRight size={17} /></Button>
       <p className="checkout-assurance"><ShieldCheck size={16} /> Votre commande sera confirmée par téléphone avant préparation.</p>
     </form>
     <aside className="order-summary checkout-summary"><h2>Votre commande</h2>

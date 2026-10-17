@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router';
 import { api, money } from '../lib/api';
 import ProductImage from '../components/ProductImage';
 import ProductCard from '../components/ProductCard';
+import Button from '../components/ui/Button';
 import { useStore } from '../state/StoreContext';
 
 export default function ProductDetail() {
@@ -27,7 +28,7 @@ export default function ProductDetail() {
       .catch((e) => alive && setError(e.message));
     return () => { alive = false; };
   }, [slug, products, mergeProducts]);
-  if (error) return <main className="inner-page"><div className="state-panel"><h1>Produit introuvable</h1><p>{error}</p><Link className="button-primary" to="/boutique">Voir la boutique</Link></div></main>;
+  if (error) return <main className="inner-page"><div className="state-panel"><h1>Produit introuvable</h1><p>{error}</p><Button asChild variant="primary"><Link to="/boutique">Voir la boutique</Link></Button></div></main>;
   if (!product) return <main className="inner-page"><div className="skeleton-pdp" /></main>;
   const related = products.filter((p) => p.id !== product.id && p.category_slug === product.category_slug).slice(0, 4);
   const isPromotion = product.compare_at_dh > product.price_dh;
@@ -50,7 +51,7 @@ export default function ProductDetail() {
   }
   return <main className="inner-page"><nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link to="/">Accueil</Link> / <Link to="/boutique">Boutique</Link> / <Link to={`/marques/${product.brand_slug}`}>{product.brand}</Link> / <span>{product.name}</span></nav>
     <div className="pdp-layout"><div><div className="pdp-image"><ProductImage src={selectedImage?.image_url || product.image_url} alt={selectedImage?.alt_text || `${product.brand} ${product.name}`} eager /></div>
-      {product.images?.length > 1 && <div className="pdp-thumbnails" aria-label="Images du produit">{product.images.map((image, index) => <button key={image.image_url} type="button" aria-label={`Voir l’image ${index + 1}`} aria-pressed={(selectedImage?.image_url || product.image_url) === image.image_url} onClick={() => setSelectedImage(image)}><ProductImage src={image.image_url} alt={image.alt_text} /></button>)}</div>}</div>
+      {product.images?.length > 1 && <div className="pdp-thumbnails" aria-label="Images du produit">{product.images.map((image, index) => <Button variant="ghost" size="default" key={image.image_url} type="button" aria-label={`Voir l’image ${index + 1}`} aria-pressed={(selectedImage?.image_url || product.image_url) === image.image_url} onClick={() => setSelectedImage(image)}><ProductImage src={image.image_url} alt={image.alt_text} /></Button>)}</div>}</div>
       <div className="pdp-info"><Link className="eyebrow" to={`/marques/${product.brand_slug}`}>{product.brand}</Link><h1>{product.name}</h1>
         {product.size && <p className="pdp-size">{product.size}</p>}
         <div className={isPromotion ? 'pdp-promotion' : ''}><p className={`pdp-price${isPromotion ? ' pdp-price--promotion' : ''}`}><span className="pdp-current-price">{money(product.price_dh)}</span>
@@ -59,14 +60,14 @@ export default function ProductDetail() {
         <p className={product.stock > 0 ? 'stock-ok' : 'stock-out'}>{product.stock > 0 ? 'En stock' : 'Rupture de stock'}</p>
         {product.short_description && <p>{product.short_description}</p>}
         {product.verification_status !== 'VERIFIED' && <p className="quiet-note">Informations produit en cours de vérification auprès des sources officielles. Consultez l’emballage pour les instructions complètes.</p>}
-        {product.stock > 0 ? <div className="pdp-actions"><label>Quantité <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>{Array.from({ length: Math.min(10, product.stock) }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1}</option>)}</select></label><button className="button-primary" onClick={() => addToCart(product, quantity)}><Bag size={18} /> Ajouter au panier</button></div>
-          : <form className="stock-alert-form" id="alerte" onSubmit={alert}><h2>Me prévenir du réassort</h2><label>E-mail<input type="email" required value={email} onChange={(e) => { setEmail(e.target.value); if (alertState !== 'loading') setAlertState('idle'); }} placeholder="vous@exemple.ma" /></label><button className="button-primary" disabled={alertState === 'loading'}>{alertState === 'loading' ? 'Envoi…' : 'Me prévenir'}</button>{message && <p role={alertState === 'error' ? 'alert' : 'status'} className={alertState === 'error' ? 'form-error' : ''}>{message}</p>}</form>}
+        {product.stock > 0 ? <div className="pdp-actions"><label>Quantité <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>{Array.from({ length: Math.min(10, product.stock) }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1}</option>)}</select></label><Button variant="primary" size="default" onClick={() => addToCart(product, quantity)}><Bag size={18} /> Ajouter au panier</Button></div>
+          : <form className="stock-alert-form" id="alerte" onSubmit={alert}><h2>Me prévenir du réassort</h2><label>E-mail<input type="email" required value={email} onChange={(e) => { setEmail(e.target.value); if (alertState !== 'loading') setAlertState('idle'); }} placeholder="vous@exemple.ma" /></label><Button variant="primary" size="default" type="submit" disabled={alertState === 'loading'}>{alertState === 'loading' ? 'Envoi…' : 'Me prévenir'}</Button>{message && <p role={alertState === 'error' ? 'alert' : 'status'} className={alertState === 'error' ? 'form-error' : ''}>{message}</p>}</form>}
         {bestBundleOffer && <aside className="pdp-pack-offer" aria-label="Économie disponible dans un pack">
           <div className="pdp-pack-offer-heading"><Package size={19} /><div><strong>Ce soin revient moins cher dans un pack</strong><span>{bestBundleOffer.bundle.name}</span></div></div>
           <div className="pdp-pack-offer-price"><strong>{money(bestBundleOffer.bundle.price_dh)} le pack</strong><del>{money(bestBundleOffer.total)} au total séparément</del><span>−{money(bestBundleOffer.saving)}</span></div>
           <div className="pdp-pack-offer-links"><Link to={`/packs/${bestBundleOffer.bundle.slug}`}>Découvrir ce pack <ArrowRight size={15} /></Link>{bundleOffers.length > 1 && <Link to={bundleSearch}>Voir les {bundleOffers.length} packs liés</Link>}</div>
         </aside>}
-        <button className="favorite-inline" onClick={() => toggleWishlist(product.id)}><Heart size={19} weight={wishlist.includes(product.id) ? 'fill' : 'regular'} /> {wishlist.includes(product.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}</button>
+        <Button variant="ghost" size="default" className="favorite-inline" onClick={() => toggleWishlist(product.id)}><Heart size={19} weight={wishlist.includes(product.id) ? 'fill' : 'regular'} /> {wishlist.includes(product.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}</Button>
         <div className="pdp-promises"><span><Truck size={18} /> Livraison 24–48h selon ville</span><span><ShieldCheck size={18} /> Paiement à la livraison</span><span><ShieldCheck size={18} /> Produits authentiques</span></div>
         {(product.skin_types?.length || product.concerns?.length || product.usage_time || product.routine_step) && <dl className="pdp-facts">
           {product.skin_types?.length > 0 && <><dt>Type de peau</dt><dd>{product.skin_types.map((item) => item.name).join(' · ')}</dd></>}

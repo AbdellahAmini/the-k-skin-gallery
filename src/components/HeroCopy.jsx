@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { ArrowRight } from '@phosphor-icons/react';
+import Button from './ui/Button';
 
 export default function HeroCopy({ slide, active = true }) {
   if (!slide) return null;
@@ -28,24 +29,20 @@ export default function HeroCopy({ slide, active = true }) {
       )}
 
       <div className="hero-actions">
-        <Link
-          className="hero-cta"
-          to={slide.primaryHref || '/boutique'}
-          tabIndex={active ? 0 : -1}
-        >
-          <span>{slide.primaryLabel || 'Explorer la boutique'}</span>
-          <ArrowRight size={18} />
-        </Link>
+        <Button asChild variant="primary" size="lg" className="hero-cta">
+          <Link to={slide.primaryHref || '/boutique'} tabIndex={active ? 0 : -1}>
+            <span>{slide.primaryLabel || 'Explorer la boutique'}</span>
+            <ArrowRight size={18} />
+          </Link>
+        </Button>
 
         {slide.secondaryLabel && slide.secondaryHref && (
-          <Link
-            className="hero-cta-secondary"
-            to={slide.secondaryHref}
-            tabIndex={active ? 0 : -1}
-          >
-            <span>{slide.secondaryLabel}</span>
-            <ArrowRight size={16} />
-          </Link>
+          <Button asChild variant="outline" size="lg" className="hero-cta-secondary">
+            <Link to={slide.secondaryHref} tabIndex={active ? 0 : -1}>
+              <span>{slide.secondaryLabel}</span>
+              <ArrowRight size={16} />
+            </Link>
+          </Button>
         )}
       </div>
     </div>

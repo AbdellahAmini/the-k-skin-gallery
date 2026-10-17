@@ -2,11 +2,14 @@ import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import App from "./App.jsx";
+import "./components/ui/button.css";
 import "./styles.css";
 import "./rebuild.css";
 import "./header.css";
 import "./navigation.css";
 import "./pack-pages.css";
+import "./components/hero.css";
+import "./home.css";
 
 const dataElement = document.getElementById("gallery-initial-data");
 let initialData = null;

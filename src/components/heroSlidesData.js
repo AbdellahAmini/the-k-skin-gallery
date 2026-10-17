@@ -12,7 +12,7 @@ export const DEFAULT_HERO_SLIDES = [
     secondaryLabel: 'Voir les nouveautés',
     secondaryHref: '/nouveautes',
     focalPointDesktop: '68% 50%',
-    focalPointMobile: '72% 45%',
+    focalPointMobile: '40% 45%',
     desktopTextPosition: 'left',
     mobileTextPosition: 'bottom-left'
   },
@@ -29,7 +29,7 @@ export const DEFAULT_HERO_SLIDES = [
     secondaryLabel: 'Découvrir les routines',
     secondaryHref: '/routines',
     focalPointDesktop: '65% 50%',
-    focalPointMobile: '70% 45%',
+    focalPointMobile: '30% 45%',
     desktopTextPosition: 'left',
     mobileTextPosition: 'bottom-left'
   },
@@ -46,7 +46,7 @@ export const DEFAULT_HERO_SLIDES = [
     secondaryLabel: 'Découvrir les marques',
     secondaryHref: '/marques',
     focalPointDesktop: '65% 50%',
-    focalPointMobile: '70% 45%',
+    focalPointMobile: '0% 45%',
     desktopTextPosition: 'left',
     mobileTextPosition: 'bottom-left'
   }

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 const PIXELS_PER_SECOND = 100;
 
-export default function useMarqueeSpeed() {
+export default function useMarqueeSpeed({ mobilePixelsPerSecond = PIXELS_PER_SECOND, mobileMinDuration = null, mobileMaxDuration = null } = {}) {
   const trackRef = useRef(null);
 
   useEffect(() => {
@@ -12,19 +12,23 @@ export default function useMarqueeSpeed() {
 
     const updateDuration = () => {
       const distance = repeat.getBoundingClientRect().width;
-      if (distance > 0) track.style.setProperty('--marquee-duration', `${distance / PIXELS_PER_SECOND}s`);
+      if (distance <= 0) return;
+      const isMobile = window.matchMedia('(max-width: 760px)').matches;
+      let duration = distance / (isMobile ? mobilePixelsPerSecond : PIXELS_PER_SECOND);
+      if (isMobile && mobileMinDuration != null) duration = Math.max(mobileMinDuration, duration);
+      if (isMobile && mobileMaxDuration != null) duration = Math.min(mobileMaxDuration, duration);
+      track.style.setProperty('--marquee-duration', `${duration}s`);
     };
 
     updateDuration();
-    if (typeof ResizeObserver === 'undefined') {
-      window.addEventListener('resize', updateDuration);
-      return () => window.removeEventListener('resize', updateDuration);
-    }
-
-    const observer = new ResizeObserver(updateDuration);
-    observer.observe(repeat);
-    return () => observer.disconnect();
-  }, []);
+    window.addEventListener('resize', updateDuration, { passive: true });
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateDuration);
+    observer?.observe(repeat);
+    return () => {
+      window.removeEventListener('resize', updateDuration);
+      observer?.disconnect();
+    };
+  }, [mobilePixelsPerSecond, mobileMinDuration, mobileMaxDuration]);
 
   return trackRef;
 }

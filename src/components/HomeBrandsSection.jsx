@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight } from '@phosphor-icons/react';
 import useMarqueeSpeed from '../hooks/useMarqueeSpeed';
+import HomeSectionHeading from './HomeSectionHeading';
 
 export const BRAND_ASSETS = {
   anua: { logo: '/assets/brands/anua.png', name: 'ANUA', order: 1 },
@@ -52,7 +52,7 @@ export function BrandLogoLink({ brand, isDuplicate = false }) {
 }
 
 export function BrandsMarquee({ brands }) {
-  const marqueeRef = useMarqueeSpeed();
+  const marqueeRef = useMarqueeSpeed({ mobilePixelsPerSecond: 60, mobileMinDuration: 38, mobileMaxDuration: 50 });
   return (
     <div className="home-brands__marquee" aria-label="Défilement des marques">
       <div ref={marqueeRef} className="home-brands__marquee-track">
@@ -121,22 +121,10 @@ export default function HomeBrandsSection({ brands = [] }) {
   })();
 
   return (
-    <section className="home-brands" aria-labelledby="home-brands-title">
-      <div className="home-brands__header">
-        <div className="home-brands__title-group">
-          <span className="home-brands__eyebrow">LA SÉLECTION DE LA GALLERY</span>
-          <h2 id="home-brands-title" className="home-brands__heading">
-            <span className="home-brands__heading-accent" aria-hidden="true" />
-            Nos marques coréennes
-          </h2>
-        </div>
-
-        <Link to="/marques" className="home-brands__cta">
-          <span className="home-brands__cta-text-full">Voir toutes les marques</span>
-          <span className="home-brands__cta-text-short">Voir tout</span>
-          <ArrowRight size={15} aria-hidden="true" />
-        </Link>
-      </div>
+    <section className="home-brands home-section" aria-labelledby="home-brands-title">
+      <HomeSectionHeading id="home-brands-title" eyebrow="La sélection de la Gallery" title="Nos marques coréennes"
+        href="/marques" linkLabel="Voir toutes les marques" compactLabel="Voir tout"
+        className="home-brands__header" titleClassName="home-brands__heading" eyebrowClassName="home-brands__eyebrow" linkClassName="home-brands__cta" accent />
 
       <BrandsMarquee brands={normalizedBrands} />
     </section>

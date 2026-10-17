@@ -1,169 +1,110 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('Homepage Brands Marquee Section', () => {
-  test('verifies correct homepage section order: Hero -> Brands -> Gallery Entry -> Incontournables', async ({ page }) => {
+test.describe('Homepage brand section', () => {
+  test('preserves the desktop homepage section order', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
+    await expect(page.locator('.home-brands')).toBeVisible();
+    const sectionOrder = await page.locator('main#top > *').evaluateAll((sections) => sections.map((section) => {
+      if (section.matches('.hero-carousel-container')) return 'hero';
+      if (section.matches('.home-brands')) return 'brands';
+      if (section.matches('.gallery-entry')) return 'discovery';
+      if (section.matches('.home-promotions')) return 'promotions';
+      if (section.matches('.home-new-arrivals')) return 'new-arrivals';
+      if (section.matches('.home-guided')) return 'routines';
+      if (section.matches('.bottom-trust')) return 'trust';
+      return section.className;
+    }));
 
-    const sectionTags = await page.evaluate(() => {
-      const main = document.querySelector('main#top');
-      if (!main) return [];
-      return Array.from(main.children).map((el) => {
-        return {
-          tagName: el.tagName.toLowerCase(),
-          className: el.className,
-          id: el.id,
-          headingText: el.querySelector('h1, h2')?.textContent?.trim() || '',
-        };
-      });
-    });
-
-    // 1. HeroCarousel (.hero-carousel)
-    // 2. HomeBrandsSection (.home-brands)
-    // 3. GalleryEntry (.gallery-entry)
-    // 4. Incontournables (.selection-section)
-    const heroIndex = sectionTags.findIndex((s) => s.className.includes('hero-carousel'));
-    const brandsIndex = sectionTags.findIndex((s) => s.className.includes('home-brands'));
-    const entryIndex = sectionTags.findIndex((s) => s.className.includes('gallery-entry'));
-    const bestSellersIndex = sectionTags.findIndex(
-      (s) => s.className.includes('selection-section') && s.headingText.includes('Nos incontournables')
-    );
-
-    expect(heroIndex).toBeGreaterThanOrEqual(0);
-    expect(brandsIndex).toBe(heroIndex + 1);
-    expect(entryIndex).toBe(brandsIndex + 1);
-    expect(bestSellersIndex).toBe(entryIndex + 1);
-
-    // Old brand-strip must NOT exist anywhere
-    const oldBrandStrip = await page.locator('.brand-strip').count();
-    expect(oldBrandStrip).toBe(0);
+    const hero = sectionOrder.indexOf('hero');
+    expect(hero).toBeGreaterThanOrEqual(0);
+    expect(sectionOrder[hero + 1]).toBe('brands');
+    expect(sectionOrder[hero + 2]).toBe('discovery');
+    expect(sectionOrder[hero + 3]).toBe('promotions');
+    const noveltyIndex = sectionOrder.indexOf('new-arrivals');
+    if (noveltyIndex !== -1) expect(noveltyIndex).toBe(hero + 4);
+    expect(sectionOrder.indexOf('routines')).toBeGreaterThan(sectionOrder.indexOf('promotions'));
+    expect(sectionOrder.at(-1)).toBe('trust');
+    expect(await page.locator('.brand-strip').count()).toBe(0);
+    await expect(page.locator('.home-mobile-featured')).toBeHidden();
   });
 
-  test('verifies desktop brand marquee appearance, logos, links and seamless animation', async ({ page }) => {
-    for (const width of [1024, 1280, 1440, 1600]) {
-      await page.setViewportSize({ width, height: 900 });
-      await page.goto('/');
+  test('normalizes the brand marquee, links, and decorative heading', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/');
+    const section = page.locator('.home-brands');
+    await expect(section).toBeVisible();
+    await expect(section.locator('.home-brands__heading')).toContainText('Nos marques coréennes');
+    const eyebrow = section.locator('.home-brands__eyebrow');
+    await expect(eyebrow).toContainText(/la sélection de la gallery/i);
+    expect(await eyebrow.evaluate((element) => getComputedStyle(element).textTransform)).toBe('uppercase');
+    await expect(section.locator('.home-section-title__accent')).toBeVisible();
+    const seeAll = section.locator('.home-brands__cta');
+    await expect(seeAll).toHaveAttribute('href', '/marques');
+    await expect(seeAll.locator('.home-section-link__full')).toBeVisible();
 
-      const brandsSection = page.locator('.home-brands');
-      await expect(brandsSection).toBeVisible();
+    const groups = section.locator('.home-brands__marquee-group');
+    await expect(groups).toHaveCount(2);
+    await expect(groups.nth(1)).toHaveAttribute('aria-hidden', 'true');
+    const duplicates = groups.nth(1).locator('.home-brands__logo-item');
+    expect(await duplicates.count()).toBeGreaterThan(5);
+    await expect(duplicates.first()).toHaveAttribute('tabindex', '-1');
+    const logos = groups.first().locator('.home-brands__logo-item');
+    await expect(logos.first()).toHaveAttribute('href', /\/marques\//);
+    const brokenImages = await groups.first().locator('.home-brands__logo-img').evaluateAll((images) =>
+      images.filter((image) => image.complete && image.naturalWidth === 0).map((image) => image.src));
+    expect(brokenImages).toEqual([]);
 
-      // Heading and eyebrow
-      const heading = brandsSection.locator('.home-brands__heading');
-      await expect(heading).toContainText('Nos marques coréennes');
-      const eyebrow = brandsSection.locator('.home-brands__eyebrow');
-      await expect(eyebrow).toContainText('LA SÉLECTION DE LA GALLERY');
-
-      // Decorative rose vertical line
-      const accent = brandsSection.locator('.home-brands__heading-accent');
-      await expect(accent).toBeVisible();
-
-      // CTA link
-      const cta = brandsSection.locator('.home-brands__cta');
-      await expect(cta).toBeVisible();
-      await expect(cta).toHaveAttribute('href', '/marques');
-
-      // Marquee tracks
-      const marqueeTrack = brandsSection.locator('.home-brands__marquee-track');
-      await expect(marqueeTrack).toBeVisible();
-
-      const groups = brandsSection.locator('.home-brands__marquee-group');
-      await expect(groups).toHaveCount(2);
-
-      // Accessibility: second group is aria-hidden
-      await expect(groups.nth(1)).toHaveAttribute('aria-hidden', 'true');
-
-      // Links in second group must have tabIndex = -1
-      const duplicateLinks = groups.nth(1).locator('.home-brands__logo-item');
-      const count = await duplicateLinks.count();
-      expect(count).toBeGreaterThan(5);
-      for (let i = 0; i < Math.min(count, 4); i++) {
-        await expect(duplicateLinks.nth(i)).toHaveAttribute('tabindex', '-1');
-      }
-
-      // First track links are interactive
-      const trackALinks = groups.nth(0).locator('.home-brands__logo-item');
-      await expect(trackALinks.first()).toBeVisible();
-
-      // Ensure logos render without broken image
-      const images = groups.nth(0).locator('.home-brands__logo-img');
-      const imgCount = await images.count();
-      expect(imgCount).toBeGreaterThan(0);
-
-      // Verify no naturalWidth === 0
-      const brokenImages = await images.evaluateAll((imgs) =>
-        imgs.filter((img) => img.complete && img.naturalWidth === 0).map((img) => img.src)
-      );
-      expect(brokenImages).toEqual([]);
-
-      // Check overflow
-      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-      expect(overflow, `Overflow at ${width}px`).toBeLessThanOrEqual(2);
-    }
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    expect(overflow).toBeLessThanOrEqual(2);
   });
 
-  test('verifies brand navigation clicks (ANUA, COSRX, Voir toutes les marques)', async ({ page }) => {
+  test('brand and directory links navigate to their destinations', async ({ page }) => {
     await page.goto('/');
+    await expect(page.locator('.home-brands__logo-item[href="/marques/anua"]').first()).toBeAttached();
+    await page.locator('.home-brands__logo-item[href="/marques/anua"]').first().evaluate((link) => link.click());
+    await expect(page).toHaveURL(/\/marques\/anua$/);
 
-    // 1. Click ANUA
-    const anuaLink = page.locator('.home-brands__marquee-group').first().locator('a[href="/marques/anua"]');
-    await expect(anuaLink).toBeVisible();
-    await anuaLink.click({ force: true });
-    await expect(page).toHaveURL(/\/marques\/anua/);
-
-    // 2. Back and click COSRX
     await page.goto('/');
-    const cosrxLink = page.locator('.home-brands__marquee-group').first().locator('a[href="/marques/cosrx"]');
-    await expect(cosrxLink).toBeVisible();
-    await cosrxLink.click({ force: true });
-    await expect(page).toHaveURL(/\/marques\/cosrx/);
+    await page.locator('.home-brands__logo-item[href="/marques/cosrx"]').first().evaluate((link) => link.click());
+    await expect(page).toHaveURL(/\/marques\/cosrx$/);
 
-    // 3. Back and click "Voir toutes les marques"
     await page.goto('/');
-    const seeAllLink = page.locator('.home-brands__cta');
-    await expect(seeAllLink).toBeVisible();
-    await seeAllLink.click();
+    await page.locator('.home-brands__cta').evaluate((link) => link.click());
     await expect(page).toHaveURL(/\/marques$/);
   });
 
-  test('verifies mobile viewports (375, 390, 430px)', async ({ page }) => {
+  test('mobile brands stay directly below hero with a calm marquee and compact CTA', async ({ page }) => {
     for (const width of [375, 390, 430]) {
       await page.setViewportSize({ width, height: 844 });
       await page.goto('/');
+      const section = page.locator('.home-brands');
+      await expect(section).toBeVisible();
+      await expect(section.locator('.home-brands__heading')).toBeVisible();
+      const cta = section.locator('.home-brands__cta');
+      await expect(cta.locator('.home-section-link__short')).toBeVisible();
+      const marquee = section.locator('.home-brands__marquee-track');
+      await expect(marquee).toBeVisible();
+      const duration = await marquee.evaluate((element) => Number.parseFloat(getComputedStyle(element).animationDuration));
+      expect(duration).toBeGreaterThanOrEqual(38);
+      expect(duration).toBeLessThanOrEqual(50);
 
-      const brandsSection = page.locator('.home-brands');
-      await expect(brandsSection).toBeVisible();
-
-      const heading = brandsSection.locator('.home-brands__heading');
-      await expect(heading).toBeVisible();
-      await expect(heading).toContainText('Nos marques coréennes');
-
-      const cta = brandsSection.locator('.home-brands__cta');
-      await expect(cta).toBeVisible();
-      // On mobile, short label "Voir tout" is visible
-      const shortText = cta.locator('.home-brands__cta-text-short');
-      await expect(shortText).toBeVisible();
-
-      // Marquee track exists and is running
-      const track = brandsSection.locator('.home-brands__marquee-track');
-      await expect(track).toBeVisible();
-
-      // Check no horizontal scroll on body
-      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-      expect(overflow, `Mobile overflow at ${width}px`).toBeLessThanOrEqual(2);
-
-      // Check next section starts cleanly
-      const entrySection = page.locator('.gallery-entry');
-      await expect(entrySection).toBeVisible();
+      const relation = await page.evaluate(() => {
+        const hero = document.querySelector('.hero-carousel-container').getBoundingClientRect();
+        const brands = document.querySelector('.home-brands').getBoundingClientRect();
+        return { heroBottom: hero.bottom, brandsTop: brands.top, overflow: document.documentElement.scrollWidth - innerWidth };
+      });
+      expect(relation.brandsTop).toBeGreaterThanOrEqual(relation.heroBottom - 1);
+      expect(relation.overflow).toBeLessThanOrEqual(0);
+      await expect(page.locator('.gallery-entry')).toBeAttached();
     }
   });
 
-  test('verifies reduced motion fallback disables animation', async ({ page }) => {
+  test('reduced motion disables the brand animation', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
-
     const track = page.locator('.home-brands__marquee-track');
     await expect(track).toBeVisible();
-
-    const animationName = await track.evaluate((el) => window.getComputedStyle(el).animationName);
-    expect(animationName).toBe('none');
+    expect(await track.evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
   });
 });

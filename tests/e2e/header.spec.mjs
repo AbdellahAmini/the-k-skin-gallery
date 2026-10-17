@@ -35,7 +35,7 @@ test('desktop menus have distinct layouts and accessible interactions', async ({
   await page.waitForTimeout(170);
   const brandMenu = page.getByRole('region', { name: 'Explorer Marques' });
   await expect(brandMenu).toBeVisible();
-  await expect(brandMenu.locator('.gallery-mega-heading > span')).toHaveText('Marques');
+  await expect(brandMenu.locator('.gallery-mega-heading h2')).toHaveText('Marques');
   await expect(brandMenu.getByRole('heading', { name: 'Marques populaires' })).toHaveCount(0);
   await expect(brandMenu.locator('.gallery-mega-heading').getByRole('link', { name: 'Toutes les marques' })).toHaveAttribute('href', '/marques');
   await expect(brandMenu.getByRole('heading', { name: 'Toutes les marques' })).toHaveCount(0);
@@ -49,7 +49,7 @@ test('desktop menus have distinct layouts and accessible interactions', async ({
     await nav.getByRole('link', { name: label }).hover();
     const panel = page.getByRole('region', { name: `Explorer ${label}` });
     await expect(panel).toBeVisible();
-    for (const heading of headings) await expect(panel.getByRole('heading', { name: heading })).toBeVisible();
+    for (const heading of headings) await expect(panel.getByRole('heading', { name: heading, exact: true })).toBeVisible();
   }
   await page.keyboard.press('Escape');
   await expect(page.locator('.gallery-mega')).toBeHidden();

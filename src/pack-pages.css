@@ -78,9 +78,8 @@
 .pack-buy { display: flex; align-items: end; gap: 9px; margin-bottom: 5px; }
 .pack-buy label { display: grid; gap: 4px; color: #65595c; font-size: 10px; }
 .pack-buy select { min-width: 62px; height: 38px; padding: 0 7px; border: 1px solid #ddcecc; background: #fff; }
-.pack-buy .button-primary, .pack-unavailable { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding-inline: 18px; border: 1px solid var(--rose); border-radius: 3px; background: var(--rose); color: #fff; cursor: pointer; font-size: 11px; font-weight: 700; }
-.pack-buy .button-primary:hover { background: #8e4058; border-color: #8e4058; }
-.pack-buy .button-primary:focus-visible { outline: 2px solid #7f2d47; outline-offset: 3px; }
+.pack-buy .pack-add-button, .pack-unavailable { min-height: 44px; padding-inline: 18px; border-radius: 4px; font-size: 11px; }
+.pack-buy .pack-add-button { flex: 0 0 auto; }
 .pack-unavailable { opacity: .6; cursor: not-allowed; }
 .pack-text-block { margin-top: 13px; padding-top: 10px; border-top: 1px solid var(--line); }
 .pack-text-block h2 { display: flex; align-items: baseline; gap: 5px; margin: 0 0 7px; font-family: var(--serif); font-size: 21px; font-weight: 500; line-height: 1.2; }
@@ -156,7 +155,7 @@
   .pack-tile--preview p { min-height: 0; }
   .pack-tile--preview .pack-tile-footer { align-items: flex-end; flex-direction: row; }
   .pack-search { min-height: 41px; }
-  .pack-buy .button-primary { flex: 1; padding-inline: 9px; font-size: 11px; }
+  .pack-buy .pack-add-button { flex: 1; padding-inline: 9px; font-size: 11px; }
   .pack-detail { padding-top: 10px; }
   .pack-detail .breadcrumbs { display: none; }
   .pack-detail-tools { gap: 8px; }

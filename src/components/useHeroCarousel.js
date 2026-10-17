@@ -11,9 +11,11 @@ export function useHeroCarousel(
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [documentVisible, setDocumentVisible] = useState(true);
 
   const touchStartRef = useRef({ x: 0, y: 0 });
   const touchTrackingRef = useRef(false);
+  const transitionTimeoutRef = useRef(null);
 
   const activeIndexRef = useRef(activeIndex);
   activeIndexRef.current = activeIndex;
@@ -48,6 +50,14 @@ export function useHeroCarousel(
   }, []);
 
   useEffect(() => {
+    if (typeof document === 'undefined') return undefined;
+    const updateVisibility = () => setDocumentVisible(!document.hidden);
+    updateVisibility();
+    document.addEventListener('visibilitychange', updateVisibility);
+    return () => document.removeEventListener('visibilitychange', updateVisibility);
+  }, []);
+
+  useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const mediaQuery = window.matchMedia(
@@ -69,10 +79,7 @@ export function useHeroCarousel(
 
   const goTo = useCallback(
     (nextIdx, dir = 'next') => {
-      if (
-        isAnimatingRef.current ||
-        slidesCountRef.current <= 1
-      ) {
+      if (slidesCountRef.current <= 1) {
         return;
       }
 
@@ -87,12 +94,15 @@ export function useHeroCarousel(
       setActiveIndex(nextIdx);
       setIsAnimating(true);
 
-      window.setTimeout(() => {
+      window.clearTimeout(transitionTimeoutRef.current);
+      transitionTimeoutRef.current = window.setTimeout(() => {
         setIsAnimating(false);
       }, transitionDuration);
     },
     [transitionDuration]
   );
+
+  useEffect(() => () => window.clearTimeout(transitionTimeoutRef.current), []);
 
   const next = useCallback(() => {
     const total = slidesCountRef.current;
@@ -139,8 +149,7 @@ export function useHeroCarousel(
       const currentIdx = activeIndexRef.current;
 
       if (
-        nextIdx === currentIdx ||
-        isAnimatingRef.current
+        nextIdx === currentIdx
       ) {
         return;
       }
@@ -171,6 +180,7 @@ export function useHeroCarousel(
   useEffect(() => {
     if (
       prefersReducedMotion ||
+      !documentVisible ||
       slidesCount <= 1
     ) {
       return;
@@ -178,8 +188,7 @@ export function useHeroCarousel(
 
     const timeout = window.setTimeout(() => {
       if (
-        !isAnimatingRef.current &&
-        !document.hidden
+        !isAnimatingRef.current
       ) {
         next();
       }
@@ -191,6 +200,7 @@ export function useHeroCarousel(
   }, [
     activeIndex,
     prefersReducedMotion,
+    documentVisible,
     slidesCount,
     dwellTime,
     next,

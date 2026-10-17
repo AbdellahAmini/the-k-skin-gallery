@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowRight, Heart, Package, User } from '@phosphor-icons/react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
 import { api, money } from '../lib/api';
+import Button from '../components/ui/Button';
 import { useStore } from '../state/StoreContext';
 
 export function AuthPage({ register = false }) {
@@ -24,7 +25,7 @@ export function AuthPage({ register = false }) {
       <label>E-mail<input type="email" required autoComplete="email" value={values.email} onChange={(e) => setValues({ ...values, email: e.target.value })} /></label>
       <label>Mot de passe<input type="password" required minLength={register ? 10 : undefined} autoComplete={register ? 'new-password' : 'current-password'} value={values.password} onChange={(e) => setValues({ ...values, password: e.target.value })} /></label>
       {register && <p className="quiet-note">Au moins 10 caractères.</p>}{error && <p role="alert" className="form-error">{error}</p>}
-      <button className="button-primary" disabled={busy}>{busy ? 'Un instant…' : register ? 'Créer mon compte' : 'Se connecter'} <ArrowRight size={17} /></button>
+      <Button variant="primary" size="default" type="submit" disabled={busy}>{busy ? 'Un instant…' : register ? 'Créer mon compte' : 'Se connecter'} <ArrowRight size={17} /></Button>
       <p>{register ? 'Vous avez déjà un compte ?' : 'Nouveau à la Gallery ?'} <Link className="rose-link" to={register ? '/connexion' : '/inscription'}>{register ? 'Se connecter' : 'Créer un compte'}</Link></p>
     </form></main>;
 }
@@ -32,11 +33,11 @@ export function AuthPage({ register = false }) {
 export function AccountHome() {
   const { user, logout } = useStore();
   const navigate = useNavigate();
-  if (!user) return <main className="inner-page"><div className="state-panel"><User size={32} /><h1>Votre espace Gallery</h1><p>Connectez-vous pour retrouver vos commandes et favoris.</p><Link className="button-primary" to="/connexion?next=/compte">Se connecter</Link></div></main>;
+  if (!user) return <main className="inner-page"><div className="state-panel"><User size={32} /><h1>Votre espace Gallery</h1><p>Connectez-vous pour retrouver vos commandes et favoris.</p><Button asChild variant="primary"><Link to="/connexion?next=/compte">Se connecter</Link></Button></div></main>;
   return <main className="inner-page"><div className="page-heading"><p className="eyebrow">Mon compte</p><h1>Bonjour {user.first_name}</h1><p>{user.email}</p></div>
     <div className="directory-grid"><Link className="directory-card" to="/compte/commandes"><Package size={22} /><span>Mes commandes</span><ArrowRight size={18} /></Link><Link className="directory-card" to="/compte/favoris"><Heart size={22} /><span>Mes favoris</span><ArrowRight size={18} /></Link><Link className="directory-card" to="/compte/alertes-stock"><span>Alertes stock</span><ArrowRight size={18} /></Link></div>
     {user.role === 'admin' && <p><Link className="text-link" to="/admin">Administration <ArrowRight size={16} /></Link></p>}
-    <button className="text-link" onClick={async () => { await logout(); navigate('/'); }}>Se déconnecter</button></main>;
+    <Button variant="link" size="default" onClick={async () => { await logout(); navigate('/'); }}>Se déconnecter</Button></main>;
 }
 
 export function AccountOrders() {
@@ -48,7 +49,7 @@ export function AccountOrders() {
   return <main className="inner-page"><div className="page-heading"><p className="eyebrow">Mon compte</p><h1>Mes commandes</h1></div>
     {error && <p role="alert" className="form-error">{error}</p>}
     {orders.length ? <div className="order-list">{orders.map((order) => <Link className="order-list-item" key={order.number} to={`/compte/commandes/${order.id}`}><strong>{order.number}</strong><span>{order.status.replaceAll('_', ' ')}</span><b>{money(order.total_dh)}</b><ArrowRight size={17} /></Link>)}</div>
-      : <div className="state-panel"><Package size={30} /><h2>Aucune commande</h2><p>Votre première découverte vous attend.</p><Link className="button-primary" to="/boutique">Explorer la boutique</Link></div>}
+      : <div className="state-panel"><Package size={30} /><h2>Aucune commande</h2><p>Votre première découverte vous attend.</p><Button asChild variant="primary"><Link to="/boutique">Explorer la boutique</Link></Button></div>}
   </main>;
 }
 
@@ -65,5 +66,5 @@ export function AccountOrder() {
 }
 
 export function AccountAlerts() {
-  return <main className="inner-page"><div className="page-heading"><p className="eyebrow">Mon compte</p><h1>Alertes stock</h1></div><div className="state-panel"><h2>Suivre un retour en stock</h2><p>Sur la fiche d’un produit épuisé, indiquez votre e-mail pour enregistrer une alerte.</p><Link className="button-primary" to="/boutique">Voir les produits</Link></div></main>;
+  return <main className="inner-page"><div className="page-heading"><p className="eyebrow">Mon compte</p><h1>Alertes stock</h1></div><div className="state-panel"><h2>Suivre un retour en stock</h2><p>Sur la fiche d’un produit épuisé, indiquez votre e-mail pour enregistrer une alerte.</p><Button asChild variant="primary"><Link to="/boutique">Voir les produits</Link></Button></div></main>;
 }

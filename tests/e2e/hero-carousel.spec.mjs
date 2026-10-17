@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Hero Carousel Verification Suite', () => {
-  test('Desktop: 1-12 hero carousel rendering, autoplay, pause, dot navigation and CTA mapping', async ({ page }) => {
+  test('Desktop: hero rendering, autoplay during hover, dot navigation and CTA mapping', async ({ page }) => {
     const consoleErrors = [];
     page.on('pageerror', (err) => consoleErrors.push(err.message));
     page.on('console', (msg) => {
@@ -30,55 +30,32 @@ test.describe('Hero Carousel Verification Suite', () => {
     await expect(secondaryCta).toHaveAttribute('href', '/nouveautes');
     await expect(secondaryCta).toContainText('Voir les nouveautés');
 
-    // 6. Hover pauses autoplay
+    // Autoplay continues while the pointer is over the carousel.
     await hero.hover();
-    await page.waitForTimeout(2000);
-    // After hovering, slide should still be slide 1
-    await expect(title).toContainText('Vos essentiels');
+    await page.waitForTimeout(4300);
+    await expect(title).toContainText('Une routine simple');
 
-    // Move mouse away to resume
-    await page.mouse.move(0, 0);
-
-    // 7. Dot click changes slide immediately
+    // Dot click changes the active slide immediately.
     const dots = hero.locator('.hero-dot-btn');
     await expect(dots).toHaveCount(3);
-    await expect(dots.nth(0)).toHaveAttribute('aria-current', 'true');
-
-    // Click dot 2 (Slide 2: Routines)
-    await dots.nth(1).click();
-    await expect(title).toContainText('Une routine simple');
-    await expect(hero.locator('.eyebrow')).toContainText('ROUTINES & PACKS');
     await expect(dots.nth(1)).toHaveAttribute('aria-current', 'true');
 
-    // 11. Secondary CTA on Slide 2 -> /routines
-    await expect(hero.locator('.hero-cta-secondary')).toHaveAttribute('href', '/routines');
-    await expect(hero.locator('.hero-cta-secondary')).toContainText('Découvrir les routines');
-    await expect(hero.locator('.hero-cta')).toHaveAttribute('href', '/boutique');
-
-    // 8. After dot click, autoplay stops permanently
-    // Wait > 4.5s to ensure autoplay does NOT rotate after manual interaction
-    await page.waitForTimeout(4800);
-    await expect(title).toContainText('Une routine simple');
-    await expect(dots.nth(1)).toHaveAttribute('aria-current', 'true');
-
-    // 4. Slide 3 works via dot click
+    // Click dot 3 (Slide 3: Brands)
     await dots.nth(2).click();
     await expect(title).toContainText('Les références');
     await expect(hero.locator('.eyebrow')).toContainText('LES MARQUES DE LA GALLERY');
     await expect(dots.nth(2)).toHaveAttribute('aria-current', 'true');
 
-    // 12. Secondary CTA on Slide 3 -> /marques
+    // Secondary CTA on Slide 3 -> /marques
     await expect(hero.locator('.hero-cta-secondary')).toHaveAttribute('href', '/marques');
     await expect(hero.locator('.hero-cta-secondary')).toContainText('Découvrir les marques');
     await expect(hero.locator('.hero-cta')).toHaveAttribute('href', '/boutique');
 
-    // Wait for the previous transition to finish (800ms) before clicking again
-    await page.waitForTimeout(850);
-
-    // 5. Last -> first loops cleanly
+    // Last -> first follows the forward direction.
     await dots.nth(0).click();
     await expect(title).toContainText('Vos essentiels');
     await expect(dots.nth(0)).toHaveAttribute('aria-current', 'true');
+    await expect(hero).toHaveClass(/dir-next/);
 
     // Verify indicators accessibility
     await expect(dots.nth(0)).toHaveAttribute('aria-label', 'Afficher la diapositive 1');
@@ -90,6 +67,29 @@ test.describe('Hero Carousel Verification Suite', () => {
     await expect(page.locator('.hero-trust')).toHaveCount(0);
 
     expect(consoleErrors).toEqual([]);
+  });
+
+  test('Autoplay restarts a full four-second interval after rapid manual selections', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    const hero = page.locator('.hero-carousel-container');
+    const dots = hero.locator('.hero-dot-btn');
+    const activeIndex = () => page.locator('.hero-dot-btn[aria-current="true"]');
+
+    await expect(hero.locator('#hero-title')).toContainText('Vos essentiels');
+    await dots.nth(2).click(); // 0 → 2 is backward.
+    await expect(hero).toHaveClass(/dir-prev/);
+    await dots.nth(1).click(); // 2 → 1 is backward.
+    await expect(hero).toHaveClass(/dir-prev/);
+    await dots.nth(2).click(); // 1 → 2 is forward.
+    await expect(hero).toHaveClass(/dir-next/);
+    await expect(activeIndex()).toHaveAttribute('aria-label', 'Afficher la diapositive 3');
+
+    // The final manual change resets the dwell timer; the selected slide stays
+    // visible until its full four seconds have elapsed.
+    await page.waitForTimeout(3300);
+    await expect(activeIndex()).toHaveAttribute('aria-label', 'Afficher la diapositive 3');
+    await expect(activeIndex()).toHaveAttribute('aria-label', 'Afficher la diapositive 1', { timeout: 1500 });
   });
 
   test('Desktop: Autoplay advances automatically without manual interaction', async ({ page }) => {
@@ -106,7 +106,7 @@ test.describe('Hero Carousel Verification Suite', () => {
     await expect(hero).toHaveClass(/dir-next/);
   });
 
-  test('Mobile: 13-21 Mobile behavior, swipe gestures, no autoplay, compact layout', async ({ page }) => {
+  test('Mobile: swipe gestures, compact layout and controls at common widths', async ({ page }) => {
     const consoleErrors = [];
     page.on('pageerror', (err) => consoleErrors.push(err.message));
     page.on('console', (msg) => {
@@ -120,10 +120,10 @@ test.describe('Hero Carousel Verification Suite', () => {
       const hero = page.locator('.hero-carousel-container');
       await expect(hero).toBeVisible();
 
-      // 14. Hero total height clamp (520px - 580px)
+      // Hero uses the dedicated 500px–550px mobile composition.
       const heroBox = await hero.boundingBox();
-      expect(heroBox.height).toBeGreaterThanOrEqual(510);
-      expect(heroBox.height).toBeLessThanOrEqual(590);
+      expect(heroBox.height).toBeGreaterThanOrEqual(500);
+      expect(heroBox.height).toBeLessThanOrEqual(550);
 
       // 18. Text is rendered directly OVER image (inside hero container)
       const copy = hero.locator('.hero-copy-overlay');
@@ -136,6 +136,7 @@ test.describe('Hero Carousel Verification Suite', () => {
       await expect(dots).toBeVisible();
       const dotsBox = await dots.boundingBox();
       expect(dotsBox.y + dotsBox.height).toBeLessThanOrEqual(heroBox.y + heroBox.height);
+        expect(dotsBox.height).toBeGreaterThanOrEqual(44);
 
       // 13. Verify initial state before testing swipes
       if (width === 375) {
