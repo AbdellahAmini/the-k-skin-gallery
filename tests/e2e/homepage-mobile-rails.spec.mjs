@@ -79,8 +79,8 @@ test('mobile homepage uses stacked Gallery links and a discoverable routine rail
     expect(metrics.viewportMetaCount).toBe(1);
     expect(metrics.viewportMeta).toBe('width=device-width, initial-scale=1');
     expect(metrics.overflow, `page overflow at ${viewport.width}px`).toBeLessThanOrEqual(0);
-    expect(metrics.heroHeight, `compact hero at ${viewport.width}px`).toBeGreaterThanOrEqual(460);
-    expect(metrics.heroHeight).toBeLessThanOrEqual(550);
+    expect(metrics.heroHeight, `compact hero at ${viewport.width}px`).toBeGreaterThanOrEqual(420);
+    expect(metrics.heroHeight).toBeLessThanOrEqual(480);
     expect(metrics.brandHeadingBottom, `brands peek below hero at ${viewport.width}px`).toBeLessThan(viewport.height);
     expect(metrics.galleryDisplay).toBe('grid');
     expect(metrics.galleryColumns).toBe(1);

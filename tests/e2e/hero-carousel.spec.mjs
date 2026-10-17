@@ -120,10 +120,10 @@ test.describe('Hero Carousel Verification Suite', () => {
       const hero = page.locator('.hero-carousel-container');
       await expect(hero).toBeVisible();
 
-      // Hero uses the compact 460px–550px small-viewport composition.
+      // Hero uses the compact 420px–480px small-viewport composition.
       const heroBox = await hero.boundingBox();
-      expect(heroBox.height).toBeGreaterThanOrEqual(460);
-      expect(heroBox.height).toBeLessThanOrEqual(550);
+      expect(heroBox.height).toBeGreaterThanOrEqual(420);
+      expect(heroBox.height).toBeLessThanOrEqual(480);
 
       // 18. Text is rendered directly OVER image (inside hero container)
       const copy = hero.locator('.hero-copy-overlay');

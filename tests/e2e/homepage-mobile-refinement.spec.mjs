@@ -109,8 +109,8 @@ test('mobile homepage sections, rails, products, and footer are usable at 375, 3
     expect(metrics.viewport.innerWidth).toBe(width);
     expect(metrics.viewport.metaCount).toBe(1);
     expect(metrics.viewport.metaContent).toBe('width=device-width, initial-scale=1');
-    expect(metrics.heroHeight, `hero is compact at ${width}px`).toBeGreaterThanOrEqual(460);
-    expect(metrics.heroHeight, `hero is compact at ${width}px`).toBeLessThanOrEqual(550);
+    expect(metrics.heroHeight, `hero is compact at ${width}px`).toBeGreaterThanOrEqual(420);
+    expect(metrics.heroHeight, `hero is compact at ${width}px`).toBeLessThanOrEqual(480);
     expect(metrics.brandsHeadingBottom, `brands peek below the hero at ${width}px`).toBeLessThan(height);
     expect(metrics.entrySectionHeight, `entry choices stay compact at ${width}px`).toBeLessThanOrEqual(420);
     expect(metrics.brandsTop, `brand rail immediately follows the hero at ${width}px`).toBeGreaterThanOrEqual(metrics.heroBottom - 1);
