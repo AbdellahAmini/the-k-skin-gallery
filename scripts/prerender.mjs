@@ -98,9 +98,11 @@ function initialCollection(pathname) {
     if (group === 'besoins' && slug) rows = allProducts.filter((p) => p.concerns.some((s) => s.slug === slug));
   }
   if (!rows) return null;
-  return { products: rows.slice(0, 24), total: rows.length, page: 1, page_size: 24,
+  return {
+    products: rows.slice(0, 24), total: rows.length, page: 1, page_size: 24,
     pages: Math.max(1, Math.ceil(rows.length / 24)), available_facets: {},
-    available_sorts: ['relevance', 'newest', 'price_asc', 'price_desc'] };
+    available_sorts: ['relevance', 'newest', 'price_asc', 'price_desc']
+  };
 }
 
 function pageLabel(value) {
@@ -122,7 +124,7 @@ function metadata(page) {
   const meta = [`<meta property="og:type" content="${page.product ? 'product' : 'website'}" />`,
   `<meta property="og:title" content="${escapeHtml(page.title)}" />`,
   `<meta property="og:description" content="${escapeHtml(page.description)}" />`];
-  if (page.path === '/') meta.push('<link rel="preload" as="image" href="/assets/wallpapers/gallery-hero2.webp" fetchpriority="high" />');
+  if (page.path === '/') meta.push('<link rel="preload" as="image" href="/assets/wallpapers/gallery-hero3.png" fetchpriority="high" />');
   if (publicUrl) meta.push(`<link rel="canonical" href="${escapeHtml(publicUrl + page.path)}" />`);
   if (page.product) {
     const product = page.product;
@@ -190,8 +192,10 @@ try {
   const { render } = await vite.ssrLoadModule('/src/entry-server.jsx');
   for (const page of pages) {
     const collectionResult = initialCollection(page.path);
-    const initialData = { ...commonData, initialPath: page.path, products: collectionResult?.products || page.products,
-      collectionResult, adviceArticles: page.adviceArticles || [] };
+    const initialData = {
+      ...commonData, initialPath: page.path, products: collectionResult?.products || page.products,
+      collectionResult, adviceArticles: page.adviceArticles || []
+    };
     const markup = await render(page.path, initialData);
     const rootHtml = `<div id="root">${markup}</div><script id="gallery-initial-data" type="application/json">${safeJson(initialData)}</script>`;
     const headTags = metadata(page);

@@ -1,8 +1,8 @@
 export const DEFAULT_HERO_SLIDES = [
   {
     id: 'selection',
-    imageDesktop: '/assets/wallpapers/gallery-hero2.webp',
-    imageMobile: '/assets/wallpapers/gallery-hero2.webp',
+    imageDesktop: '/assets/wallpapers/gallery-hero3.png',
+    imageMobile: '/assets/wallpapers/gallery-hero3.png',
     alt: 'Soins ANUA, COSRX, SKIN1004, Beauty of Joseon et Medicube sur fond bleu clair',
     eyebrow: 'BEAUTÉ CORÉENNE · SÉLECTION EXCLUSIVE',
     title: 'Vos essentiels\nK-Beauty, réunis\nau Maroc.',
@@ -37,8 +37,8 @@ export const DEFAULT_HERO_SLIDES = [
   },
   {
     id: 'brands',
-    imageDesktop: '/assets/wallpapers/anua-wallpaper.webp',
-    imageMobile: '/assets/wallpapers/anua-wallpaper.webp',
+    imageDesktop: '/assets/wallpapers/anua-wallpaper-1.png',
+    imageMobile: '/assets/wallpapers/anua-wallpaper-1.png',
     widthDesktop: 2592,
     heightDesktop: 1542,
     alt: 'Soins ANUA sélectionnés par The K-Skin Gallery sur fond vert',
