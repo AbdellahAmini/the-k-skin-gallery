@@ -5,7 +5,7 @@ export default function HeroIndicators({ count, activeIndex, onChange }) {
   if (count <= 1) return null;
 
   return (
-    <nav className="hero-indicators" aria-label="Sélection des diapositives">
+    <nav className="hero-indicators" aria-label="Sélection des campagnes">
       {Array.from({ length: count }, (_, index) => {
         const isActive = index === activeIndex;
         return (
@@ -16,7 +16,7 @@ export default function HeroIndicators({ count, activeIndex, onChange }) {
             size="icon"
             className={`hero-dot-btn ${isActive ? 'active' : ''}`}
             onClick={() => onChange(index)}
-            aria-label={`Afficher la diapositive ${index + 1}`}
+            aria-label={`Afficher la campagne ${index + 1}`}
             aria-current={isActive ? 'true' : undefined}
           >
             <span className="hero-dot-pill" aria-hidden="true" />

@@ -7,13 +7,13 @@ export default function HeroSlide({ slide, index, isActive, isPrev }) {
 
   return (
     <div
-      className={slideClass}
+      className={`${slideClass} hero-slide--${slide.id || index}`}
       aria-hidden={!isActive}
       aria-label={`Diapositive ${index + 1}`}
     >
       <picture className="hero-picture-wrap">
         {slide.imageMobile && (
-          <source media="(max-width: 768px)" srcSet={slide.imageMobile} />
+          <source media="(max-width: 760px)" srcSet={slide.imageMobile} />
         )}
         <img
           className="hero-slide-image"
@@ -21,6 +21,8 @@ export default function HeroSlide({ slide, index, isActive, isPrev }) {
           alt={slide.alt || slide.title?.replace(/\n/g, ' ')}
           loading={index === 0 ? 'eager' : 'lazy'}
           fetchPriority={index === 0 ? 'high' : 'auto'}
+          width={slide.widthDesktop || 1672}
+          height={slide.heightDesktop || 941}
           style={{
             '--focal-desktop': slide.focalPointDesktop || '68% 50%',
             '--focal-mobile': slide.focalPointMobile || '72% 45%',

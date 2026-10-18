@@ -7,6 +7,19 @@ const read = (key, fallback) => {
   try { return JSON.parse(window.localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
 };
 const cartKey = (line) => line.bundle_id ? `bundle:${line.bundle_id}` : `product:${line.product_id}`;
+let storefrontBootstrap = null;
+
+function loadStorefrontBootstrap() {
+  if (!storefrontBootstrap) {
+    storefrontBootstrap = Promise.all([
+      api('/products?featured=true&page_size=6'),
+      api('/products?promotion=true&page_size=8'),
+      api('/navigation'), api('/routines'), api('/bundles'), api('/cities'),
+      api('/settings'), api('/content'), api('/articles'), api('/auth/me'),
+    ]).finally(() => { storefrontBootstrap = null; });
+  }
+  return storefrontBootstrap;
+}
 
 export function StoreProvider({ children, initialData = null }) {
   const [products, setProducts] = useState(initialData?.products || []);
@@ -39,12 +52,11 @@ export function StoreProvider({ children, initialData = null }) {
   }, []);
 
   const refreshProducts = useCallback(async () => {
-    const [featured, fresh, promotions] = await Promise.all([
-      api('/products?featured=true&page_size=8'),
-      api('/products?new=true&exclude_promotion=true&sort=newest&page_size=8'),
-      api('/products?promotion=true&page_size=10'),
+    const [featured, promotions] = await Promise.all([
+      api('/products?featured=true&page_size=6'),
+      api('/products?promotion=true&page_size=8'),
     ]);
-    setProducts((current) => [...new Map([...current, ...featured.products, ...fresh.products, ...promotions.products].map((item) => [item.id, item])).values()]);
+    setProducts((current) => [...new Map([...current, ...featured.products, ...promotions.products].map((item) => [item.id, item])).values()]);
   }, []);
 
   const mergeProducts = useCallback((incoming = []) => {
@@ -54,10 +66,10 @@ export function StoreProvider({ children, initialData = null }) {
 
   useEffect(() => {
     let alive = true;
-    Promise.all([api('/products?featured=true&page_size=8'), api('/products?new=true&exclude_promotion=true&sort=newest&page_size=8'), api('/products?promotion=true&page_size=10'), api('/navigation'), api('/routines'), api('/bundles'), api('/cities'), api('/settings'), api('/content'), api('/articles'), api('/auth/me')])
-      .then(async ([featured, fresh, promotions, nav, routineRows, bundleRows, city, site, sections, advice, signedIn]) => {
+    loadStorefrontBootstrap()
+      .then(async ([featured, promotions, nav, routineRows, bundleRows, city, site, sections, advice, signedIn]) => {
         if (!alive) return;
-        const homeProducts = [...new Map([...featured.products, ...fresh.products, ...promotions.products].map((item) => [item.id, item])).values()];
+        const homeProducts = [...new Map([...featured.products, ...promotions.products].map((item) => [item.id, item])).values()];
         setProducts((current) => [...new Map([...current, ...homeProducts].map((item) => [item.id, item])).values()]);
         setBrands(nav.brands); setCategories(nav.product_types);
         setSkinTypes(nav.skin_types); setConcerns(nav.concerns);

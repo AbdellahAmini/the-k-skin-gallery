@@ -75,9 +75,13 @@ const pages = [
 ];
 
 function homeProducts() {
-  const promotions = allProducts.filter((product) => product.price_dh > 0 && product.compare_at_dh > product.price_dh).slice(0, 10);
-  const fresh = allProducts.filter((product) => product.new_arrival && !(product.compare_at_dh > product.price_dh)).slice(0, 5);
-  return [...new Map([...promotions, ...fresh].map((product) => [product.id, product])).values()];
+  const featuredIds = content.homepage?.featured_product_ids || [];
+  const curated = featuredIds.map((id) => allProducts.find((product) => String(product.id) === String(id))).filter(Boolean);
+  const featured = [...new Map([...curated, ...allProducts.filter((product) => product.featured)]
+    .filter((product) => product.price_dh > 0).map((product) => [product.id, product])).values()].slice(0, 6);
+  const featuredSet = new Set(featured.map((product) => product.id));
+  const offers = allProducts.filter((product) => product.price_dh > 0 && product.compare_at_dh > product.price_dh && !featuredSet.has(product.id)).slice(0, 5);
+  return [...featured, ...offers];
 }
 
 function initialCollection(pathname) {
@@ -118,7 +122,7 @@ function metadata(page) {
   const meta = [`<meta property="og:type" content="${page.product ? 'product' : 'website'}" />`,
   `<meta property="og:title" content="${escapeHtml(page.title)}" />`,
   `<meta property="og:description" content="${escapeHtml(page.description)}" />`];
-  if (page.path === '/') meta.push('<link rel="preload" as="image" href="/assets/gallery-hero.png" fetchpriority="high" />');
+  if (page.path === '/') meta.push('<link rel="preload" as="image" href="/assets/wallpapers/gallery-hero2.webp" fetchpriority="high" />');
   if (publicUrl) meta.push(`<link rel="canonical" href="${escapeHtml(publicUrl + page.path)}" />`);
   if (page.product) {
     const product = page.product;

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 const PIXELS_PER_SECOND = 100;
 
-export default function useMarqueeSpeed({ mobilePixelsPerSecond = PIXELS_PER_SECOND, mobileMinDuration = null, mobileMaxDuration = null } = {}) {
+export default function useMarqueeSpeed({ mobilePixelsPerSecond = PIXELS_PER_SECOND, mobileMinDuration = null, mobileMaxDuration = null, durationSeconds = null } = {}) {
   const trackRef = useRef(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function useMarqueeSpeed({ mobilePixelsPerSecond = PIXELS_PER_SEC
       const distance = repeat.getBoundingClientRect().width;
       if (distance <= 0) return;
       const isMobile = window.matchMedia('(max-width: 760px)').matches;
-      let duration = distance / (isMobile ? mobilePixelsPerSecond : PIXELS_PER_SECOND);
+      let duration = durationSeconds ?? distance / (isMobile ? mobilePixelsPerSecond : PIXELS_PER_SECOND);
       if (isMobile && mobileMinDuration != null) duration = Math.max(mobileMinDuration, duration);
       if (isMobile && mobileMaxDuration != null) duration = Math.min(mobileMaxDuration, duration);
       track.style.setProperty('--marquee-duration', `${duration}s`);
@@ -28,7 +28,7 @@ export default function useMarqueeSpeed({ mobilePixelsPerSecond = PIXELS_PER_SEC
       window.removeEventListener('resize', updateDuration);
       observer?.disconnect();
     };
-  }, [mobilePixelsPerSecond, mobileMinDuration, mobileMaxDuration]);
+  }, [mobilePixelsPerSecond, mobileMinDuration, mobileMaxDuration, durationSeconds]);
 
   return trackRef;
 }

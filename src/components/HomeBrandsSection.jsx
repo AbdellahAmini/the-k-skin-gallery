@@ -52,7 +52,7 @@ export function BrandLogoLink({ brand, isDuplicate = false }) {
 }
 
 export function BrandsMarquee({ brands }) {
-  const marqueeRef = useMarqueeSpeed({ mobilePixelsPerSecond: 60, mobileMinDuration: 38, mobileMaxDuration: 50 });
+  const marqueeRef = useMarqueeSpeed({ durationSeconds: 54 });
   return (
     <div className="home-brands__marquee" aria-label="Défilement des marques">
       <div ref={marqueeRef} className="home-brands__marquee-track">
@@ -72,25 +72,9 @@ export function BrandsMarquee({ brands }) {
 }
 
 export default function HomeBrandsSection({ brands = [] }) {
-  // Normalize and sort brands data
-  const normalizedBrands = (() => {
-    if (!brands || brands.length === 0) {
-      // Return default curated list from registry
-      return Object.entries(BRAND_ASSETS)
-        .sort((a, b) => a[1].order - b[1].order)
-        .map(([slug, meta]) => ({
-          id: slug,
-          slug,
-          name: meta.name,
-          logoUrl: meta.logo,
-          featured: true,
-          homepageOrder: meta.order,
-          active: true,
-        }));
-    }
-
-    // Map provided brands and merge with asset registry
-    const mapped = brands.map((b, idx) => {
+  const normalizedBrands = brands
+    .filter((brand) => brand.active !== false)
+    .map((b, idx) => {
       const meta = BRAND_ASSETS[b.slug];
       return {
         id: b.id || b.slug,
@@ -103,22 +87,7 @@ export default function HomeBrandsSection({ brands = [] }) {
       };
     });
 
-    // Make sure we have a generous list of key houses for the infinite track
-    const existingSlugs = new Set(mapped.map((b) => b.slug));
-    const extraHouses = Object.entries(BRAND_ASSETS)
-      .filter(([slug]) => !existingSlugs.has(slug))
-      .map(([slug, meta]) => ({
-        id: slug,
-        slug,
-        name: meta.name,
-        logoUrl: meta.logo,
-        featured: false,
-        homepageOrder: meta.order + 20,
-        active: true,
-      }));
-
-    return [...mapped, ...extraHouses].sort((a, b) => a.homepageOrder - b.homepageOrder);
-  })();
+  if (!normalizedBrands.length) return null;
 
   return (
     <section className="home-brands home-section" aria-labelledby="home-brands-title">
