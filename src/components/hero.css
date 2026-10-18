@@ -54,16 +54,11 @@
   object-position: var(--focal-desktop, 68% 50%);
 }
 
-/* ANUA photograph has products across the frame; blend its left edge into
-   the same green canvas to retain a calm copy zone without a separate panel. */
-.hero-slide--brands { background: #91aa9b; }
+/* Keep the ANUA campaign's natural ivory photo edge visible instead of
+   fading it into a separate green panel. */
+.hero-slide--brands { background: #eee9dd; }
 .hero-slide--brands .hero-slide-image {
-  left: auto;
-  right: 0;
-  width: 65%;
-  object-position: 72% 50%;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 16%);
-  mask-image: linear-gradient(to right, transparent, #000 16%);
+  object-position: 68% 50%;
 }
 
 .hero-gradient-overlay {
@@ -195,13 +190,12 @@
   .hero-slide-image { object-position: var(--focal-mobile, 48% 50%); }
   .hero-slide--brands .hero-slide-image {
     top: 0;
-    right: -134%;
+    left: -200px;
+    right: auto;
     width: auto;
-    height: 82%;
+    height: 100%;
     object-fit: contain;
     object-position: center;
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 15%);
-    mask-image: linear-gradient(to right, transparent, #000 15%);
   }
   .hero-gradient-overlay {
     background: linear-gradient(90deg, rgba(250, 246, 240, .37), rgba(250, 246, 240, .15) 46%, transparent 70%);

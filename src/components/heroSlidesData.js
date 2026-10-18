@@ -13,7 +13,7 @@ export const DEFAULT_HERO_SLIDES = [
     secondaryLabel: 'Découvrir la sélection',
     secondaryHref: '/incontournables',
     focalPointDesktop: '68% 50%',
-    focalPointMobile: '30% 50%',
+    focalPointMobile: '38% 50%',
     desktopTextPosition: 'left',
     mobileTextPosition: 'left'
   },
