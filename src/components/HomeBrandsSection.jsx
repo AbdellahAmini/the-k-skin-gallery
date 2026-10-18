@@ -47,12 +47,13 @@ export function BrandLogoLink({ brand, isDuplicate = false }) {
           <span className="home-brands__logo-fallback">{brand.name}</span>
         )}
       </div>
+      <span className="home-brands__name">{brand.name}</span>
     </Link>
   );
 }
 
 export function BrandsMarquee({ brands }) {
-  const marqueeRef = useMarqueeSpeed({ durationSeconds: 54 });
+  const marqueeRef = useMarqueeSpeed({ durationSeconds: 31 });
   return (
     <div className="home-brands__marquee" aria-label="Défilement des marques">
       <div ref={marqueeRef} className="home-brands__marquee-track">
@@ -93,7 +94,7 @@ export default function HomeBrandsSection({ brands = [] }) {
     <section className="home-brands home-section" aria-labelledby="home-brands-title">
       <HomeSectionHeading id="home-brands-title" eyebrow="La sélection de la Gallery" title="Nos marques coréennes"
         href="/marques" linkLabel="Voir toutes les marques" compactLabel="Voir tout"
-        className="home-brands__header" titleClassName="home-brands__heading" eyebrowClassName="home-brands__eyebrow" linkClassName="home-brands__cta" accent />
+        className="home-brands__header" titleClassName="home-brands__heading" eyebrowClassName="home-brands__eyebrow" linkClassName="home-brands__cta" />
 
       <BrandsMarquee brands={normalizedBrands} />
     </section>
