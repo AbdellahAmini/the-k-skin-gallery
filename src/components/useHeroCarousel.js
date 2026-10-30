@@ -10,7 +10,6 @@ export function useHeroCarousel(
   const [prevIndex, setPrevIndex] = useState(slidesCount - 1);
   const [direction, setDirection] = useState('next');
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [documentVisible, setDocumentVisible] = useState(true);
 
@@ -26,29 +25,6 @@ export function useHeroCarousel(
 
   const slidesCountRef = useRef(slidesCount);
   slidesCountRef.current = slidesCount;
-
-  const isMobileRef = useRef(isMobile);
-  isMobileRef.current = isMobile;
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const checkMobile = () => {
-      const mobile =
-        window.innerWidth <= 768 ||
-        window.matchMedia('(pointer: coarse)').matches;
-
-      setIsMobile(mobile);
-    };
-
-    checkMobile();
-
-    window.addEventListener('resize', checkMobile, { passive: true });
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
 
   useEffect(() => {
     if (typeof document === 'undefined') return undefined;
@@ -182,7 +158,6 @@ export function useHeroCarousel(
     if (
       prefersReducedMotion ||
       !documentVisible ||
-      isMobile ||
       autoplayPaused ||
       slidesCount <= 1
     ) {
@@ -204,7 +179,6 @@ export function useHeroCarousel(
     activeIndex,
     prefersReducedMotion,
     documentVisible,
-    isMobile,
     autoplayPaused,
     slidesCount,
     dwellTime,
@@ -265,12 +239,9 @@ export function useHeroCarousel(
     direction,
     isAnimating,
 
-    isPaused:
-      isMobile ||
-      prefersReducedMotion,
+    isPaused: prefersReducedMotion,
 
     prefersReducedMotion,
-    isMobile,
 
     goTo,
     goToIndex,
