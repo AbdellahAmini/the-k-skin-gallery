@@ -128,7 +128,7 @@ export default function SectionReveal({ routeKey, rootSelector = '.site-shell' }
           // net for interrupted or unsupported animations.
           timers.set(entry.target, window.setTimeout(() => finish(entry.target), 1800));
         }
-      }, { rootMargin: '0px 0px 16px 0px', threshold: 0 });
+      }, { rootMargin: '0px 0px 120px 0px', threshold: 0 });
     };
 
     const onAnimationEnd = (event) => {

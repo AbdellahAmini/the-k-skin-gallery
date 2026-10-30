@@ -181,11 +181,13 @@
 }
 
 .home-brands__name {
+  max-width: 100%;
   color: #40383a;
   font-size: 13px;
-  line-height: 1.2;
+  line-height: 1.25;
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 @keyframes brands-infinite-marquee {
@@ -368,7 +370,7 @@
   .home-section-header .home-section-eyebrow {
     display: block;
     margin: 0 0 5px;
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: .2em;
   }
 
@@ -438,7 +440,7 @@
 
   .home-brands__logo-item {
     width: 112px;
-    min-height: 106px;
+    min-height: 118px;
     gap: 7px;
   }
 
@@ -458,7 +460,8 @@
   }
 
   .home-brands__name {
-    font-size: 11px;
+    font-size: 12px;
+    line-height: 1.2;
   }
 
   .gallery-entry {

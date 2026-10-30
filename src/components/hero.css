@@ -165,13 +165,14 @@
   cursor: pointer;
 }
 .hero-dot-pill {
-  width: 7px;
+  width: 26px;
   height: 7px;
   border-radius: 99px;
   background: rgba(89, 61, 65, .46);
-  transition: width 220ms ease, background-color 220ms ease;
+  transform: scaleX(.27);
+  transition: transform 220ms ease, background-color 220ms ease;
 }
-.hero-dot-btn.active .hero-dot-pill { width: 26px; background: var(--rose); }
+.hero-dot-btn.active .hero-dot-pill { transform: scaleX(1); background: var(--rose); }
 .hero-dot-btn:focus-visible { outline: 2px solid var(--rose); outline-offset: -3px; }
 
 @media (max-width: 1100px) and (min-width: 761px) {

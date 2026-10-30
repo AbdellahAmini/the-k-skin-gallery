@@ -3,7 +3,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 export function useHeroCarousel(
   slidesCount = 3,
   dwellTime = 4000,
-  transitionDuration = 800
+  transitionDuration = 800,
+  autoplayPaused = false
 ) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(slidesCount - 1);
@@ -181,6 +182,8 @@ export function useHeroCarousel(
     if (
       prefersReducedMotion ||
       !documentVisible ||
+      isMobile ||
+      autoplayPaused ||
       slidesCount <= 1
     ) {
       return;
@@ -201,6 +204,8 @@ export function useHeroCarousel(
     activeIndex,
     prefersReducedMotion,
     documentVisible,
+    isMobile,
+    autoplayPaused,
     slidesCount,
     dwellTime,
     next,

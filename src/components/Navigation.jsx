@@ -101,7 +101,7 @@ function MegaMenuShell({ section, visible, fading, onNavigate, onEnter, onLeave 
       onMouseEnter={onEnter} onMouseLeave={onLeave} inert={!visible}>
       {section && <div className="gallery-mega-inner" key={section.id}>
         <div className="gallery-mega-heading"><div className="gallery-mega-heading-copy"><span>The K-Skin Gallery</span><h2>{section.label}</h2></div>
-          <Link to={section.href} onClick={onNavigate}>{section.id === 'brands' ? 'Toutes les marques' : `Voir ${section.id === 'care' ? 'tous les soins' : section.id === 'skin' ? 'tout' : 'Toutes les Packs & routines'}`} <ArrowRight size={15} /></Link></div>
+          <Link to={section.href} onClick={onNavigate}>{section.id === 'brands' ? 'Toutes les marques' : `Voir ${section.id === 'care' ? 'tous les soins' : section.id === 'skin' ? 'tout' : 'toutes les routines et packs'}`} <ArrowRight size={15} /></Link></div>
         {section.id === 'brands' && <BrandsMegaMenu section={section} onNavigate={onNavigate} />}
         {section.id === 'care' && <CareMegaMenu section={section} onNavigate={onNavigate} />}
         {section.id === 'skin' && <SkinMegaMenu section={section} onNavigate={onNavigate} />}
@@ -172,7 +172,7 @@ function MobileNavAccordion({ section, onNavigate }) {
         <div className="gallery-mobile-brand-links"><MenuLinks links={section.preview} onNavigate={onNavigate} /></div></>
         : section.groups.map((group) => <section key={group.title}><h3>{group.title}</h3><MenuLinks links={group.links} onNavigate={onNavigate} /></section>)}
       {section.id !== 'brands' && <Link className="gallery-mobile-all" to={section.href} onClick={onNavigate}>
-        {section.id === 'care' ? 'Tous les soins' : section.id === 'skin' ? 'Voir tout' : 'Toutes les Packs & routines'} <ArrowRight size={15} /></Link>}
+        {section.id === 'care' ? 'Tous les soins' : section.id === 'skin' ? 'Voir tout' : 'Toutes les routines et packs'} <ArrowRight size={15} /></Link>}
     </div></div>
   </div>;
 }
